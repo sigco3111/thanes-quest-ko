@@ -2992,7 +2992,7 @@ describe('what to do next, as the story goes', () => {
     next('거인의 탁자 아래', { 'quest:north': 2 });
     next('문은 북쪽이다', { 'quest:north': 3 });
     next('북쪽 길이 열렸다', { 'quest:north': 4 });
-    next('They go north, the way nobody goes. So do you.', { 'quest:north': 5 });
+    next('아무도 가지 않는 북쪽으로 간다. 너도 간다', { 'quest:north': 5 });
     next('She kneels in a hollow in the snow', { 'quest:north': 6 });
     next('Hollowmere is a very long way south', { 'quest:north': 7, 'winter.broken': true, 'sol.said': true });
     next('The winter has broken. The Elder always has work', { 'quest:north': 8, 'marta.thaw': true });
@@ -3281,7 +3281,7 @@ describe('the night the hearth is lit', () => {
     const shell = ready();
     expect(typed(shell, 'light hearth').join(' ')).toContain('불쏘시개를 놓아야 한다');
     expect(typed(shell, 'hold out the flint to the elder').join(' ')).toContain('아무 말도 하지 않는다');
-    expect(typed(shell, 'lay the log on the hearth').join(' ')).toContain('"It won\'t take," she says.');
+    expect(typed(shell, 'lay the log on the hearth').join(' ')).toContain('"안 붙어," 그녀가 말한다.');
     expect(shell.sim.p.inv.log).toBeUndefined();
     expect(typed(shell, 'light the fire').join(' ')).toContain('납작하게 눕더니');
     expect(shell.sim.state.flags['hearth.lit']).toBeUndefined();
@@ -3344,7 +3344,7 @@ describe('the night the hearth is lit', () => {
     const farewell = makeForTheDoor(shell);
     expect(farewell).toContain('숯은 자기 난로를 알아');
     expect(farewell).toContain('깨끗이 쓸린 채 아무도 없는 자리를 보여 줬어');
-    expect(farewell).toContain('"You can have the ring," says Marta. "I\'ll keep the broom."');
+    expect(farewell).toContain('"반지는 네가 가져라," 마르타가 말한다. "빗자루는 내가 간직할 테니."');
     expect(shell.sim.p.inv.ember).toBe(1);
     expect(shell.sim.state.flags['hall.feast']).toBe(false);
 
