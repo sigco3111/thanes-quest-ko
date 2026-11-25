@@ -349,7 +349,7 @@ const sights: SightDef[] = [
         do: [{ say: "칼로 새긴 이름 셋. 에이빈드, 시그룬, 그리고 꼬마 오다. 홈들이 손 하나씩, 해 하나씩 기둥을 오르고, 꼬마 오다의 것이 제일 빠르다. 마지막 세 개는 같은 날 새겼다, 나머지보다 깊게, 모두의 키를 정확히 기억하고픈 사람들이 하는 식으로. 문은 아무도 가져가지 않았다. 문은 들고 가기 힘든 물건이다." }],
       },
       { on: ['read inscription', 'read door'], do: [{ say: '읽기엔 충분히 가깝지 않다.' }] },
-      { on: ['take door', 'attack door', 'close door'], do: [{ say: 'It is somebody\'s door, even now. You leave it shut, the way they did.' }] },
+      { on: ['take door', 'attack door', 'close door'], do: [{ say: '지금도 누군가의 문이다. 그들이 그랬듯 닫아 둔다.' }] },
     ],
   },
   {
