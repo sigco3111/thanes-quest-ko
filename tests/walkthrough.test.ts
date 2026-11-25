@@ -320,7 +320,7 @@ describe('a Thane', () => {
     }
     expect(bot.say('sell the sword back')).toContain('은화 10 닢');
     sim.p.gold = Math.max(sim.p.gold, 40);
-    expect(bot.say('have my sword tempered')).toContain('Better');
+    expect(bot.say('have my sword tempered')).toContain('전보다 낫군');
     expect(sim.p.temper?.weapon).toBe(1);
     bot.door('inn');
     bot.walkTo(44, 118, 16);

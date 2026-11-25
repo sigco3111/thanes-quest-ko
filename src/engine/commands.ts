@@ -1,7 +1,7 @@
 // What happens to a typed line. Order: the room's own rules, then the standard behaviour of
 // things, characters and items, then the game-wide rules, then a dry fallback.
 
-import { playerAttack } from './combat';
+import { SKILL_KO, playerAttack } from './combat';
 import { beyond, parseWild, roomOf } from './frontier';
 import { wordVariants } from './parser';
 import { koNounLabel, koNouns, mentionedGloss, vocab } from '../game/data/vocab';
@@ -289,7 +289,6 @@ const koLabel = (id: string): string => koNounLabel[id] ?? id;
 
 const DIRS: Record<string, 'n' | 's' | 'e' | 'w'> = { north: 'n', south: 's', east: 'e', west: 'w' };
 const DIR_KO: Record<string, string> = { north: '북', south: '남', east: '동', west: '서' };
-const SKILL_KO: Record<string, string> = { blade: '검술', block: '방어', archery: '궁술', sorcery: '마법', mending: '치유', lore: '학식' };
 
 /** What lies one way from here, and a reminder of how to get there. */
 function wayText(sim: Sim, dir: string): string {

@@ -6,6 +6,9 @@ import { PH, PW } from './scene';
 import type { Sim } from './sim';
 import type { ActorState, EnemyDef, Shot } from './types';
 
+/** Skill ids, as the player reads them. */
+export const SKILL_KO: Record<string, string> = { blade: '검술', block: '방어', archery: '궁술', sorcery: '마법', mending: '치유', lore: '학식' };
+
 /** Practice needed for the next skill level: gentle at first, steep for a master. */
 const skillNeed = (lv: number): number => 8 + lv * 2 + Math.floor(Math.max(0, lv - 10) ** 2 * 0.06);
 export const levelNeed = (level: number): number => 6 + level * 4;
@@ -26,7 +29,7 @@ export function gainSkill(sim: Sim, id: string, amount: number): void {
     s.xp -= skillNeed(s.lv);
     s.lv++;
     p.xp += 1 + s.lv * 0.2;
-    sim.note(`${id[0].toUpperCase()}${id.slice(1)} is now ${s.lv}.`);
+    sim.note(`${SKILL_KO[id] ?? id} ${s.lv}레벨이 되었다.`);
     for (const perk of sim.content.perks)
       if (perk.skill === id && perk.lv === s.lv) {
         sim.sound('level');
@@ -152,7 +155,7 @@ export function swingHit(sim: Sim): void {
     hitEnemy(sim, a, dmg, 'blade', k[0], k[1]);
     if (riposte) {
       p.cd.riposte = 0;
-      sim.note('Riposte!');
+      sim.note('되치기!');
     }
   }
 }
@@ -210,7 +213,7 @@ export function hurtPlayer(sim: Sim, dmg: number, fromX: number, fromY: number, 
       p.cd.riposte = 40;
       gainSkill(sim, 'block', 9);
       sim.sound('parry');
-      sim.note('Parried!');
+      sim.note('쳐냈다!');
       return;
     }
     const shield = p.shield ? 0.15 : 0;

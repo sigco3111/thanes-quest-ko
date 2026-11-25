@@ -327,7 +327,7 @@ export const behaviours: Record<string, Behaviour> = {
         ? `오드가 모욕이라도 당한 듯 ${item.name}을(를) 보지만, 그래도 네 은화 ${cost} 닢을 받고, 한 시간 동안 칼이 닿을 자리의 가죽 아래에 쇠고리를 꿰맨다. "전보다 더 튕겨낼 거다. 내가 바느질했다고는 말하지 마라."`
         : what === 'armor'
         ? `오드가 ${item.name}과(와) 네 은화 ${cost} 닢을 받고, 한 시간 동안 광장이 울린다. 벌어진 고리를 전부 오므리고 어깨 쪽 고리를 두 겹으로 한다. "전보다 더 튕겨낼 거다. 일부러 시험해 보지는 마라."`
-        : `Odd takes the ${item.name} and your ${cost} silver. The forge roars; he draws the edge out, quenches it, and tests it on a hair from his own arm. "Better," he says, handing it back. From Odd, that is a poem.`,
+        : `오드가 ${item.name}과(와) 네 은화 ${cost} 닢을 받고, 한 시간 동안 광장이 울린다. 칼날을 뽑아 들고, 담금질하고, 제 팔의 털 끝에 대어 시험해 본다. "전보다 낫군," 하며 돌려준다. 오드 치고는 시나 다름없는 말이다.`,
     );
     sim.note(`${item.name} +${temper[what]}`);
   },

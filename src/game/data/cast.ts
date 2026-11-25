@@ -228,9 +228,9 @@ export const chars: Record<string, CharDef> = {
         say: `오늘 아침에는 모든 지붕에서 연기가 나는데도 창살 안쪽에는 그대로 서리가 꼈다. 마르타가 그것을 보고 있다.\n\n"여전히 사람들이 기억하는 가장 추운 겨울이야," 그녀가 말한다. "날마다 더 추워져. 나도 셀 줄 알아, 테인. 화로 하나가 그걸 고치지는 못해." 돌아선다. "호수로 내려가서 펜에게 왜인지 물어봐. 내 탓이라고 할 거야. 절반은 맞을 거고."`,
         do: [{ quest: 'north', stage: 1 }, { score: 2, id: 'north.start' }],
       },
-      { if: [{ flag: 'bounty.done' }], say: '네가 들어오자 마르타가 깁는 옷에서 눈을 들고, 네가 서 있는 모습에서 답을 읽는다.', do: [{ run: 'bountyPay', arg: 'Elder Marta' }] },
-      { if: [{ quest: 'north', is: 1 }], say: `"호수. 펜. 왜냐고." 마르타가 실을 이로 끊는다. "설명보다 품삯이 좋으면, 테인의 일은 또 있어."`, do: [{ run: 'bountyOffer', arg: 'Elder Marta' }] },
-      { say: `"테인." 마르타가 깁는 옷에서 눈을 떼지 않는다. "손이 놀고 있는 사람의 표정이군."`, do: [{ run: 'bountyOffer', arg: 'Elder Marta' }] },
+      { if: [{ flag: 'bounty.done' }], say: '네가 들어오자 마르타가 깁는 옷에서 눈을 들고, 네가 서 있는 모습에서 답을 읽는다.', do: [{ run: 'bountyPay', arg: '장로 마르타' }] },
+      { if: [{ quest: 'north', is: 1 }], say: `"호수. 펜. 왜냐고." 마르타가 실을 이로 끊는다. "설명보다 품삯이 좋으면, 테인의 일은 또 있어."`, do: [{ run: 'bountyOffer', arg: '장로 마르타' }] },
+      { say: `"테인." 마르타가 깁는 옷에서 눈을 떼지 않는다. "손이 놀고 있는 사람의 표정이군."`, do: [{ run: 'bountyOffer', arg: '장로 마르타' }] },
     ],
     topics: {
       ivar: [
@@ -262,8 +262,8 @@ export const chars: Record<string, CharDef> = {
         { say: `"옛 망루 너머. 이 지붕 중 하나 아래에서 태어났는데 시끄럽다고 여겼지. 누가 보냈는지 알 거야. 하고 싶은 말 다 하게 둬."` },
       ],
       work: [
-        { if: [{ flag: 'bounty.done' }], say: `"품삯 받으러 온 사람의 표정이군."`, do: [{ run: 'bountyPay', arg: 'Elder Marta' }] },
-        { if: [LIT], say: `"일." 거의 웃는다. "딸린 적은 없어."`, do: [{ run: 'bountyOffer', arg: 'Elder Marta' }] },
+        { if: [{ flag: 'bounty.done' }], say: `"품삯 받으러 온 사람의 표정이군."`, do: [{ run: 'bountyPay', arg: '장로 마르타' }] },
+        { if: [LIT], say: `"일." 거의 웃는다. "딸린 적은 없어."`, do: [{ run: 'bountyOffer', arg: '장로 마르타' }] },
         { say: `"일은 있잖아. 병 하나. 망루 너머." 너를 본다. "그리고 내가 네가 원할 만한 품삯은 없어."` },
       ],
       village: `"지붕 열한 개. 그 아래의 영혼은 태어날 때부터 전부 알아. 이번 겨울에 하나도 잃지 않을 생각이야."`,
@@ -714,7 +714,7 @@ export const chars: Record<string, CharDef> = {
       { say: `"아직 살았군. 여기서는 그게 소식의 대부분이야."` },
     ],
     topics: {
-      work: [{ say: `"가죽 때문에 아주 멀리까지 다녀. 볼 건 다 보지."`, do: [{ run: 'rumour', arg: 'Brekka the trapper' }] }],
+      work: [{ say: `"가죽 때문에 아주 멀리까지 다녀. 볼 건 다 보지."`, do: [{ run: 'rumour', arg: '덫 사냥꾼 브레카' }] }],
       wolf: `"겨울마다 늘고, 더 대담해져. 나는 가죽을 가져가고 걔네는 내 토끼를 가져가. 균형은 맞아, 대체로 걔네 쪽으로."`,
       bear: [
         {
@@ -786,7 +786,7 @@ export const chars: Record<string, CharDef> = {
       { say: `"또 왔어? 그럼 보기보다 죽이기 어렵군, 좋은 뜻이야."` },
     ],
     topics: {
-      work: [{ say: `"예전만큼 멀리 걷지는 못해. 하지만 뭐가 어디 있는지는 알아, 물건은 잘 안 움직이거든."`, do: [{ run: 'rumour', arg: 'Ivar One-Glove' }] }],
+      work: [{ say: `"예전만큼 멀리 걷지는 못해. 하지만 뭐가 어디 있는지는 알아, 물건은 잘 안 움직이거든."`, do: [{ run: 'rumour', arg: '한쪽 장갑의 이바르' }] }],
       wolf: `"늑대는 빠르게 들어와서, 물고, 욕이 끝나기 전에 사라져. 쫓지 마. 오게 두고, 올 때 준비하고 있어."`,
       bear: `"정당한 경고는 줬어. 일어나서, 시간을 들였지, 놈들이 그러듯. 나는 어렸고 내가 더 빠른 줄 알았어." 남은 손을 들어 보인다. "타격 직전의 순간을 봐. 늘 순간이 있어."`,
       weather: [

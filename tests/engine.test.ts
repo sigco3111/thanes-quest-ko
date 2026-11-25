@@ -1162,7 +1162,7 @@ describe('once the hearth is lit', () => {
     sim.give('sword');
     sim.p.gold = 200;
     expect(combat.edge(sim)).toBe(1);
-    expect(type(sim, 'sharpen my sword')[0]).toContain('Better');
+    expect(type(sim, 'sharpen my sword')[0]).toContain('전보다 낫군');
     expect(sim.p.gold).toBe(160);
     expect(combat.edge(sim)).toBeCloseTo(1.125);
     type(sim, 'temper sword');

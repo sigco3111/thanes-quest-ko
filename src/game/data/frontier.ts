@@ -19,7 +19,7 @@ const sights: SightDef[] = [
       lookWhen: [{ if: [{ flag: 'sight.kettle' }], look: '불은 꺼져 가고 솥은 비었다. 둘 다 최대한 처음 본 대로 둔다, 혹시 모르니.' }],
     },
     rules: [
-      { on: 'orun', do: [{ say: 'ORUN. The snow gives up its footprints. One pair of boots, round and round the fire, as a person walks who is keeping warm and waiting. Then, once, straight off into the trees, at a run. They do not come back the same way. They do not come back.' }] },
+      { on: 'orun', do: [{ say: 'ORUN. 눈이 발자국을 내놓는다. 장화 한 켤레, 몸을 녹이며 기다리는 사람처럼 불 주위를 빙글빙글. 그러다 한 번, 곧장 숲 속으로, 달려서. 같은 길로는 돌아오지 않는다. 돌아오지 않는다.' }] },
       { on: ['light hearth', 'light inn', 'use hearth', 'light', 'cast flame'], if: [{ flag: 'sight.kettle' }], do: [{ say: '타고 있다. 저절로 꺼지게 둔다. 누군가 아직 연기를 볼지 모른다.' }] },
       {
         on: ['light hearth', 'light inn', 'use hearth', 'light', 'cast flame'], if: [near('kettle')],
@@ -36,12 +36,12 @@ const sights: SightDef[] = [
     prop: { t: 'signpost' },
     thing: { nouns: ['sign'], try: ['read sign'], look: '팔 셋 달린 참나무 기둥, 하나하나 뾰족하게 깎고 깊이 새겼다. 이름들은 닳았지만 아직 읽힌다.' },
     rules: [
-      { on: 'orun', do: [{ say: 'ORUN. Under the snow at the foot of the post lies a fourth arm, snapped off short. It says THE GATE. Under that, in the hand that carved all the rest: NO FURTHER.' }] },
+      { on: 'orun', do: [{ say: 'ORUN. 기둥 아래 눈 속에 네 번째 팔이 짧게 부러진 채 놓여 있다. 거기 적혀 있다. 관문. 그 아래, 나머지를 전부 새긴 바로 그 손으로. 더는 가지 마라.' }] },
       {
         on: ['read sign', 'pet sign'], if: [near('fingerpost'), { not: { flag: 'sight.fingerpost' } }],
         do: [{ set: 'sight.fingerpost' }, { run: 'study', arg: 12 }, { say: '한 팔은 홀로미어라 하고, 대충 맞는 쪽을 가리킨다. 하나는 나룻배라 하고, 강이 없는 해 뜨는 쪽을 가리킨다. 세 번째는 엘드마르크, 사흘. 그 아래 누군가 나중에 더 작게 새겼다. 이제는 아니다.' }],
       },
-      { on: ['read sign', 'pet sign'], if: [near('fingerpost')], do: [{ say: 'HOLLOWMERE. THE FERRY. ELDMARK, THREE DAYS; and under it, NOT ANY MORE.' }] },
+      { on: ['read sign', 'pet sign'], if: [near('fingerpost')], do: [{ say: '홀로미어. 나룻배. 엘드마르크, 사흘. 그 아래, 이제는 아니다.' }] },
       { on: ['read sign'], do: [{ say: '여기서는 읽을 수 없다.' }] },
       { on: ['take sign', 'push sign', 'pull sign', 'attack sign'], do: [{ say: '홀로미어에 지붕이 생기기보다 오래 같은 세 방향을 가리켜 왔다. 일을 하게 둔다.' }] },
     ],
@@ -74,7 +74,7 @@ const sights: SightDef[] = [
       look: '긴 여정을 위해 싣고 버려진 썰매. 침구, 교유통, 그리고 모든 것 위에 동여맨 요람. 멍에는 부러진 게 아니라 잘렸다. 끌던 것은 풀어 준 것이다.',
     },
     rules: [
-      { on: 'orun', do: [{ say: 'ORUN. The drift clears like breath off glass. The sledge came out of the east, a long way, from somewhere that is not there any more. From here three pairs of feet go on without it, toward the valley: two large, and one small, walking very close between them. They were still walking when the tracks give out.' }] },
+      { on: 'orun', do: [{ say: 'ORUN. 눈이 유리 위 입김처럼 걷힌다. 썰매는 동쪽에서, 아주 먼, 이제는 없는 곳에서 왔다. 여기서부터 발 세 켤레가 썰매 없이 골짜기를 향해 간다. 큰 발 둘, 그리고 그 사이에 바짝 붙어 걷는 작은 발 하나. 발자국이 끊길 때까지 그들은 계속 걷고 있었다.' }] },
       { on: ['look sledge', 'open sledge', 'take sledge', 'use sledge'], if: [{ flag: 'sight.sledge' }, near('sledge')], do: [{ say: '한 번 뒤져 봤다. 한 번이면 족했다.' }] },
       {
         on: ['look sledge', 'open sledge', 'take sledge', 'use sledge'], if: [near('sledge')],

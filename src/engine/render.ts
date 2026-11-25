@@ -341,8 +341,8 @@ export class Renderer {
 
   /** How to leave what is open, in a word or two: back to the menu, or out to the game. */
   private leave(shell: Shell): string {
-    if (shell.roomy) return shell.backToMenu ? 'Tap: back' : 'Tap: close';
-    return shell.backToMenu ? 'Esc: back' : 'Esc: close';
+    if (shell.roomy) return shell.backToMenu ? '탭: 돌아가기' : '탭: 닫기';
+    return shell.backToMenu ? 'Esc: 돌아가기' : 'Esc: 닫기';
   }
 
   /** A quiet note, right-aligned to end at x. */
@@ -506,13 +506,13 @@ export class Renderer {
     this.mapAt = { x: left, y: top, cw: CW, ch: CH, cols: COLS, rows: ROWS, x0: x0 - cx, y0: y0 - cy };
 
     const under = at.get(`${cx + m.dx},${cy + m.dy}`);
-    const away = [m.dy < 0 ? `${-m.dy} north` : m.dy > 0 ? `${m.dy} south` : '', m.dx < 0 ? `${-m.dx} west` : m.dx > 0 ? `${m.dx} east` : ''].filter(Boolean).join(', ');
+    const away = [m.dy < 0 ? `북쪽 ${-m.dy}` : m.dy > 0 ? `남쪽 ${m.dy}` : '', m.dx < 0 ? `서쪽 ${-m.dx}` : m.dx > 0 ? `동쪽 ${m.dx}` : ''].filter(Boolean).join(', ');
     const name = !(m.dx || m.dy) ? (here ? here.name : sim.room.name) : under?.mark ? under.name : under ? (under.goal ? '보내진 곳' : '아직 걷지 않은 곳') : '알 수 없는 땅';
     // Too long to say in full, the way there is shortened to compass letters.
-    const brief = [m.dy ? `${Math.abs(m.dy)}${m.dy < 0 ? 'N' : 'S'}` : '', m.dx ? `${Math.abs(m.dx)}${m.dx < 0 ? 'W' : 'E'}` : ''].filter(Boolean).join(' ');
+    const brief = [m.dy ? `${Math.abs(m.dy)}${m.dy < 0 ? '북' : '남'}` : '', m.dx ? `${Math.abs(m.dx)}${m.dx < 0 ? '서' : '동'}` : ''].filter(Boolean).join(' ');
     const said = !away ? name : `${name} (${away})`.length <= 36 ? `${name} (${away})` : `${name.slice(0, 36 - brief.length - 3)} (${brief})`;
     drawText(fb, SW, o.x, top + H + 4, said.slice(0, 36), UI.black);
-    const how = shell.roomy ? `Tap a place to name it. ${this.leave(shell)}` : `Arrows look about. ${this.leave(shell)}`;
+    const how = shell.roomy ? `장소를 탭하면 이름을 말해 준다. ${this.leave(shell)}` : `화살표 키로 둘러본다. ${this.leave(shell)}`;
     this.hint(o.x + 36 * 8, top + H + 13, how);
   }
 

@@ -3,8 +3,15 @@
 // Still no DOM here, so tests can drive it.
 
 import { hostile } from './combat';
-import { koNounLabel } from '../game/data/vocab';
+import { koNounLabel, vocab } from '../game/data/vocab';
 const koLabel = (id: string): string => koNounLabel[id] ?? id;
+/** A ready-made command, named the way the hints name things: Korean where the words have Korean. */
+const koLineLabel = (sim: Sim, line: string): string => {
+  const r = sim.parser.parse(line);
+  if (!r.ok) return line[0].toUpperCase() + line.slice(1);
+  const v = vocab.verbs[r.verb]?.find((w) => /[\uac00-\ud7a3]/.test(w)) ?? r.verb;
+  return [...r.nouns.map((n) => koLabel(n)), v].join(' ');
+};
 import { bagRows, groundRows, itemActions, loadText, storedRows, storeHere, weighed } from './commands';
 import { wrap } from './font';
 import { chart, roomOf } from './frontier';
@@ -86,7 +93,7 @@ export class Shell {
   /** The row last chosen in this conversation, by its label: where the cursor waits when the menu comes back. */
   private talkLast: string | null = null;
   /** Shown once as play begins. The browser layer swaps in wording for touch screens. */
-  startHint = 'Arrows walk. Click, press 1-9, or type.';
+  startHint = '화살표 키로 걷는다. 클릭하거나, 1-9를 누르거나, 직접 쳐도 된다.';
   /** Space list rows further apart, for fingers. */
   roomy = false;
   /**
@@ -661,7 +668,7 @@ export class Shell {
     };
     for (const t of close) {
       if (t.take) out.push({ label: `${koLabel(t.nouns[0])} 가져가기`, line: `take ${t.nouns[0]}` });
-      for (const line of t.try ?? []) if (!lacking(line)) out.push({ label: line[0].toUpperCase() + line.slice(1), line });
+      for (const line of t.try ?? []) if (!lacking(line)) out.push({ label: koLineLabel(sim, line), line });
     }
     for (const w of Object.values(c.words)) if (p.words.includes(w.id) && !(p.cd[w.id] > 0)) out.push({ label: w.verb.toUpperCase(), line: w.verb });
     out.push({ label: '주위 살펴보기', line: 'look' });
