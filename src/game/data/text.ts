@@ -1,7 +1,7 @@
 // System messages and replies that do not belong to any one room.
 
 export const text: Record<string, string> = {
-  unknownWord: '이 사가에는 "%s"라는 말은 쓸 데가 없다.',
+  unknownWord: '이 사가에는 "%s"이(라)는 말은 쓸 데가 없다.',
   noVerb: '그것은 행동이 아니라 사물이다. 그걸로 무엇을 하고 싶은가?',
   notHere: '여기에는 그런 것이 보이지 않는다.',
   notClose: '충분히 가까이 있지 않다.',

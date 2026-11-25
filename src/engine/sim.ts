@@ -61,8 +61,9 @@ function newPlayer(c: Content): PlayerState {
 /** Resolve Korean particle placeholders like "X을(를)" against the batchim of the word before them. */
 export function fixJosa(text: string): string {
   const bat = (w: string): boolean => {
-    const c = w.charCodeAt(w.length - 1);
-    return c >= 0xac00 && c <= 0xd7a3 ? (c - 0xac00) % 28 !== 0 : true;
+    const m = /[\uac00-\ud7a3](?=[^\uac00-\ud7a3]*$)/.exec(w);
+    if (!m) return true;
+    return (m[0].charCodeAt(0) - 0xac00) % 28 !== 0;
   };
   return text
     .replace(/(\S+)을\(를\)/g, (_, w: string) => `${w}${bat(w) ? '을' : '를'}`)
@@ -166,7 +167,7 @@ export class Sim {
   }
 
   text(key: string, word = ''): string {
-    return (this.content.text[key] ?? key).replace('%s', word);
+    return fixJosa((this.content.text[key] ?? key).replace('%s', word));
   }
 
   /** How something looks just now: its usual description, unless events have changed it. */
