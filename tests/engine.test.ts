@@ -370,7 +370,7 @@ describe('magic', () => {
     const { sim, foe } = arena();
     expect(type(sim, 'cast flame')).toEqual([content.text.noSpell]);
     sim.give('tomeFlame');
-    expect(type(sim, 'read the book')[0]).toContain('how fire is spoken to');
+    expect(type(sim, 'read the book')[0]).toContain('불에 말을 거는 법을');
     expect(sim.p.spells).toEqual(['flame']);
     expect(sim.p.skills.lore.lv).toBeGreaterThan(5);
     foe.x = sim.p.x + 60;
@@ -428,17 +428,17 @@ describe("the cup at the end of the Elder's table", () => {
 
   it('is a thing on the table, and what it means changes as the story is told', () => {
     const looks = STORY.map((f) => type(hall(...f), 'look at the cup')[0]);
-    expect(looks[0]).toContain('its ale frozen solid in it');
-    expect(looks[1]).toContain('a different answer from each, and a look');
-    expect(looks[2]).toContain('The cup that nobody drinks');
-    expect(looks[3]).toContain('It is yours');
+    expect(looks[0]).toContain('안의 맥주가 꽁꽁 얼었다');
+    expect(looks[1]).toContain('각기 다른 대답과 눈빛');
+    expect(looks[2]).toContain('아무도 마시지 않는 잔');
+    expect(looks[3]).toContain('네 것이다');
     expect(new Set(looks).size).toBe(4);
     // Nobody drinks from it, or sits in front of it, and what Marta says about that is the last thing to change.
-    expect(type(hall(), 'drink from the cup')[0]).toContain("It's not for anybody");
-    expect(type(hall(...LIT), 'take the mug')[0]).toContain("for whoever it's for");
-    for (const f of [[], LIT]) expect(type(hall(...f), 'sit on the bench')[0]).toContain('"Not there," says Marta.');
-    expect(type(hall(...DRUNK), 'drink the cup')[0]).toContain('somebody has filled it');
-    expect(type(hall(...DRUNK), 'look at the bench')[0]).toContain('It is your place');
+    expect(type(hall(), 'drink from the cup')[0]).toContain('누구의 것도 아니지');
+    expect(type(hall(...LIT), 'take the mug')[0]).toContain('주인이 있을 자의 것');
+    for (const f of [[], LIT]) expect(type(hall(...f), 'sit on the bench')[0]).toContain('"거기 말고," 마르타가 말한다.');
+    expect(type(hall(...DRUNK), 'drink the cup')[0]).toContain('누군가 채워 넣었다');
+    expect(type(hall(...DRUNK), 'look at the bench')[0]).toContain('네 자리다');
   });
 
   it('is drunk once, by whoever sits down tired at the end of the bench nearest the door', () => {
@@ -447,15 +447,15 @@ describe("the cup at the end of the Elder's table", () => {
     const gold = sim.p.gold;
     // Sitting down comes first, and is where Marta says what she has to say.
     const sat = type(sim, 'sit down').join(' ');
-    expect(sat).toContain('"Leave it," says Marta.');
-    expect(sat).toContain('It came back without you');
+    expect(sat).toContain('"그냥 둬," 마르타가 말한다.');
+    expect(sat).toContain('너 없이 돌아왔더군');
     expect(sim.p.inv.ember).toBe(1);
     expect(sim.p.gold).toBe(gold + 80);
     expect(sim.state.flags['home.cup']).toBeUndefined();
     sim.drain();
     sim.step([{ t: 'say', line: 'drink the cup' }]);
     const won = sim.drain().find((e) => e.t === 'won');
-    expect(won && won.t === 'won' && won.text).toContain('Then Halla fills it again.');
+    expect(won && won.t === 'won' && won.text).toContain('그러자 할라가 다시 채운다.');
     expect(sim.state.flags['home.cup']).toBe(true);
     expect(sim.state.flags['quest:north']).toBe(content.quests.north.done);
     expect(sim.p.gold).toBe(gold + 80);
@@ -466,7 +466,7 @@ describe("the cup at the end of the Elder's table", () => {
     sim.enterRoom('hall', 160, 130);
     expect(sim.rs.actors.map((a) => a.ref).sort()).toEqual(['marta', 'tova']);
     stand(sim, 'marta');
-    expect(type(sim, 'ask the elder about the cup')[0]).toContain('Yours');
+    expect(type(sim, 'ask the elder about the cup')[0]).toContain('네 거야');
   });
 
   it('is moved out of the way, as it always is, of a Thane who ended the winter the other way', () => {
@@ -474,18 +474,18 @@ describe("the cup at the end of the Elder's table", () => {
     sim.drain();
     sim.step([{ t: 'say', line: 'sit down' }]);
     const won = sim.drain().find((e) => e.t === 'won');
-    expect(won && won.t === 'won' && won.text).toContain('moves it out of your way');
+    expect(won && won.t === 'won' && won.text).toContain('네 앞에서 치우고');
     expect(sim.state.flags['quest:north']).toBe(content.quests.north.done);
     expect(sim.state.flags['home.cup']).toBeUndefined();
-    expect(type(sim, 'drink the cup')[0]).toContain('"Not that one," says Marta');
+    expect(type(sim, 'drink the cup')[0]).toContain('"그건 말고," 마르타가');
     sim.state.flags['hall.thaw'] = false;
-    expect(type(sim, 'sit down')[0]).toContain("a hand's breadth out of your reach");
+    expect(type(sim, 'sit down')[0]).toContain('네 손이 닿지 않는 손바닥 너비 밖');
   });
 
   it('shows ORUN where it has always stood', () => {
     const sim = hall();
     sim.teach('word:orun');
-    expect(type(sim, 'orun')[0]).toContain('at the end nearest the door');
+    expect(type(sim, 'orun')[0]).toContain('문에 가장 가까운 끝');
   });
 
   it('can be asked about of everybody in Hollowmere, and everybody says a different thing', () => {
@@ -509,8 +509,8 @@ describe("the cup at the end of the Elder's table", () => {
     // Fenn's wife has a name, and the gate in the north is a place.
     const sim = thane('tarn');
     stand(sim, 'fenn');
-    expect(type(sim, 'ask fenn about asa')[0]).toContain('She laughed');
-    expect(type(sim, 'ask fenn about the gate')[0]).toContain('a row of dead men');
+    expect(type(sim, 'ask fenn about asa')[0]).toContain('비웃었어');
+    expect(type(sim, 'ask fenn about the gate')[0]).toContain('망자 한 줄');
   });
 });
 
@@ -529,7 +529,7 @@ describe('things found in QA', () => {
     const boxes = shell.modals.flatMap((m) => (m.k === 'msg' ? [m] : []));
     expect(boxes[0].more).toBe(true);
     expect(boxes[boxes.length - 1].more).toBe(false);
-    expect(boxes.map((m) => m.text).join(' ').replace(/\s+/g, ' ')).toContain("I'll keep the broom");
+    expect(boxes.map((m) => m.text).join(' ').replace(/\s+/g, ' ')).toContain('빗자루는 내가 간직할 테니');
   });
 
   it('says so when the person you name is somewhere else', () => {
@@ -539,7 +539,7 @@ describe('things found in QA', () => {
     const who = sim.rs.actors.find((a) => a.ref === 'sigga')!;
     sim.p.x = who.x - 20;
     sim.p.y = who.y;
-    expect(type(sim, 'ask about the elder')[0]).toContain('Marta Coldhand');
+    expect(type(sim, 'ask about the elder')[0]).toContain('차가운 손 마르타');
     sim.drain();
     sim.step([{ t: 'say', line: 'talk to the woman' }]);
     expect(sim.drain().find((e) => e.t === 'say')).toMatchObject({ who: 'Sigga' });
@@ -549,7 +549,7 @@ describe('things found in QA', () => {
     for (const line of ['say veth', 'shout VETH!', 'speak veth']) {
       const sim = game('barrow', 160, 126);
       sim.teach('word:veth');
-      expect(type(sim, line)[0], line).toContain('VETH. The great stone rocks');
+      expect(type(sim, line)[0], line).toContain('VETH. 큰 돌이 제자리에서');
     }
   });
 
@@ -558,7 +558,7 @@ describe('things found in QA', () => {
     // Between the ford and its neighbours lie the valley's roads.
     const road = (id: string): string => roomOf(content, id)!.name;
     expect(type(sim, 'look north')[0]).toContain(road('wild_0_1'));
-    expect(type(sim, 'look south')[0]).toContain('To the south lies');
+    expect(type(sim, 'look south')[0]).toContain('남쪽에는');
     // A compass word, bare or gone, is a walk off that edge, which the player's side carries out.
     for (const line of ['north', 'go west', 's', 'walk east']) {
       sim.step([{ t: 'say', line }]);
@@ -581,7 +581,7 @@ describe('things found in QA', () => {
   it('reminds the player what to do next', () => {
     const sim = game();
     // Before anybody has asked anything, there is still the smoke to go by.
-    expect(type(sim, 'think')).toEqual(['There is smoke from one roof. Whoever is under it will know what has happened here.']);
+    expect(type(sim, 'think')).toEqual(['한 지붕에서 연기가 오른다. 그 아래 누가 있든, 여기서 무슨 일이 있었는지 알 것이다.']);
     sim.setQuest('hearth', 1);
     sim.drain();
     expect(type(sim, 'hint')[0]).toContain('The Cold Hearth: Marta Coldhand, the Elder, wants you up at her hall');
@@ -641,7 +641,7 @@ describe('conversation, hints and first run', () => {
     fresh.showTitle();
     const title = fresh.modal;
     if (title?.k !== 'list') throw new Error('expected the title menu');
-    expect(title.items).toEqual(['Begin a new saga']);
+    expect(title.items).toEqual(['새 사가를 시작한다']);
 
     // Play into the next room, which autosaves; a later visit may continue from there.
     fresh.modals = [];
@@ -668,7 +668,7 @@ describe('conversation, hints and first run', () => {
     shell.tick();
     const first = shell.modal;
     if (first?.k !== 'msg') throw new Error('expected speech');
-    expect(first.who).toBe('Odd the smith');
+    expect(first.who).toBe('대장장이 오드');
     expect(first.text).toContain('Forge is cold');
     // What he says runs to more than one box.
     for (let i = 0; i < 9 && (shell.modal as { k: string } | undefined)?.k === 'msg'; i++) shell.keyDown('Enter');
@@ -740,7 +740,7 @@ describe('conversation, hints and first run', () => {
     expect(lines).toContain('look');
     shell.sim.p.x = 220;
     shell.sim.p.y = 156;
-    expect(shell.suggest()[0]).toEqual({ label: 'Talk to Sigga', line: 'talk to sigga' });
+    expect(shell.suggest()[0]).toEqual({ label: '시가에게 말 걸기', line: 'talk to sigga' });
     shell.sim.teach('flame');
     shell.sim.teach('word:veth');
     expect(shell.suggest().map((s) => s.label)).toEqual(expect.arrayContaining(['Cast Flame', 'VETH']));
@@ -857,7 +857,7 @@ describe('fighting with some skill', () => {
     sim.drain();
     gainSkill(sim, 'sorcery', 30);
     expect(combat.hasPerk(sim, 'thrift')).toBe(true);
-    expect(sim.drain().some((e) => e.t === 'say' && e.text.startsWith('Thrift.'))).toBe(true);
+    expect(sim.drain().some((e) => e.t === 'say' && e.text.startsWith('절약.'))).toBe(true);
     sim.teach('flame');
     sim.p.mp = 20;
     type(sim, 'cast flame');
@@ -988,7 +988,7 @@ describe('answering a blow', () => {
     const { sim, foe } = duel();
     sim.drain();
     while (!(foe.ai.wind > 0)) sim.step();
-    expect(sim.drain().some((e) => e.t === 'note' && e.text.includes('gold !'))).toBe(true);
+    expect(sim.drain().some((e) => e.t === 'note' && e.text.includes('금색 !'))).toBe(true);
   });
 });
 
