@@ -5,15 +5,15 @@ import { gainSkill, hostile } from '../engine/combat';
 import { cellOf, depthOf, findNear, homes, lair, parseWild, roomOf, wildId } from '../engine/frontier';
 import { DAY_LENGTH, type Behaviour } from '../engine/sim';
 
-const COUNT = ['no', 'one', 'two', 'three', 'four', 'five', 'six'];
-const ridges = (n: number, way: string): string => `${COUNT[n] ?? n} ${n === 1 ? 'ridge' : 'ridges'} ${way}`;
+const COUNT = ['없음', '하나', '둘', '셋', '넷', '다섯', '여섯'];
+const ridges = (n: number, way: string): string => `${way} 능선 ${COUNT[n] ?? n}`;
 
 /** "two ridges east and one north", as someone who walks the country would put it. */
 export function wayTo(dx: number, dy: number): string {
   const parts: string[] = [];
-  if (dx) parts.push(ridges(Math.abs(dx), dx > 0 ? 'east' : 'west'));
-  if (dy) parts.push(ridges(Math.abs(dy), dy > 0 ? 'south' : 'north'));
-  return parts.join(' and ') || 'right here';
+  if (dx) parts.push(ridges(Math.abs(dx), dx > 0 ? '동쪽' : '서쪽'));
+  if (dy) parts.push(ridges(Math.abs(dy), dy > 0 ? '남쪽' : '북쪽'));
+  return parts.join(', ') || '바로 여기';
 }
 
 /** What Odd charges for the next tempering, having done `n` already. */
@@ -36,7 +36,7 @@ export const behaviours: Record<string, Behaviour> = {
     if (f['marta.met']) return;
     f['marta.met'] = true;
     sim.say(
-      `The door opens and lets the cold in, and the room goes quiet the way a room does for one person. The woman who comes in is tall and thin and very straight in the back, with a muffler of purple wool that is the only colour in the room. She looks at nobody but you, for long enough that you start to feel the cold again.\n\n"Who would miss you?" says Marta Coldhand.\n\nYou have no answer to that${f['sigga.met'] ? ' either' : ''}.\n\n"Good," she says. "Come up to the hall."`,
+      `문이 열리며 추위를 들이고, 한 사람을 위해 방이 조용해지는 방식으로 방이 조용해진다. 들어오는 여자는 키가 크고 마르고 등이 아주 곧다. 방에서 유일한 색인 자주색 양모 목도리를 두르고 있다. 그녀는 너 말고는 아무도 보지 않는다. 네가 다시 추위를 느끼기 시작할 만큼 오래.\n\n"네가 없어지면 슬퍼할 사람이 누구지?" 마르타 콜드핸드가 말한다.\n\n너에게는 대답이 없다${f['sigga.met'] ? '. 그녀에게도' : ''}.\n\n"좋아," 그녀가 말한다. "홀로 올라오너라."`,
     );
     sim.setQuest('hearth', 1);
   },
@@ -56,7 +56,7 @@ export const behaviours: Record<string, Behaviour> = {
       a.ai.stun = 40;
     }
     sim.state.flags.kills = Math.max(0, Number(sim.state.flags.kills ?? 1) - 1);
-    sim.note('He goes down. Then, without hurry, he gets up again. Nobody has come to relieve him.');
+    sim.note('그는 쓰러진다. 그러고는, 서두름 없이, 다시 일어선다. 교대하러 오는 이는 없었다.');
   },
 
   /** The sun's name is said at the gate: the guards go back into their towers. */
@@ -103,15 +103,15 @@ export const behaviours: Record<string, Behaviour> = {
   lightTorch: (sim) => {
     const at = cellOf(sim.content, sim.state.room);
     if (!sim.state.flags['hearth.lit'] && at && !depthOf(sim.content, at[0], at[1])) {
-      sim.say('You strike a light. The torch catches; and then the flame lies down flat along the pitch, as if a wind were on it, and goes out. Nothing burns in this valley just now.');
+      sim.say('불을 튀긴다. 횃불에 붙는다. 그러고는 불꽃이 송진을 따라 납작하게 눕고, 바람이라도 있는 듯, 꺼진다. 지금 이 골짜기에서는 아무것도 타지 않는다.');
       return;
     }
     if (STILL.includes(sim.state.room) && !sim.state.flags['winter.broken']) {
-      sim.say('Nothing will burn here. The sparks hang in the air like little red seeds, and go dark where they hang.');
+      sim.say('여기서는 아무것도 타지 않는다. 불똥들이 작은 붉은 씨앗처럼 공중에 매달려, 매달린 채로 어두워진다.');
       return;
     }
     sim.state.flags.light = sim.state.tick + 2400;
-    sim.say('The pitch catches and the torch flares. The dark backs off a few paces and waits.');
+    sim.say('송진에 붙어 횃불이 타오른다. 어둠이 몇 걸음 물러나 기다린다.');
   },
 
   /** A night's sleep. */
@@ -126,7 +126,7 @@ export const behaviours: Record<string, Behaviour> = {
   bless: (sim, arg) => {
     const key = `blessed.${arg}`;
     if (Number(sim.state.flags[key] ?? 0) > sim.state.tick) {
-      sim.say('You say the words again. The stones are quiet. Whatever they give, they have given for today.');
+      sim.say('다시 말해 본다. 돌들은 조용하다. 주는 것이 무엇이든, 오늘치는 다 준 것이다.');
       return;
     }
     const p = sim.p;
@@ -157,7 +157,7 @@ export const behaviours: Record<string, Behaviour> = {
       const [id, cell] = marks[0];
       sim.state.flags[`goal.${id}`] = id;
       sim.say(sim.content.text[`rumour.${id}`].replace('%s', wayTo(cell[0] - at[0], cell[1] - at[1])), who);
-      sim.note('The place is marked on your map.');
+      sim.note('지도에 그 장소가 표시됐다.');
       return;
     }
     if (!at || !found) sim.say(sim.text('rumour.kind.none'), who);
@@ -183,7 +183,7 @@ export const behaviours: Record<string, Behaviour> = {
     sim.state.flags[`${kind}.name`] = roomOf(sim.content, wildId(at[0], at[1]))?.name ?? '';
     sim.state.flags[`${kind}.way`] = wayTo(at[0] - from[0], at[1] - from[1]);
     sim.state.flags[`goal.${kind}`] = wildId(at[0], at[1]);
-    sim.note('The place is marked on your map.');
+    sim.note('지도에 그 장소가 표시됐다.');
   },
 
   /** Mark where one of the frontier's folk lives on the map. */
@@ -196,19 +196,19 @@ export const behaviours: Record<string, Behaviour> = {
   emberHome: (sim) => {
     const f = sim.state.flags;
     if (sim.rs.actors.some((a) => hostile(sim, a))) {
-      sim.say('You fumble the horn box open. The coal dims, as if to say: not while something is trying to kill you.');
+      sim.say('뿔 상자를 더듬어 연다. 숯이 흐려진다. 말하는 듯이: 너를 죽이려는 것이 있는 동안은 안 된다.');
       return;
     }
     if (STILL.includes(sim.state.room) && !f['winter.broken']) {
-      sim.say('You open the horn box, afraid, and the coal in it is dull as an old eye; but there is still a coal in it. You breathe on it. Nothing. Nothing burns here, and nothing wakes. You shut the lid.');
+      sim.say('두려워하며 뿔 상자를 연다. 안의 숯은 늙은 눈처럼 흐리다. 그래도 숯은 있다. 숨을 불어넣는다. 아무것도. 여기서는 아무것도 타지 않고, 아무것도 깨지 않는다. 뚜껑을 닫는다.');
       return;
     }
     if (['village', 'hall', 'inn'].includes(sim.state.room)) {
-      sim.say('You open the box. The coal glows contentedly. It is already where it wants to be.');
+      sim.say('상자를 연다. 숯이 만족스럽게 빛난다. 이미 있고 싶은 곳에 있다.');
       return;
     }
     if (Number(f['ember.ready'] ?? 0) > sim.state.tick) {
-      sim.say('The coal has gone grey, with only a thread of red at its heart. It has carried you once lately, and wants time by a fire before it will do it again.');
+      sim.say('숯이 회색이 되고 심지에 붉은 실만 남았다. 얼마 전 너를 옮겼고, 다시 하려면 불 곁의 시간이 필요하다.');
       return;
     }
     f['ember.ready'] = sim.state.tick + DAY_LENGTH / 2;
@@ -366,7 +366,7 @@ export const behaviours: Record<string, Behaviour> = {
     sim.say(sim.fill(sim.text(`bounty.offer.${found.kind}`)), who);
     f['quest:bounty'] = 0;
     sim.setQuest('bounty', 1);
-    sim.note('The place is marked on your map.');
+    sim.note('지도에 그 장소가 표시됐다.');
   },
 
   /** Called when a room is cleared: was it the one the Elder asked about? */
