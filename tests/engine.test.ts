@@ -1764,7 +1764,7 @@ describe('where the wind stops', () => {
     // The path ends in more of it, and the word will not come again so soon.
     walk(sim, 0, -1, 80);
     expect(sim.state.room).toBe('hanging');
-    expect(notes(sim)).toContain('you will have to say it again');
+    expect(notes(sim)).toContain('다시 말해야 한다');
     expect(type(sim, 'veth')).toEqual([content.text.wordTired]);
     sim.p.cd = {};
     expect(type(sim, 'veth')[0]).toContain('a small dry sound');
@@ -1990,7 +1990,7 @@ describe('a Thane at home', () => {
     sim.state.flags['quest:stores'] = 2;
     sim.enterRoom('farm', 160, 146);
     stand(sim, 'gorm', 8);
-    expect(type(sim, 'talk to gorm')[0]).toContain('gone soft');
+    expect(type(sim, 'talk to gorm')[0]).toContain('물렁해졌어');
   });
 
   it('is offered the way home on a touch screen, when there is one', () => {
@@ -2258,7 +2258,7 @@ describe('the fourth word', () => {
     // Once read it burns on, whether the sun is up or not.
     sim.state.tick = 100;
     expect(sim.sceneKey()).toBe(byNight);
-    expect(type(sim, 'read rune')[0]).toContain('It has given you what it had');
+    expect(type(sim, 'read rune')[0]).toContain('가진 것을 네게 주었다');
   });
 
   it('strikes the dead, spares the living, and lights the dark', () => {
@@ -2993,7 +2993,7 @@ describe('what to do next, as the story goes', () => {
     next('문은 북쪽이다', { 'quest:north': 3 });
     next('북쪽 길이 열렸다', { 'quest:north': 4 });
     next('아무도 가지 않는 북쪽으로 간다. 너도 간다', { 'quest:north': 5 });
-    next('She kneels in a hollow in the snow', { 'quest:north': 6 });
+    next('눈 웅덩이에 무릎 꿇고', { 'quest:north': 6 });
     next('Hollowmere is a very long way south', { 'quest:north': 7, 'winter.broken': true, 'sol.said': true });
     next('The winter has broken. The Elder always has work', { 'quest:north': 8, 'marta.thaw': true });
     next('a place for you at the end of the bench nearest the door', { 'home.cup': true });
@@ -3283,7 +3283,7 @@ describe('the night the hearth is lit', () => {
     expect(typed(shell, 'hold out the flint to the elder').join(' ')).toContain('아무 말도 하지 않는다');
     expect(typed(shell, 'lay the log on the hearth').join(' ')).toContain('"안 붙어," 그녀가 말한다.');
     expect(shell.sim.p.inv.log).toBeUndefined();
-    expect(typed(shell, 'light the fire').join(' ')).toContain('납작하게 눕더니');
+    expect(typed(shell, 'light the fire').join(' ')).toContain('납작하게 눕는다');
     expect(shell.sim.state.flags['hearth.lit']).toBeUndefined();
     expect(typed(shell, 'give the bottle to the girl').join(' ')).toContain("She can't swallow");
     expect(shell.sim.p.inv.bottle).toBe(1);
@@ -3471,7 +3471,7 @@ describe('small things found by playing', () => {
     expect(type(sim, 'give amulet to fenn')[0]).toContain('이렇게 작았다는 걸 잊고 있었네');
     // He does not stay to look at ice with nothing in it.
     expect(sim.rs.actors.some((a) => a.ref === 'fenn')).toBe(false);
-    expect(type(sim, 'look')[0]).toContain('the print of two knees in the snow at the edge of the ice, and nobody in it');
+    expect(type(sim, 'look')[0]).toContain('두 무릎 자국이 있고, 아무도 안에 없다');
     sim.enterRoom('hut', 190, 126);
     stand(sim, 'fenn');
     expect(type(sim, 'look')[0]).toContain('hangs a moonstone on a silver chain');
@@ -3522,7 +3522,7 @@ describe('found by playing on past the cold hearth', () => {
     expect(type(sim, 'look at the guard')[0]).toContain('뼛속까지 서리가 들었고');
     expect(type(sim, 'look at the spearmen')[0]).toContain('교대를 오지 않은');
     expect(type(sim, 'talk to the guards')[0]).toContain('문이 너를 보듯 너를 본다');
-    expect(type(sim, 'look at the towers')[0]).toContain('forgot to send word');
+    expect(type(sim, 'look at the towers')[0]).toContain('소식 전하는 걸 잊었다');
     // "The woman" is the baker in the square; in the hollow it can only be one person.
     const home = game('village', 220, 156);
     expect(type(home, 'look at the woman')[0]).toContain('three shawls');
@@ -3607,7 +3607,7 @@ describe('found by playing on past the cold hearth', () => {
     sim.state.flags['quest:message'] = 3;
     expect(type(sim, 'ask elder about ivar')[0]).toContain('이 화로 곁에 의자 하나가 있지');
     sim.state.flags['hearth.lit'] = true;
-    expect(type(sim, 'ask elder about sheep')[0]).toContain('a village to keep');
+    expect(type(sim, 'ask elder about sheep')[0]).toContain('지킬 마을이 있어');
     // Ivar says she sang once. She says otherwise.
     expect(type(sim, 'ask elder about the rhyme')[0]).toContain("I don't sing");
   });
@@ -3679,7 +3679,7 @@ describe('the thaw, where it can be seen', () => {
     // Said in passing: children do not hold conversations with menus.
     expect(ev.some((e) => e.t === 'talk')).toBe(false);
     expect(type(sim, 'talk to boy')[0]).toContain('테인이야?');
-    expect(type(sim, 'look at the snowman')[0]).toContain('a very straight back, and a scrap of purple wool at its neck');
+    expect(type(sim, 'look at the snowman')[0]).toContain('등은 아주 꼿꼿하고, 목에는 보라색 양털 조각');
     expect(type(sim, 'kick the snowman')[0]).toContain('you cannot');
     expect(type(sim, 'ask girl about elder')[0]).toContain('Tova gave us the wool');
   });
@@ -3836,7 +3836,7 @@ describe('things written by hand, out in the generated country', () => {
     expect(type(sim, 'drink from the kettle')[0]).toContain('불이 필요하다');
     expect(type(sim, 'light the fire')[0]).toContain('딱딱거리다 노래하기 시작한다');
     expect(sim.p.hp).toBeCloseTo(30, 0);
-    expect(type(sim, 'light the fire')[0]).toContain('Let it burn down');
+    expect(type(sim, 'light the fire')[0]).toContain('저절로 꺼지게 둔다');
     const sc = roomOf(content, room)!.scene;
     expect((sc.when ?? []).filter((w) => all(sim, w.if)).flatMap((w) => w.props ?? []).map((p) => p.v)).toEqual(['kettle']);
   });
@@ -3849,7 +3849,7 @@ describe('things written by hand, out in the generated country', () => {
     expect(lit(oven.room, oven.sim)).toEqual([]);
     expect(type(oven.sim, 'light the fire')[0]).toContain('느린 숨결처럼');
     expect(oven.sim.p.hp).toBeCloseTo(25, 0);
-    expect(type(oven.sim, 'light the oven')[0]).toContain('Stand by it a while');
+    expect(type(oven.sim, 'light the oven')[0]).toContain('곁에 잠시 서 있어라');
     expect(oven.sim.p.hp).toBeCloseTo(25, 0);
     expect(lit(oven.room, oven.sim)).toEqual(['lit']);
     const lamp = beside('lamp');
@@ -3864,7 +3864,7 @@ describe('things written by hand, out in the generated country', () => {
     expect(type(before, 'make a wish')[0]).toContain('한 사람에 돌 하나');
     const after = beside('wishes').sim;
     after.state.flags['winter.broken'] = true;
-    expect(type(after, 'make a wish')[0]).toContain('THANK YOU');
+    expect(type(after, 'make a wish')[0]).toContain('고맙다');
     const cold = beside('lookout').sim;
     expect(type(cold, 'climb the pegs')[0]).toContain('one thread of smoke');
     cold.state.flags['hearth.lit'] = true;
@@ -3882,7 +3882,7 @@ describe('things written by hand, out in the generated country', () => {
   it('lets a door with no house be knocked at and gone through', () => {
     const { sim } = beside('door');
     expect(type(sim, 'knock on the door')[0]).toContain('아무도 대답하지 않는다');
-    expect(type(sim, 'open the door')[0]).toContain('wipe your boots');
+    expect(type(sim, 'open the door')[0]).toContain('장화를 문지른다');
     expect(type(sim, 'go through the door')[0]).toContain('same snow on both sides');
     expect(type(sim, 'read the notches')[0]).toContain('LITTLE ODA');
   });
@@ -3891,7 +3891,7 @@ describe('things written by hand, out in the generated country', () => {
     const { sim } = beside('sleeper');
     expect(type(sim, 'pet the hump')[0]).toContain('자는 곰을 쓰다듬고 살았고');
     expect(sim.rs.actors.length).toBe(0);
-    expect(type(sim, 'dig into the hump')[0]).toContain('goes on standing up');
+    expect(type(sim, 'dig into the hump')[0]).toContain('계속 일어선다');
     expect(sim.rs.actors.map((a) => a.ref)).toEqual(['bear']);
     expect(type(sim, 'look at the hump')[0]).toContain('trampled hollow');
   });
@@ -3899,7 +3899,7 @@ describe('things written by hand, out in the generated country', () => {
   it('sends a stray ewe home to Gorm, and a carved horse to somebody the right size for it', () => {
     const { sim } = beside('stray');
     expect(type(sim, 'look at the sheep')[0]).toContain('고리 안의 G');
-    expect(type(sim, 'pet the sheep')[0]).toContain('you now have a sheep');
+    expect(type(sim, 'pet the sheep')[0]).toContain('양이 생긴 모양이다');
     expect(sim.p.inv.ewe).toBe(1);
     // Gorm is at his farm once the fires are lit.
     Object.assign(sim.state.flags, { 'gorm.met': true, 'hearth.lit': true, 'quest:hearth': 5 });
@@ -3954,7 +3954,7 @@ describe('the hollow', () => {
     expect(sim.rs.actors.map((a) => a.ref)).toEqual(['kneeler']);
     expect(type(sim, 'look at the boy')).toEqual([content.text.notHere]);
     // Nothing wakes or burns while that word is being said.
-    expect(type(sim, 'give the coal to the woman')[0]).toContain('She does not see it');
+    expect(type(sim, 'give the coal to the woman')[0]).toContain('보지 못한다');
     expect(type(sim, 'breathe on the coal')[0]).toContain('늙은 눈처럼 흐리다');
     expect(sim.state.room).toBe('hollow');
     expect(type(sim, 'listen')[0]).toContain('ISKA, ISKA, ISKA');
@@ -3979,7 +3979,7 @@ describe('the hollow', () => {
     expect(joined).toContain('붙드는 사람이 둘이다');
     expect(joined).toContain('그녀의 입술이 멎는다');
     expect([sim.p.x, sim.p.y]).toEqual([184, 130]);
-    expect(type(sim, 'look')[0]).toContain('held up now by nothing but you');
+    expect(type(sim, 'look')[0]).toContain('이제는 너만이 떠받치고 있다');
     expect(type(sim, 'talk to the woman')[0]).toContain('she has stopped');
     // Nobody walks away from a sky they are holding up; and there is nobody left to say the sun's name to.
     walk(sim, 0, 1, 60);
@@ -4035,7 +4035,7 @@ describe('the hollow', () => {
     expect(sim.state.flags['coal.given']).toBeUndefined();
     expect(sim.state.flags['quest:north']).toBe(7);
     expect(sim.p.inv.ember).toBe(1);
-    expect(type(sim, 'look')[0]).toContain('He has finished his breath. A track goes off north into the white');
+    expect(type(sim, 'look')[0]).toContain('숨을 다 내뱉었다. 발자국 하나가 하얀 속으로 북쪽으로 난다');
     expect(deeds(sim)).toContain('ended a winter three hundred years long');
     // Her word is only a word now.
     expect(type(sim, 'iska')[0]).toContain('for as long as one word lasts');
@@ -4123,7 +4123,7 @@ describe('the hollow', () => {
     expect(type(sim, 'look')[0]).toContain(content.frontier!.text.deadRestSeen!);
     expect(type(sim, 'look at the dead')[0]).toContain('일어나지 않는다');
     sim.enterRoom('northgate', 160, 150);
-    expect(type(sim, 'look')[0]).toContain('like men at the end of a long watch');
+    expect(type(sim, 'look')[0]).toContain('긴 근무를 마친 사내들처럼');
     sim.teach('word:sol');
     expect(type(sim, 'sol')[0]).toContain('They have been told already');
     sim.state.flags['tree.cut'] = true;
