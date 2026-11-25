@@ -3,6 +3,8 @@
 // Still no DOM here, so tests can drive it.
 
 import { hostile } from './combat';
+import { koNounLabel } from '../game/data/vocab';
+const koLabel = (id: string): string => koNounLabel[id] ?? id;
 import { bagRows, groundRows, itemActions, loadText, storedRows, storeHere, weighed } from './commands';
 import { wrap } from './font';
 import { chart, roomOf } from './frontier';
@@ -133,7 +135,7 @@ export class Shell {
     // A save from before the first step is no game at all (older builds wrote one on opening).
     const saved = this.read('auto');
     const auto = saved && saved.state.tick > 0 ? saved : null;
-    const items = auto ? ['Begin a new saga', `Continue: ${auto.label}`] : ['Begin a new saga'];
+    const items = auto ? ['새 사가를 시작한다', `이어하기: ${auto.label}`] : ['새 사가를 시작한다'];
     this.modals.unshift({
       k: 'list', title: this.content.tagline, items, sel: auto ? 1 : 0, cancel: false, banner: this.content.title.toUpperCase(), front: true,
       pick: (i) => void (i === 1 && this.restore('auto')),
@@ -289,10 +291,10 @@ export class Shell {
     }
     if (who?.kind === 'npc') {
       const def = c.chars[who.ref];
-      return { k: 'talk', label: `Talk to ${def.name}`, line: `talk to ${def.nouns[0]}`, x: who.x, y: who.y, d: 48 };
+      return { k: 'talk', label: `${def.name}에게 말 걸기`, line: `talk to ${def.nouns[0]}`, x: who.x, y: who.y, d: 48 };
     }
     // Some are named with their article ("the Greyback"), and most are not ("wolf").
-    if (who) return { k: 'fight', label: `Fight the ${c.enemies[who.ref].name.replace(/^the /, '')}`, foe: who };
+    if (who) return { k: 'fight', label: `${c.enemies[who.ref].name.replace(/^the /, '')}와(과) 싸우기`, foe: who };
     if (this.doorAt(x, y)) return null;
     // Things: a small picture is itself the mark; anything else is taken to stand on its spot, a
     // little taller than it is wide. Of two that overlap, the smaller is meant: the book, not the table.
@@ -312,7 +314,7 @@ export class Shell {
     // A word for it that means this thing and no other here.
     const noun = t.nouns.find((w) => things.find((o) => o.nouns.includes(w)) === t) ?? t.nouns[0];
     const at = { x: t.x, y: t.y, d: t.reach ?? 30 };
-    return t.take ? { k: 'take', label: `Take the ${noun}`, line: `take ${noun}`, ...at } : { k: 'look', label: `Look at the ${noun}`, line: `look at ${noun}`, ...at };
+    return t.take ? { k: 'take', label: `${koLabel(noun)} 가져가기`, line: `take ${noun}`, ...at } : { k: 'look', label: `${koLabel(noun)} 살펴보기`, line: `look at ${noun}`, ...at };
   }
 
   /** What pointing at this spot in the picture would do, in a few words; null where it would only walk there. */
@@ -504,7 +506,7 @@ export class Shell {
         this.after = [];
         this.message(e.text);
         this.modals.push({
-          k: 'list', title: this.sim.text('deathPrompt'), items: ['Restore a saved game', 'Start again'], sel: 0, cancel: false,
+          k: 'list', title: this.sim.text('deathPrompt'), items: ['저장된 게임 불러오기', '처음부터 다시'], sel: 0, cancel: false,
           pick: (i) => (i === 0 ? this.restoreMenu(true) : this.restart()),
         });
       } else if (e.t === 'won') this.message(e.text);
@@ -559,12 +561,12 @@ export class Shell {
       return true;
     }
     // Function keys, after the fashion of the old typing adventures.
-    if (key === 'F1') this.pageOut('How to play', this.sim.text('help').split('\n'));
+    if (key === 'F1') this.pageOut('플레이 방법', this.sim.text('help').split('\n'));
     else if (key === 'F2') {
       const on = !(this.settings.music || this.settings.sound);
       this.settings.music = this.settings.sound = on;
       this.store.set('thanes-quest:settings', JSON.stringify(this.settings));
-      this.noteText = on ? 'Sound on.' : 'Sound off.';
+      this.noteText = on ? '소리 켜짐.' : '소리 꺼짐.';
       this.noteUntil = this.uiTick + 50;
     } else if (key === 'F3') this.input = this.last.slice(0, MAX_INPUT);
     else if (key === 'F4') this.queue.push({ t: 'say', line: 'map' });
@@ -616,7 +618,7 @@ export class Shell {
     if (verb === 'save') this.saveMenu();
     else if (verb === 'restore') this.restoreMenu(false);
     else if (verb === 'restart') this.confirmRestart();
-    else if (verb === 'help') this.pageOut('How to play', this.sim.text('help').split('\n'));
+    else if (verb === 'help') this.pageOut('플레이 방법', this.sim.text('help').split('\n'));
     else if (verb === 'quit') this.menu();
     else if (verb === 'inventory' && r.ok && !r.nouns.length) this.bag();
     else this.send(line);
@@ -650,7 +652,7 @@ export class Shell {
     const who = sim.rs.actors
       .filter((a) => a.kind === 'npc' && c.chars[a.ref] && dist(a.x, a.y) <= 48)
       .sort((a, b) => dist(a.x, a.y) - dist(b.x, b.y))[0];
-    if (who) out.push({ label: `Talk to ${c.chars[who.ref].name}`, line: `talk to ${c.chars[who.ref].nouns[0]}` });
+    if (who) out.push({ label: `${c.chars[who.ref].name}에게 말 걸기`, line: `talk to ${c.chars[who.ref].nouns[0]}` });
     const close = sim.things().filter((t) => dist(t.x, t.y) <= (t.reach ?? 30));
     // A thing to be tried with something carried ("lay the log on the hearth") is offered only to whoever carries it.
     const lacking = (line: string): boolean => {
@@ -658,22 +660,22 @@ export class Shell {
       return r.ok && r.nouns.some((n) => !sim.things().some((t) => t.nouns.includes(n)) && Object.values(c.items).some((it) => it.nouns.includes(n)) && !Object.keys(p.inv).some((id) => c.items[id]?.nouns.includes(n)));
     };
     for (const t of close) {
-      if (t.take) out.push({ label: `Take the ${t.nouns[0]}`, line: `take ${t.nouns[0]}` });
+      if (t.take) out.push({ label: `${koLabel(t.nouns[0])} 가져가기`, line: `take ${t.nouns[0]}` });
       for (const line of t.try ?? []) if (!lacking(line)) out.push({ label: line[0].toUpperCase() + line.slice(1), line });
     }
     for (const w of Object.values(c.words)) if (p.words.includes(w.id) && !(p.cd[w.id] > 0)) out.push({ label: w.verb.toUpperCase(), line: w.verb });
-    out.push({ label: 'Look around', line: 'look' });
-    if (sim.room.scene.kind === 'outdoor') out.push({ label: 'Map', line: 'map' });
-    if (p.inv.potion && p.hp < p.maxHp * 0.6) out.push({ label: 'Drink a draught', line: 'drink potion' });
-    if (p.inv.torch && sim.isDark()) out.push({ label: 'Light the torch', line: 'light torch' });
+    out.push({ label: '주위 살펴보기', line: 'look' });
+    if (sim.room.scene.kind === 'outdoor') out.push({ label: '지도', line: 'map' });
+    if (p.inv.potion && p.hp < p.maxHp * 0.6) out.push({ label: '물약 마시기', line: 'drink potion' });
+    if (p.inv.torch && sim.isDark()) out.push({ label: '횃불 켜기', line: 'light torch' });
     const spare = p.other && p.inv[p.other] ? c.items[p.other] : null;
-    if (spare) out.push({ label: `Ready the ${spare.name}`, line: 'swap' });
+    if (spare) out.push({ label: `${spare.name} 준비하기`, line: 'swap' });
     for (const [id, n] of Object.entries(p.inv)) {
       // Things carried that are worth using where the player now stands, as the game's data marks them.
       const it = c.items[id];
       if (n > 0 && it?.offer && all(sim, it.offer.if)) out.push({ label: it.offer.label, line: it.offer.say });
     }
-    for (const id of p.spells) out.push({ label: `Cast ${c.spells[id]?.name ?? id}`, line: `cast ${id}` });
+    for (const id of p.spells) out.push({ label: `${c.spells[id]?.name ?? id} 시전`, line: `cast ${id}` });
     const seen = new Set<string>();
     return out.filter((o) => !seen.has(o.line) && seen.add(o.line)).slice(0, OFFERS);
   }
@@ -717,7 +719,7 @@ export class Shell {
     // given), it waits on Farewell: never on whatever slid up into its place, which may cost silver.
     const at = this.talkLast === null ? 0 : options.findIndex((o) => o.label === this.talkLast);
     this.modals.push({
-      k: 'list', title: def.name, items: [...options.map((o) => this.sim.fill(o.label)), 'Farewell'], sel: at < 0 ? options.length : at, cancel: true, onCancel: leave,
+      k: 'list', title: def.name, items: [...options.map((o) => this.sim.fill(o.label)), '작별 인사'], sel: at < 0 ? options.length : at, cancel: true, onCancel: leave,
       pick: (i) => {
         this.talkLast = options[i]?.label ?? null;
         if (i >= options.length) leave();
@@ -757,17 +759,17 @@ export class Shell {
     // The menu is the bottom of everything: nothing opened before it is waiting to be gone back to.
     this.after = [];
     const rows: [string, () => void][] = [
-      ['Resume', () => {}],
-      ['Bag', () => this.bag()],
-      ['Map', () => this.send('map')],
-      ['Journal', () => this.send('journal')],
-      ['Character', () => this.send('skills')],
-      ['Deeds', () => this.send('deeds')],
-      ['Save game', () => this.saveMenu()],
-      ['Restore game', () => this.restoreMenu(false)],
-      ['Settings', () => this.settingsMenu()],
-      ['How to play', () => this.pageOut('How to play', this.sim.text('help').split('\n'))],
-      ['Start again', () => this.confirmRestart()],
+      ['돌아가기', () => {}],
+      ['가방', () => this.bag()],
+      ['지도', () => this.send('map')],
+      ['일지', () => this.send('journal')],
+      ['인물', () => this.send('skills')],
+      ['위업', () => this.send('deeds')],
+      ['저장하기', () => this.saveMenu()],
+      ['불러오기', () => this.restoreMenu(false)],
+      ['설정', () => this.settingsMenu()],
+      ['플레이 방법', () => this.pageOut('플레이 방법', this.sim.text('help').split('\n'))],
+      ['처음부터 다시', () => this.confirmRestart()],
     ];
     this.list(this.content.title, rows.map((r) => r[0]), (i) => {
       // Whatever a row opens comes back here when it is closed, with the cursor on that row.
@@ -785,20 +787,20 @@ export class Shell {
   bag(item?: string): void {
     const sim = this.sim;
     const rows = bagRows(sim);
-    const close = this.backToMenu ? 'Back' : 'Close';
+    const close = this.backToMenu ? '뒤로' : '닫기';
     // How full the pack is, beside the silver: a full pack is worth knowing about before a fight, not after.
-    const load = `Load: ${loadText(sim)}${sim.load() > sim.limit() ? ' (too full)' : ''}`;
-    const title = `Your bag\n${rows.length ? '' : sim.text('emptyHanded') + '\n'}${load.padEnd(18)}Silver: ${sim.p.gold}`;
+    const load = `무게: ${loadText(sim)}${sim.load() > sim.limit() ? ' (너무 무거움)' : ''}`;
+    const title = `가방\n${rows.length ? '' : sim.text('emptyHanded') + '\n'}${load.padEnd(18)}은화: ${sim.p.gold}`;
     // What lies on the ground here, and what is kept in a chest here, can be gone through from the bag too.
     const ground = groundRows(sim);
     const store = storeHere(sim);
     const kept = store ? storedRows(sim) : [];
     const extra: [string, () => void][] = [];
-    if (ground.length) extra.push([`On the ground here (${ground.reduce((n, g) => n + g.n, 0)})`, () => this.heap('ground')]);
-    if (store) extra.push([`In the ${store.nouns[0]} (${kept.reduce((n, g) => n + g.n, 0)})`, () => this.heap('store')]);
+    if (ground.length) extra.push([`여기 바닥에 있음 (${ground.reduce((n, g) => n + g.n, 0)})`, () => this.heap('ground')]);
+    if (store) extra.push([`${koLabel(store.nouns[0])} 안에 있음 (${kept.reduce((n, g) => n + g.n, 0)})`, () => this.heap('store')]);
     this.modals.unshift({
       k: 'list', title, lead: true, items: [...rows.map((r) => weighed(r.label, r.weight)), ...extra.map((e) => e[0]), close], cancel: true,
-      sel: Math.max(0, item?.startsWith(':') ? rows.length + extra.findIndex((e) => e[0].startsWith(item === ':ground' ? 'On the ground' : 'In the')) : rows.findIndex((r) => r.id === item)),
+      sel: Math.max(0, item?.startsWith(':') ? rows.length + extra.findIndex((e) => (item === ':ground' ? e[0].startsWith('여기 바닥에') : e[0].includes('안에 있음'))) : rows.findIndex((r) => r.id === item)),
       pick: (i) => (rows[i] ? this.itemMenu(rows[i].id) : extra[i - rows.length]?.[1]()),
     });
   }
@@ -813,10 +815,10 @@ export class Shell {
     const store = storeHere(sim);
     const back = where === 'ground' ? ':ground' : ':store';
     const from = where === 'store' && store ? ` from ${store.nouns[0]}` : '';
-    const title = where === 'ground' ? 'On the ground here' : `In the ${store?.nouns[0] ?? 'chest'}`;
+    const title = where === 'ground' ? '여기 바닥에 있는 것' : `${koLabel(store?.nouns[0] ?? 'chest')} 안에 있는 것`;
     const empty = rows.length ? '' : `\n${sim.text(where === 'ground' ? 'nothingDown' : 'storeEmpty')}`;
     this.modals.unshift({
-      k: 'list', title: `${title}${empty}\nLoad: ${loadText(sim)}`, lead: true, items: [...rows.map((r) => weighed(r.label, r.weight)), 'Back'], sel: 0, cancel: true,
+      k: 'list', title: `${title}${empty}\n무게: ${loadText(sim)}`, lead: true, items: [...rows.map((r) => weighed(r.label, r.weight)), '뒤로'], sel: 0, cancel: true,
       onCancel: () => this.bag(back),
       pick: (i) => {
         const r = rows[i];
@@ -824,10 +826,10 @@ export class Shell {
         // A word for it that nothing else lying there answers to.
         const nouns = this.content.items[r.id].nouns;
         const noun = nouns.find((w) => rows.every((o) => o.id === r.id || !this.content.items[o.id].nouns.includes(w))) ?? nouns[0];
-        const acts = [{ label: 'Take one', line: `take ${noun}${from}` }, ...(r.n > 1 ? [{ label: `Take all ${r.n}`, line: `take all ${noun}${from}` }] : [])];
+        const acts = [{ label: '하나 가져가기', line: `take ${noun}${from}` }, ...(r.n > 1 ? [{ label: `${r.n}개 전부 가져가기`, line: `take all ${noun}${from}` }] : [])];
         this.modals.unshift({
-          k: 'list', title: `${cap(r.label)}\nWeighs ${sim.weight(r.id)}${r.n > 1 ? ' each' : ''}. Load: ${loadText(sim)}`, lead: true,
-          items: [...acts.map((a) => a.label), 'Back'], sel: 0, cancel: true,
+          k: 'list', title: `${cap(r.label)}\n무게 ${sim.weight(r.id)}${r.n > 1 ? ' (하나당)' : ''}. 소지 무게: ${loadText(sim)}`, lead: true,
+          items: [...acts.map((a) => a.label), '뒤로'], sel: 0, cancel: true,
           onCancel: () => this.heap(where),
           pick: (j) => {
             const a = acts[j];
@@ -848,10 +850,10 @@ export class Shell {
     const acts = itemActions(sim, id);
     const n = sim.p.inv[id] ?? 0;
     const each = sim.weight(id);
-    const weight = it?.keep ? 'Weighs nothing to speak of.' : each === 0 ? 'Weighs next to nothing.' : `Weighs ${each}${n > 1 ? ` each, ${each * n} in all` : ''}.`;
+    const weight = it?.keep ? '말할 만한 무게는 없다.' : each === 0 ? '거의 무게가 없다.' : `무게 ${each}${n > 1 ? ` (하나당, 전부 ${each * n})` : ''}.`;
     this.modals.unshift({
-      k: 'list', title: `${cap(it?.name ?? id)}${n > 1 ? ` x${n}` : ''}\n${weight}${sim.onPerson(id) && n === 1 ? (sim.p.weapon === id || sim.p.shield === id ? ' In hand, not in the pack.' : ' Worn, not in the pack.') : ''}\n${it ? sim.lookOf(it) : ''}`, lead: true,
-      items: [...acts.map((a) => a.label), 'Back'], sel: 0, cancel: true,
+      k: 'list', title: `${cap(it?.name ?? id)}${n > 1 ? ` x${n}` : ''}\n${weight}${sim.onPerson(id) && n === 1 ? (sim.p.weapon === id || sim.p.shield === id ? ' 배낭이 아니라 손에 들고 있다.' : ' 배낭이 아니라 몸에 지니고 있다.') : ''}\n${it ? sim.lookOf(it) : ''}`, lead: true,
+      items: [...acts.map((a) => a.label), '뒤로'], sel: 0, cancel: true,
       onCancel: () => this.bag(id),
       pick: (i) => {
         const a = acts[i];
@@ -882,11 +884,11 @@ export class Shell {
       this.settingsMenu(i);
     };
     const rows: [string, (i: number) => void][] = [
-      [`Music: ${s.music ? 'on' : 'off'}`, flip('music')],
-      [`Sound effects: ${s.sound ? 'on' : 'off'}`, flip('sound')],
-      [`Walking: ${s.tapToWalk ? 'tap to start and stop' : 'hold the key'}`, flip('tapToWalk')],
+      [`음악: ${s.music ? '켜짐' : '꺼짐'}`, flip('music')],
+      [`효과음: ${s.sound ? '켜짐' : '꺼짐'}`, flip('sound')],
+      [`걷기: ${s.tapToWalk ? '탭으로 시작·정지' : '키를 누르고 있기'}`, flip('tapToWalk')],
       [
-        `Fights: ${this.sim.state.flags.gentle ? 'gentle' : 'fair'}`,
+        `싸움: ${this.sim.state.flags.gentle ? '부드럽게' : '정정당당'}`,
         (i) => {
           // This one belongs to the game in progress, and is saved with it.
           const gentle = !this.sim.state.flags.gentle;
@@ -896,9 +898,9 @@ export class Shell {
         },
       ],
       // Back to the menu these were opened from: closing them is enough.
-      ['Back', () => {}],
+      ['뒤로', () => {}],
     ];
-    this.list('Settings', rows.map((r) => r[0]), (i) => rows[i][1](i));
+    this.list('설정', rows.map((r) => r[0]), (i) => rows[i][1](i));
     const m = this.modals[0];
     if (m.k === 'list') m.sel = sel;
   }
@@ -917,7 +919,7 @@ export class Shell {
   save(slot: string, quiet = false): void {
     const st = this.sim.state;
     if (st.player.dead) return;
-    const label = `${this.sim.room.name}, score ${st.score}`;
+    const label = `${this.sim.room.name}, 점수 ${st.score}`;
     this.store.set(`thanes-quest:save:${slot}`, JSON.stringify({ v: 1, content: this.content.saveVersion, label, state: st } satisfies SaveFile));
     if (!quiet) this.message(this.sim.text('saved'));
   }
@@ -931,14 +933,14 @@ export class Shell {
 
   private slotLabels(withAuto: boolean): { ids: string[]; labels: string[] } {
     const ids = withAuto ? ['auto', 'safe', ...SLOTS] : SLOTS;
-    const names: Record<string, string> = { auto: 'Last room', safe: 'Last safe place' };
-    const labels = ids.map((id) => `${names[id] ?? id}: ${this.read(id)?.label ?? 'empty'}`);
+    const names: Record<string, string> = { auto: '마지막 방', safe: '마지막 안전한 곳' };
+    const labels = ids.map((id) => `${names[id] ?? id}: ${this.read(id)?.label ?? '비어 있음'}`);
     return { ids, labels };
   }
 
   private saveMenu(): void {
     const { ids, labels } = this.slotLabels(false);
-    this.list('Save to which slot?', [...labels, 'Back'], (i) => i < ids.length && this.save(ids[i]));
+    this.list('어느 칸에 저장할까?', [...labels, '뒤로'], (i) => i < ids.length && this.save(ids[i]));
   }
 
   private restoreMenu(afterDeath: boolean): void {
@@ -947,11 +949,11 @@ export class Shell {
       if (!afterDeath) return;
       // Dead players must choose again; there is no game to go back to.
       this.modals.push({
-        k: 'list', title: this.sim.text('deathPrompt'), items: ['Restore a saved game', 'Start again'], sel: 0, cancel: false,
+        k: 'list', title: this.sim.text('deathPrompt'), items: ['저장된 게임 불러오기', '처음부터 다시'], sel: 0, cancel: false,
         pick: (i) => (i === 0 ? this.restoreMenu(true) : this.restart()),
       });
     };
-    this.list('Restore which game?', [...labels, 'Back'], (i) => {
+    this.list('어느 게임을 불러올까?', [...labels, '뒤로'], (i) => {
       if (i >= ids.length || !this.restore(ids[i])) {
         if (i < ids.length) this.message(this.sim.text('emptySlot'));
         back();
@@ -960,7 +962,7 @@ export class Shell {
   }
 
   private confirmRestart(): void {
-    this.list('Start again from the beginning?', ['No', 'Yes'], (i) => i === 1 && this.restart());
+    this.list('처음부터 다시 시작할까?', ['아니오', '예'], (i) => i === 1 && this.restart());
   }
 
   restart(): void {
