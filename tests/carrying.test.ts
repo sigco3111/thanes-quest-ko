@@ -208,7 +208,7 @@ describe('putting things down', () => {
     expect(back.pile('pelt')?.n).toBe(3);
     expect(type(back, 'take all the pelts')[0]).toBe('가져감: 늑대 가죽 3개.');
     expect(back.p.inv.pelt).toBe(4);
-    expect(type(back, 'take draught')[0]).toBe('Taken: a red draught.');
+    expect(type(back, 'take draught')[0]).toBe('가져감: 붉은 물약.');
     expect(back.rs.ground).toEqual([]);
   });
 
@@ -266,7 +266,7 @@ describe('putting things down', () => {
     shell.keyDown('Escape');
     shell.tick();
     shell.keyDown('Tab');
-    pick('hearth-ember');
+    pick('화로 불씨');
     expect((shell.modal as Extract<Modal, { k: 'list' }>).items).not.toContain('내려놓기');
   });
 });
@@ -294,7 +294,7 @@ describe('the chest at the inn', () => {
     const chest = back.things().find((t) => t.store)!;
     back.p.x = chest.x + 8;
     back.p.y = chest.y + 6;
-    expect(type(back, 'take two pelts from the chest')[0]).toBe('Taken: 2 wolf pelts.');
+    expect(type(back, 'take two pelts from the chest')[0]).toBe('가져감: 늑대 가죽 2개.');
     expect(type(back, 'take the sword')[0]).toBe('Taken: an iron sword.');
     expect(back.p.weapon).toBe('sword');
     expect(type(back, 'take the ring from the chest')[0]).toBe(content.text.notStored);
