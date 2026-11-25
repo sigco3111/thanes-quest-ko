@@ -237,7 +237,7 @@ export class Renderer {
         fb[(4 + dy) * SW + 5 + dx] = moon ? spriteColour(R.blue, 1) : d > 5 ? UI.gold : spriteColour(R.fire, 3);
       }
     // No ceiling is shown: the world is meant to keep growing, and the score with it.
-    drawText(fb, SW, 14, 0, `Score: ${sim.state.score}`, UI.black);
+    drawText(fb, SW, 14, 0, `점수: ${sim.state.score}`, UI.black);
     // Silver in the purse: a silver coin with a dark rim, then how many.
     const cx = 109;
     for (let dy = -3; dy <= 3; dy++)
@@ -246,7 +246,7 @@ export class Renderer {
         if (d > 10) continue;
         fb[(4 + dy) * SW + cx + dx] = d > 5 ? spriteColour(R.metal, 1) : (dx + dy < -1 ? spriteColour(R.metal, 3) : spriteColour(R.metal, 2));
       }
-    drawText(fb, SW, cx + 6, 0, `${p.gold} silver`, UI.black);
+    drawText(fb, SW, cx + 6, 0, `은화 ${p.gold}닢`, UI.black);
     // Badly hurt, the health bar flashes: it is easy to miss in the middle of a fight.
     this.bar(206, 'H', p.hp, p.maxHp, p.hp < p.maxHp * 0.3 && !p.dead && (shell.uiTick >> 2) & 1 ? UI.white : UI.health);
     this.bar(244, 'M', p.mp, p.maxMp, UI.mana);
@@ -287,7 +287,7 @@ export class Renderer {
       lines.forEach((l, i) => drawText(fb, SW, o.x, o.y + i * 9, l, m.who && i === 0 ? UI.red : UI.black));
       if (m.who) this.fill(o.x, o.y + 10, m.who.length * 8, 1, UI.red);
       // A long message continues in the next box.
-      if (m.more) drawText(fb, SW, o.x + (cols - 6) * 8, o.y + lines.length * 9, '(more)', UI.red);
+      if (m.more) drawText(fb, SW, o.x + (cols - 6) * 8, o.y + lines.length * 9, '(계속)', UI.red);
     } else if (m.k === 'map') {
       this.drawMap(shell, m);
     } else if (m.k === 'page') {
@@ -297,7 +297,7 @@ export class Renderer {
       const o = this.box(34, lines.length + 1);
       lines.forEach((l, i) => drawText(fb, SW, o.x, o.y + i * 9, l.text, l.head ? UI.red : UI.black));
       const foot = lines.length * 9;
-      if (m.more) drawText(fb, SW, o.x + 28 * 8, o.y + foot, '(more)', UI.red);
+      if (m.more) drawText(fb, SW, o.x + 28 * 8, o.y + foot, '(계속)', UI.red);
       else this.hint(o.x + 34 * 8, o.y + foot, this.leave(shell));
     } else {
       if (m.banner) {
