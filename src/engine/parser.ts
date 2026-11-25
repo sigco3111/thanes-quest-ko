@@ -10,6 +10,24 @@ export type Parsed =
 
 const MAX_PHRASE = 3;
 
+// Korean particles that can trail a noun when a player types without a space before the verb.
+const KO_PARTICLES = ['에서', '으로', '에게', '한테', '하고', '이랑', '부터', '까지', '처럼', '보다',
+  '을', '를', '이', '가', '은', '는', '에', '로', '의', '도', '만', '과', '와', '랑'];
+
+/** Candidate forms of one typed word: itself, then itself with a trailing Korean particle removed. */
+export function wordVariants(word: string): string[] {
+  const out = [word];
+  if (/[\uac00-\ud7a3]/.test(word)) {
+    for (const p of KO_PARTICLES) {
+      if (word.length > p.length && word.endsWith(p)) {
+        out.push(word.slice(0, -p.length));
+        break;
+      }
+    }
+  }
+  return out;
+}
+
 export class Parser {
   private verbs = new Map<string, string>();
   private nouns = new Map<string, string>();
@@ -49,7 +67,7 @@ export class Parser {
   parse(line: string): Parsed {
     const words = line
       .toLowerCase()
-      .replace(/[^a-z0-9' ]+/g, ' ')
+      .replace(/[^a-z0-9'\uac00-\ud7a3 ]+/g, ' ')
       .split(' ')
       // "Runa's tonic" is read as "runa tonic".
       .map((w) => w.replace(/'s$/, '').replace(/^'+|'+$/g, ''))
@@ -65,9 +83,15 @@ export class Parser {
       for (let n = Math.min(MAX_PHRASE, words.length - i); n >= 1 && !hit; n--) {
         const phrase = words.slice(i, i + n).join(' ');
         // The verb usually comes first, but need not: "have my sword tempered".
-        const asVerb = !verb ? this.verbs.get(phrase) : undefined;
+        // With a Korean word, also try it without its trailing particle ("검을" -> "검").
+        const variants = n === 1 ? wordVariants(phrase) : [phrase];
+        const asVerb = !verb ? variants.map((v) => this.verbs.get(v)).find(Boolean) : undefined;
         // A plain plural of a known thing is that thing: "crowns", "candles".
-        const asNoun = this.nouns.get(phrase) ?? (n === 1 && !this.verbs.has(phrase) && !this.ignore.has(phrase) ? this.nouns.get(phrase.replace(/s$/, '')) ?? this.nouns.get(phrase.replace(/es$/, '')) : undefined);
+        const asNoun =
+          variants.map((v) => this.nouns.get(v)).find(Boolean) ??
+          (n === 1 && !this.verbs.has(phrase) && !this.ignore.has(phrase)
+            ? this.nouns.get(phrase.replace(/s$/, '')) ?? this.nouns.get(phrase.replace(/es$/, ''))
+            : undefined);
         if (asVerb) verb = asVerb;
         else if (asNoun) nouns.push(asNoun);
         else continue;
@@ -75,7 +99,8 @@ export class Parser {
         hit = true;
       }
       if (hit) continue;
-      if (!this.ignore.has(words[i])) return { ok: false, why: 'unknown', word: words[i] };
+      if (!this.ignore.has(words[i]) && wordVariants(words[i]).every((v) => !this.ignore.has(v)))
+        return { ok: false, why: 'unknown', word: words[i] };
       i++;
     }
     if (!verb) return nouns.length ? { ok: false, why: 'noverb', nouns } : { ok: false, why: 'empty' };
