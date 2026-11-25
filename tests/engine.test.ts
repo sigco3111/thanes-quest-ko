@@ -4048,7 +4048,7 @@ describe('the hollow', () => {
     sim.p.inv.ember = coal;
     const home = type(sim, 'take the boy').join(' ');
     expect(home).toContain('내 이불 줘도 돼');
-    expect(home).toContain('He shall have it, and I shall go on sweeping the rest');
+    expect(home).toContain('그 애가 갖겠고, 나는 나머지를 계속 쓸겠어');
     expect(sim.state.room).toBe('hall');
     expect(sim.state.flags['boy.home']).toBe(true);
     expect(sim.p.inv.ember).toBe(1);
