@@ -31,7 +31,7 @@ function placeName(first: string, seconds: string[], pick: <T>(list: T[]) => T):
 }
 
 /** "a brooch", "an iron torc". */
-export const withArticle = (name: string): string => `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+export const withArticle = (name: string): string => name;
 
 export function parseWild(id: string): [number, number] | null {
   const m = /^wild_(-?\d+)_(-?\d+)$/.exec(id);
@@ -330,9 +330,9 @@ function groundAt(c: Content, X: number, Y: number): string {
   return Object.keys(odds)[0];
 }
 
-const WAY: Record<Side, string> = { n: 'north', s: 'south', e: 'east', w: 'west' };
+const WAY: Record<Side, string> = { n: '북쪽', s: '남쪽', e: '동쪽', w: '서쪽' };
 const CORNERS: [number, number][] = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
-const listed = (parts: string[]): string => (parts.length < 2 ? parts.join('') : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`);
+const listed = (parts: string[]): string => (parts.length < 2 ? parts.join('') : `${parts.slice(0, -1).join(', ')}, 그리고 ${parts[parts.length - 1]}`);
 
 /**
  * Where a valley road goes: the sides its path runs to, and a sentence that names the hand-made
@@ -349,12 +349,12 @@ export function roadOf(c: Content, X: number, Y: number): { ways: Side[]; says: 
   // Between two places, the path runs straight through from one to the other.
   if (beside.length) {
     const ways = [...new Set(beside.flatMap(([way]) => [way, BACK[way]]))];
-    return { ways, says: f.text.road.replace('%s', listed(beside.map(([way, id]) => `${WAY[way]} to ${called(id)}`))) };
+    return { ways, says: f.text.road.replace('%s', listed(beside.map(([way, id]) => `${WAY[way]}으로 ${called(id)}`))) };
   }
   // Between four, two paths cross, and each place lies off a corner.
   const round = CORNERS.flatMap(([dx, dy]) => {
     const hand = handAt(c, X + dx, Y + dy);
-    return hand ? [`${called(hand)} ${COMPASS(dx, dy)}`] : [];
+    return hand ? [`${called(hand)}은 ${COMPASS(dx, dy)}`] : [];
   });
   // With no place beside it or off a corner (a corner of the valley that has nothing in it), the
   // path still leads somewhere: to whatever lies next along it, a road's length further on.
@@ -364,9 +364,9 @@ export function roadOf(c: Content, X: number, Y: number): { ways: Side[]; says: 
       const hand = handAt(c, X + 2 * STEP[way][0], Y + 2 * STEP[way][1]);
       if (hand && f.gates[hand]?.includes(BACK[way])) on.push([way, hand]);
     }
-    if (on.length) return { ways: ['n', 's', 'e', 'w'], says: f.text.road.replace('%s', listed(on.map(([way, id]) => `${WAY[way]} to ${called(id)}`))) };
+    if (on.length) return { ways: ['n', 's', 'e', 'w'], says: f.text.road.replace('%s', listed(on.map(([way, id]) => `${WAY[way]}으로 ${called(id)}`))) };
   }
-  const says = f.text.crossroads.replace('%s', listed(round.map((p, i) => (i ? p : p.replace(/ (\S+)$/, ' lies $1')))));
+  const says = f.text.crossroads.replace('%s', listed(round.map((p, i) => (i ? `${p} 쪽` : `${p} 쪽에 놓여 있다`))));
   return { ways: ['n', 's', 'e', 'w'], says: says.replace(/(^|\. )([a-z])/g, (_, a: string, b: string) => a + b.toUpperCase()) };
 }
 
@@ -379,7 +379,7 @@ export function beyond(c: Content, road: string, way: Side): string | undefined 
   return hand && f.gates[hand]?.includes(BACK[way]) ? (f.valley?.called[hand] ?? c.rooms[hand]?.name ?? hand) : undefined;
 }
 
-const COMPASS = (dx: number, dy: number): string => [dy < 0 ? 'north' : dy > 0 ? 'south' : '', dx < 0 ? 'west' : dx > 0 ? 'east' : ''].filter(Boolean).join('-');
+const COMPASS = (dx: number, dy: number): string => `${dy < 0 ? '북' : dy > 0 ? '남' : ''}${dx < 0 ? '서' : dx > 0 ? '동' : ''}쪽`;
 
 function compose(c: Content, X: number, Y: number, attempt: number, bare: boolean): RoomDef {
   const f = c.frontier!;
@@ -625,7 +625,7 @@ function compose(c: Content, X: number, Y: number, attempt: number, bare: boolea
     });
     const [tx, ty] = out === 'e' ? [300, 134] : out === 'w' ? [20, 134] : out === 'n' ? [160, walkTop + 4] : [160, 160];
     things.push({ id: 'gap', nouns: ['gap'], x: tx, y: ty, reach: 400, look: hold.look.replace('%s', WAY[out!]) });
-    rules.push({ on: ['enter gap', 'climb gap', 'enter'], do: [{ say: `It is the way ${WAY[out!]}: walk on through it, if they let you.` }] });
+    rules.push({ on: ['enter gap', 'climb gap', 'enter'], do: [{ say: `${WAY[out!]}으로 가는 길이다. 지나가라, 지나가게 해 준다면.` }] });
     rules.push({ cleared: true, if: [{ not: { flag: `pass.${id}` } }], do: [{ set: `pass.${id}` }, { sound: 'quest' }, { score: 5, id: `pass.${id}` }, { say: hold.open }] });
   }
 
@@ -699,9 +699,9 @@ function compose(c: Content, X: number, Y: number, attempt: number, bare: boolea
           { on: ['open chest', 'take chest'], if: [{ flag: `loot.${id}` }], do: [{ say: f.text.chestEmpty }] },
           {
             on: ['open chest', 'take chest'], if: [{ near: 'cache' }],
-            do: [{ set: `loot.${id}` }, { gold: silver }, { sound: 'take' }, { score: 3, id: `loot.${id}` }, { say: f.text.chestOpen.replace('%s', String(silver)) }, { chance: 0.35, do: [{ give: 'potion', took: 'And a red draught, still sealed.' }] }],
+            do: [{ set: `loot.${id}` }, { gold: silver }, { sound: 'take' }, { score: 3, id: `loot.${id}` }, { say: f.text.chestOpen.replace('%s', String(silver)) }, { chance: 0.35, do: [{ give: 'potion', took: '그리고 붉은 약 한 병, 아직 밀봉된.' }] }],
           },
-          { on: ['open chest', 'take chest'], do: [{ say: 'You are not close enough.' }] },
+          { on: ['open chest', 'take chest'], do: [{ say: '충분히 가까이 있지 않다.' }] },
         );
       }
     }
@@ -718,7 +718,7 @@ function compose(c: Content, X: number, Y: number, attempt: number, bare: boolea
           { on: ['look bones', 'take bones', 'open bones', 'pet bones'], if: [{ flag: `bones.${id}` }], do: [{ say: f.text.bonesEmpty }] },
           {
             on: ['look bones', 'take bones', 'open bones', 'pet bones'], if: [{ near: 'bones' }],
-            do: [{ set: `bones.${id}` }, { gold: silver }, { sound: 'take' }, { score: 2, id: `bones.${id}` }, { say: f.text.bonesSearch.replace('%s', String(silver)) }, { chance: 0.25, do: [{ give: 'potion', took: 'And a red draught, frozen but whole.' }] }],
+            do: [{ set: `bones.${id}` }, { gold: silver }, { sound: 'take' }, { score: 2, id: `bones.${id}` }, { say: f.text.bonesSearch.replace('%s', String(silver)) }, { chance: 0.25, do: [{ give: 'potion', took: '그리고 붉은 약 한 병, 얼었지만 온전한.' }] }],
           },
         );
       }
@@ -838,13 +838,13 @@ function crypt(c: Content, X: number, Y: number): RoomDef | undefined {
           { set: `loot.${id}` }, { gold: silver }, { sound: 'take' }, { score: 4, id: `loot.${id}` }, { say: f.text.cryptTake.replace('%s', String(silver)) },
           ...(trinket ? [{ give: trinket }, { say: f.text.cryptTrinket.replace('%s', withArticle(c.items[trinket]?.name ?? trinket)) }] : []),
           ...waking,
-          { chance: 0.5, do: [{ give: 'potion', took: 'And a red draught, left as an offering.' }] },
+          { chance: 0.5, do: [{ give: 'potion', took: '그리고 붉은 약 한 병, 바쳐진 채 놓인.' }] },
         ],
       },
-      { on: ['take treasure', 'open treasure'], do: [{ say: 'You are not close enough.' }] },
+      { on: ['take treasure', 'open treasure'], do: [{ say: '충분히 가까이 있지 않다.' }] },
       { on: ['read rune', 'pet rune', 'read inscription'], if: [{ flag: `rune.${id}` }], do: [{ say: f.text.cryptReadAgain }] },
       { on: ['read rune', 'pet rune', 'read inscription'], if: [{ near: 'rune' }], do: [{ set: `rune.${id}` }, { run: 'study', arg: 25 }, { sound: 'word' }, { score: 2, id: `rune.${id}` }, { say: f.text.cryptRead }] },
-      { on: ['read rune', 'pet rune', 'read inscription'], do: [{ say: 'You are not close enough.' }] },
+      { on: ['read rune', 'pet rune', 'read inscription'], do: [{ say: '충분히 가까이 있지 않다.' }] },
       { on: ['enter', 'climb', 'exits', 'enter arch', 'climb arch', 'enter door'], do: [{ say: f.text.stairBelow }] },
       ...(trap ? [{ zone: 'plate', if: [{ not: { flag: `trap.${id}` } }], do: [{ set: `trap.${id}` }, { sound: 'hurt' }, { hurt: 6 + level * 2, why: f.text.cryptTrap }, { say: f.text.cryptTrap }] } as Rule] : []),
     ],
