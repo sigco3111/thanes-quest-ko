@@ -295,7 +295,7 @@ describe('the chest at the inn', () => {
     back.p.x = chest.x + 8;
     back.p.y = chest.y + 6;
     expect(type(back, 'take two pelts from the chest')[0]).toBe('가져감: 늑대 가죽 2개.');
-    expect(type(back, 'take the sword')[0]).toBe('Taken: an iron sword.');
+    expect(type(back, 'take the sword')[0]).toBe('가져감: 철검.');
     expect(back.p.weapon).toBe('sword');
     expect(type(back, 'take the ring from the chest')[0]).toBe(content.text.notStored);
     expect(storedRows(back).map((r) => `${r.id}:${r.n}`)).toEqual(['hatchet:1', 'pelt:3']);
