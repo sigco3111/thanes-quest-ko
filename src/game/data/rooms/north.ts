@@ -22,9 +22,9 @@ const waste = (hz: number, seed: number): RoomDef['scene']['layers'] => [{ t: 'w
 
 /** Nothing burns in the still country, and the coal will not wake. */
 const noFire = (ids: string[]): RoomDef['rules'] => [
-  { on: ['light', 'light *', 'use flint', 'use flint *', 'cast flame'], if: [HELD], do: [{ say: 'Nothing will burn here. You strike the steel, and the sparks hang in the air like little red seeds, and go dark where they hang.' }] },
-  { on: ['warm', 'warm *'], if: [HELD], do: [{ say: 'There is nothing here to be warm by, and there has not been for a very long time.' }] },
-  { on: ['listen', 'listen *'], if: [HELD, { at: ids }], do: [{ say: 'Nothing. No wind. You can hear your own eyelids.' }] },
+  { on: ['light', 'light *', 'use flint', 'use flint *', 'cast flame'], if: [HELD], do: [{ say: '여기선 아무것도 타지 않는다. 부싯쇠를 치면 불꽃이 작은 붉은 씨앗처럼 공중에 매달리고, 매달린 채로 어두워진다.' }] },
+  { on: ['warm', 'warm *'], if: [HELD], do: [{ say: '여기엔 몸을 녹일 만한 것이 없다. 아주 오래전부터 없었다.' }] },
+  { on: ['listen', 'listen *'], if: [HELD, { at: ids }], do: [{ say: '아무것도. 바람도 없다. 네 눈꺼풀 소리가 들린다.' }] },
 ];
 
 const stillSky = (held: string, broken: string): ThingDef => ({ id: 'sky', nouns: ['sky', 'weather', 'mountain'], x: 160, y: 60, reach: 400, look: held, lookWhen: [{ if: [BROKEN], look: broken }] });
@@ -33,11 +33,11 @@ export const northgate: RoomDef = {
   id: 'northgate',
   mark: 'gate',
   music: 'barrow',
-  name: 'The Gate',
-  look: 'The last wall you can see runs right across the north, and in the one gap in it stands a gate: two square towers, and no doors between them. In the gap, in a row, are the guards of some kingdom that nobody has a name for any more. They are frost to the bone, and still at their posts.',
+  name: '관문',
+  look: '보이는 마지막 성벽이 북쪽을 가로질러 뻗어 있고, 그 유일한 틈에 관문이 서 있다. 네모난 탑 둘, 사이에 문은 없다. 틈 안에, 일렬로, 더 이상 아무도 이름을 알지 못하는 어느 왕국의 경비병들이 있다. 뼛속까지 서리인 채, 여전히 초소에 서 있다.',
   lookWhen: [
-    { if: [BROKEN], look: 'Two square towers stand in the one gap in the north wall, and the road runs between them. The doors of the towers stand open. Inside, the dead guards are sitting with their backs against the stones, all in a row, like men at the end of a long watch. There is a thin rain.' },
-    { if: [{ flag: 'gate.open' }], look: 'Two square towers stand in the one gap in the north wall, and the road between them is open. The guards have gone back into the dark of their towers. Past the gate the old road goes on north, and nothing on it has a track.' },
+    { if: [BROKEN], look: '북쪽 성벽의 유일한 틈에 네모난 탑 둘이 서 있고, 길이 그 사이로 난다. 탑의 문들이 열려 있다. 안에서 죽은 경비병들이 돌에 등을 대고 일렬로 앉아 있다, 긴 근무를 마친 사내들처럼. 가는 비가 내린다.' },
+    { if: [{ flag: 'gate.open' }], look: '북쪽 성벽의 유일한 틈에 네모난 탑 둘이 서 있고, 사이의 길이 열려 있다. 경비병들은 탑의 어둠 속으로 돌아갔다. 관문 너머 옛길이 북쪽으로 이어지고, 그 위에 발자국은 없다.' },
   ],
   scene: {
     kind: 'outdoor', horizon: 60, walkTop: 112,
@@ -52,7 +52,7 @@ export const northgate: RoomDef = {
     ],
   },
   exits: { n: 'oldroad' },
-  holds: { n: 'The dead guards close the way. They were posted here to let nobody through, and nobody has ever told them otherwise.' },
+  holds: { n: '죽은 경비병들이 길을 막는다. 아무도 통과시키지 말라는 명령으로 여기 배치됐고, 달리 들은 바가 없다.' },
   spawns: [
     { id: 'guard1', kind: 'gateguard', x: 136, y: 128, level: 1, if: [{ not: { flag: 'gate.open' } }] },
     { id: 'guard2', kind: 'gateguard', x: 152, y: 132, level: 1, if: [{ not: { flag: 'gate.open' } }] },
@@ -61,23 +61,23 @@ export const northgate: RoomDef = {
   ],
   things: [
     {
-      id: 'gate', nouns: ['gap', 'tower', 'door'], x: 160, y: 118, reach: 400, look: 'Two square towers of fitted stone, with a road between them and a dark doorway in the foot of each. Whoever built them built to last, and went away, and forgot to send word.',
-      lookWhen: [{ if: [BROKEN], look: 'Two square towers of fitted stone. Their doors stand open, and water is running down the walls.' }],
+      id: 'gate', nouns: ['gap', 'tower', 'door'], x: 160, y: 118, reach: 400, look: '짜 맞춘 돌의 네모난 탑 둘, 사이에 길이 나 있고 각 탑 발치에 어두운 문이 있다. 세운 이들은 오래가게 지었고, 떠났고, 소식 전하는 걸 잊었다.',
+      lookWhen: [{ if: [BROKEN], look: '짜 맞춘 돌의 네모난 탑 둘. 문들이 열려 있고, 벽을 타고 물이 흐른다.' }],
     },
     {
       id: 'watch', nouns: ['guard'], x: 160, y: 124, reach: 400, hidden: true,
-      look: 'They are inside the towers, in the dark, where the word sent them. You can see the shine of frost in there, in a row, and it does not move.',
-      lookWhen: [{ if: [BROKEN], look: 'The dead guards are sitting with their backs against the stones, all in a row, with what is left of their spears across their knees: like men at the end of a long watch, who have at last been told.' }],
+      look: '탑 안, 어둠 속에 있다, 단어가 그들을 보낸 곳. 안에서 서리의 빛이 일렬로 보이고, 움직이지 않는다.',
+      lookWhen: [{ if: [BROKEN], look: '죽은 경비병들이 돌에 등을 대고 일렬로 앉아 있다, 남은 창을 무릎에 얹고. 긴 근무를 마친 사내들처럼, 마침내 해임을 전해 들은.' }],
     },
-    { id: 'wall', nouns: ['scarp', 'mountain'], x: 160, y: 100, reach: 400, look: 'Sheer rock, east and west as far as you can see, and nothing but this one gap in it. It is the last wall there is. Past it the sky is a different white.' },
-    { id: 'snow', nouns: ['snow', 'ground', 'path'], x: 160, y: 150, reach: 400, look: 'The old road, under the snow, running up to the gate. Nothing has trodden it this winter but you; nor, by the look of it, for a good many winters before.' },
-    stillSky('North of the wall the sky is very white, and very even. Nothing moves in it. You can stand here and see where the wind stops.', 'There is weather over the wall, for the first time in anybody\'s life: cloud, moving, and rain coming out of it.'),
+    { id: 'wall', nouns: ['scarp', 'mountain'], x: 160, y: 100, reach: 400, look: '깎아지른 암벽, 보이는 한 동쪽으로 서쪽으로, 그 안에 이 틈 하나뿐. 존재하는 마지막 성벽이다. 너머의 하늘은 다른 하얀색이다.' },
+    { id: 'snow', nouns: ['snow', 'ground', 'path'], x: 160, y: 150, reach: 400, look: '옛길이 눈 밑에서 관문까지 이어진다. 이 겨울 그것을 밟은 것은 너뿐이다. 보아하니 그 전 겨울들에도 한참 동안 아무도.' },
+    stillSky('성벽 북쪽의 하늘은 아주 하얗고, 아주 고르다. 아무것도 움직이지 않는다. 여기 서 있으면 바람이 멎는 곳이 보인다.', '성벽 너머에 날씨가 있다, 누구의 일생에도 처음으로. 구름이, 움직이고, 비가 나온다.'),
   ],
   rules: [
     { enter: true, if: [{ not: { flag: 'seen.northgate' } }], do: [{ set: 'seen.northgate' }, { score: 5, id: 'seen.northgate' }] },
     {
       enter: true, if: [{ not: { flag: 'gate.open' } }, { not: { flag: 'gate.met' } }],
-      do: [{ set: 'gate.met' }, { say: 'The gate is where Fenn said it would be: two square towers in a gap in the last wall you can see, and between them, in a row, the guards of some kingdom that nobody has a name for any more. They are frost to the bone, and still at their posts, like men nobody ever came to relieve.\n\nWhen you come up the road they turn their heads all together to look at you, and lift what is left of their spears.' }],
+      do: [{ set: 'gate.met' }, { say: '관문은 펜이 말한 곳에 있다. 보이는 마지막 성벽의 틈에 네모난 탑 둘, 그리고 그 사이에, 일렬로, 더 이상 아무도 이름을 알지 못하는 어느 왕국의 경비병들. 뼛속까지 서리인 채, 여전히 초소에 서 있다, 교대하러 온 사람이 없는 사내들처럼.\n\n네가 길을 올라오자 그들이 일제히 고개를 돌려 너를 보고, 남은 창을 든다.' }],
     },
     { enter: true, if: [{ flag: 'gate.open' }], do: [{ show: 'watch' }] },
     // The sun's name turns them; it does not relieve them. They stand aside for the ring.
@@ -85,23 +85,23 @@ export const northgate: RoomDef = {
       on: 'sol', if: [{ not: { flag: 'gate.open' } }, { not: { has: 'ring' } }],
       do: [
         { set: 'gate.asked' },
-        { say: 'You say the sun\'s name.\n\nThey cannot bear it. They turn their faces from it, all together. And when the word has gone out of the air they turn them back, and are standing where they stood. Somebody posted them here, and a word is not that somebody.\n\nThe nearest of them is looking at your hand. There is nothing on it.' },
+        { say: '태양의 이름을 말한다.\n\n그들은 견디지 못한다. 일제히 얼굴을 돌린다. 단어가 공기에서 사라지면 되돌리고, 서 있던 곳에 서 있다. 누군가 그들을 여기 배치했고, 단어는 그 누군가가 아니다.\n\n가장 가까운 하나가 네 손을 보고 있다. 그 위에는 아무것도 없다.' },
       ],
     },
     {
       on: 'sol', if: [{ not: { flag: 'gate.open' } }],
       do: [
         { set: 'gate.open' }, { run: 'guardsGo' }, { show: 'watch' }, { sound: 'door' }, { score: 10, id: 'gate.open' }, { quest: 'north', stage: 4 },
-        { say: 'You say the sun\'s name.\n\nThey cannot bear it. They turn their faces from it and go back into the dark of their towers, and the road between is open.' },
+        { say: '태양의 이름을 말한다.\n\n그들은 견디지 못한다. 얼굴을 돌리고 탑의 어둠 속으로 돌아가고, 사이의 길이 열린다.' },
       ],
     },
-    { on: 'sol', if: [BROKEN], do: [{ say: 'SOL. In the towers nobody stirs. They have been told already, and by something bigger than a word.' }] },
-    { on: 'sol', do: [{ say: 'SOL. In the dark of the towers there is a sound like a row of men turning their faces to the wall.' }] },
-    { on: 'iska', if: [{ not: { flag: 'gate.open' } }], do: [{ say: 'ISKA. They stop where they stand; but they were not going anywhere. When the word lets go of them they are exactly as they were. Stillness is no news to these.' }] },
-    { on: 'veth', if: [{ not: { flag: 'gate.open' } }], do: [{ say: 'VETH. It throws the nearest of them back a spear\'s length. They get up, without hurry, and walk back to their places in the row.' }] },
-    { on: ['enter tower', 'enter door', 'open door', 'climb tower', 'knock door'], if: [BROKEN], do: [{ say: 'You stand in the doorway a moment. They are sitting in a row along the wall, and one of them has let his head go back against the stone. You do not go in. It is their guardroom, and they are off watch.' }] },
-    { on: ['enter tower', 'enter door', 'open door', 'climb tower', 'knock door'], do: [{ say: 'The doorways are dark, and what is in the dark belongs there. You stay on the road.' }] },
-    { on: ['climb scarp', 'climb gap', 'climb'], do: [{ say: 'The rock is sheer and glazed with ice. There is a gate. That is what it is for.' }] },
+    { on: 'sol', if: [BROKEN], do: [{ say: 'SOL. 탑 안에서 아무도 움직이지 않는다. 그들은 이미 전해 들었다, 단어보다 큰 무언가에게.' }] },
+    { on: 'sol', do: [{ say: 'SOL. 탑의 어둠 속에서 일렬의 사내들이 벽 쪽으로 얼굴을 돌리는 소리가 난다.' }] },
+    { on: 'iska', if: [{ not: { flag: 'gate.open' } }], do: [{ say: 'ISKA. 그들은 선 자리에서 멎는다. 하지만 원래 어디 가던 중도 아니었다. 단어가 놓아주면 정확히 원래대로다. 멈춤은 이들에게 새소식이 아니다.' }] },
+    { on: 'veth', if: [{ not: { flag: 'gate.open' } }], do: [{ say: 'VETH. 가장 가까운 하나가 창 길이만큼 튕겨 나간다. 일어나서, 서두르지 않고, 일렬의 제자리로 걸어 돌아간다.' }] },
+    { on: ['enter tower', 'enter door', 'open door', 'climb tower', 'knock door'], if: [BROKEN], do: [{ say: '문 앞에 잠시 선다. 그들은 벽을 따라 일렬로 앉아 있고, 하나는 고개를 돌에 젖혔다. 들어가지 않는다. 그들의 경비실이고, 그들은 근무를 마쳤다.' }] },
+    { on: ['enter tower', 'enter door', 'open door', 'climb tower', 'knock door'], do: [{ say: '문 안은 어둡고, 어둠 속의 것은 어둠의 것이다. 너는 길에 머문다.' }] },
+    { on: ['climb scarp', 'climb gap', 'climb'], do: [{ say: '암벽은 깎아지르고 얼음이 발려 있다. 관문이 있다. 그게 그것의 존재 이유다.' }] },
   ],
 };
 
@@ -109,11 +109,11 @@ export const oldroad: RoomDef = {
   id: 'oldroad',
   mark: 'stone',
   music: 'barrow',
-  name: 'The Old Road',
-  look: 'Beyond the gate the old road runs on north, straight, under snow that nobody has trodden. At the side of it there is a stone, with a rune on it worn nearly smooth. The wall and its two towers are behind you. Ahead, the sky is white, and even, and very quiet.',
+  name: '옛길',
+  look: '관문 너머 옛길이 북쪽으로 곧게 이어진다, 아무도 밟지 않은 눈 아래. 길가에 돌이 하나, 날씨에 거의 닳아 평평해진 룬 문자가 새겨져 있다. 성벽과 두 탑은 네 뒤에 있다. 앞의 하늘은 하얗고, 고르고, 아주 조용하다.',
   lookWhen: [
-    { if: [BROKEN], look: 'The old road runs north from the gate, under snow that is going grey and soft, with the flags showing through in places. At the side of it stands a stone with a worn rune. There is a wind, and it has rain in it.' },
-    { if: [{ flag: 'road.prints' }], look: 'Beyond the gate the old road runs on north, straight. At the side of it there is a stone, with a rune on it worn nearly smooth. Under the snow of the road, many winters down, there are footprints: a woman\'s, and a child\'s. They go north.' },
+    { if: [BROKEN], look: '옛길이 관문에서 북쪽으로 난다, 회색으로 무르며 곳곳에 석판이 드러나는 눈 아래. 길가에 닳은 룬의 돌이 서 있다. 바람이 있고, 비가 섞였다.' },
+    { if: [{ flag: 'road.prints' }], look: '관문 너머 옛길이 북쪽으로 곧게 이어진다. 길가에 돌이 하나, 거의 닳아 평평해진 룬 문자가 새겨져 있다. 길의 눈 아래, 여러 겨울 깊이에, 발자국이 있다. 여인의 것, 그리고 아이의 것. 북쪽으로 간다.' },
   ],
   scene: {
     kind: 'outdoor', horizon: 62, walkTop: 92,
@@ -131,15 +131,15 @@ export const oldroad: RoomDef = {
   exits: { s: 'northgate', n: 'windend' },
   haven: true,
   things: [
-    { id: 'stone', nouns: ['menhir', 'rune'], x: 214, y: 136, reach: 34, try: ['read rune'], look: 'A standing stone at the side of the old road, with a rune on it worn nearly smooth by weather. Nobody living has read it in a very long time. The snow at its foot has never had a boot in it.' },
+    { id: 'stone', nouns: ['menhir', 'rune'], x: 214, y: 136, reach: 34, try: ['read rune'], look: '옛길 가의 선돌, 날씨에 거의 닳아 평평해진 룬 문자가 새겨져 있다. 산 사람이 읽은 지 아주 오래됐다. 발치의 눈에는 신발이 닿은 적이 없다.' },
     {
       id: 'prints', nouns: ['tracks'], x: 160, y: 130, reach: 60, hidden: true,
-      look: 'Footprints, under the snow of the road, many winters down. A woman\'s, long in the stride. And beside them, wandering from one side of the road to the other, as a child goes who has been walking a long time: a child\'s. They come up the road from the gate behind you, and go on north.',
-      lookWhen: [{ if: [BROKEN], look: 'The thaw has let the old snow down, layer after layer, and the footprints are going with it. In a day they will be water.' }],
+      look: '발자국, 길의 눈 아래, 여러 겨울 깊이. 여인의 것, 보폭이 길다. 그리고 곁에, 길 이쪽저쪽을 오락가락하는, 오래 걸어온 아이의 걸음답게. 아이의 것. 네 뒤 관문에서 길을 따라 올라와, 북쪽으로 간다.',
+      lookWhen: [{ if: [BROKEN], look: '해빙이 옛 눈을 층층이 가라앉혔고, 발자국도 함께 가고 있다. 하루면 물이 될 거다.' }],
     },
-    { id: 'road', nouns: ['path', 'snow', 'ground'], x: 160, y: 150, reach: 400, look: 'A road, flagged, by the feel of it underfoot, and as wide as a cart. It runs north as straight as a rule. Somebody meant people to go this way, once, and a good many did.' },
-    { id: 'wall', nouns: ['scarp', 'gap', 'tower'], x: 160, y: 168, reach: 400, look: 'The wall and the two towers of the gate, behind you, seen from the side that nobody sees them from.' },
-    stillSky('White, and even, from the wall to the edge of seeing. There is less wind here than there was at the gate. A little further on, by the look of it, there is none.', 'Cloud, low and grey and going south in a hurry, as if it had three hundred years of lateness to make up.'),
+    { id: 'road', nouns: ['path', 'snow', 'ground'], x: 160, y: 150, reach: 400, look: '길. 발밑 감촉으로 석판이 깔렸고, 수레 너비만큼 넓다. 자로 잰 듯 곧게 북쪽으로 난다. 한때 누군가 사람들이 이리로 다니길 바랐고, 실제로 많이 다녔다.' },
+    { id: 'wall', nouns: ['scarp', 'gap', 'tower'], x: 160, y: 168, reach: 400, look: '성벽과 관문의 두 탑이 네 뒤에 있다, 아무도 보지 않는 쪽에서 본 모습으로.' },
+    stillSky('하얗고, 고르다, 성벽에서 시야 끝까지. 관문보다 바람이 적다. 조금 더 가면, 보아하니, 아예 없다.', '구름, 낮고 회색이고 급히 남쪽으로 간다, 삼백 년의 지각을 만회하려는 듯.'),
   ],
   rules: [
     { enter: true, if: [{ not: { flag: 'seen.oldroad' } }], do: [{ set: 'seen.oldroad' }, { score: 3, id: 'seen.oldroad' }] },
@@ -148,21 +148,21 @@ export const oldroad: RoomDef = {
       on: ['read menhir', 'read rune', 'pet menhir', 'pet rune', 'look rune'], if: [{ near: 'stone' }, { not: { knows: 'word:orun' } }],
       do: [
         { teach: 'word:orun' }, { run: 'study', arg: 40 }, { sound: 'word' }, { score: 10, id: 'word.orun' },
-        { say: 'Beyond the gate, at the side of the old road, there is a stone with a rune worn nearly smooth, that nobody living has read in a very long time. You read it, and stand in the road for a while with your hand on it, thinking about Fenn, and sixty years, and this on the other side of a gate he could not pass.\n\nThe word is ORUN. It shows what is hidden.' },
-        { note: 'Tip: type ORUN to speak the word.' },
+        { say: '관문 너머, 옛길 가에, 거의 닳아 평평해진 룬의 돌이 있다, 산 사람이 아주 오래 읽지 않은. 너는 읽고, 손을 얹은 채 길에 한참 서서, 펜과, 육십 년과, 그가 지나지 못한 관문 너머의 이것에 대해 생각한다.\n\n단어는 ORUN. 숨겨진 것을 보여 준다.' },
+        { note: '팁: ORUN을 입력해 단어를 말한다.' },
       ],
     },
-    { on: ['read menhir', 'read rune', 'pet menhir', 'pet rune'], if: [{ near: 'stone' }], do: [{ say: 'The rune glows faintly now. It has given you what it had.' }] },
-    { on: ['read menhir', 'read rune', 'pet menhir', 'pet rune'], do: [{ say: 'You are not close enough.' }] },
+    { on: ['read menhir', 'read rune', 'pet menhir', 'pet rune'], if: [{ near: 'stone' }], do: [{ say: '룬 문자가 이제 희미하게 빛난다. 가진 걸 너에게 줬다.' }] },
+    { on: ['read menhir', 'read rune', 'pet menhir', 'pet rune'], do: [{ say: '충분히 가까이 있지 않다.' }] },
     {
       on: 'orun', if: [{ not: { flag: 'road.prints' } }],
       do: [
         { set: 'road.prints' }, { show: 'prints' }, { score: 5, id: 'road.prints' }, { quest: 'north', stage: 5 },
-        { say: 'You say it at the road.\n\nThe snow on the road thins like breath on cold glass, and under it, many winters down, there are footprints. A woman\'s, long-strided, and beside them, wandering from side to side, a child\'s. They come up the road from the gate behind you and go on north, the way you are going, the way nobody goes.' },
+        { say: '길을 향해 말한다.\n\n길 위 눈이 차가운 유리의 입김처럼 엷어지고, 그 아래, 여러 겨울 깊이에, 발자국이 있다. 여인의 것, 보폭이 길고, 곁에 이리저리 기웃하는 아이의 것. 네 뒤 관문에서 길을 따라 올라와 북쪽으로 간다, 네가 가는 쪽으로, 아무도 가지 않는 쪽으로.' },
       ],
     },
-    { on: 'orun', do: [{ say: 'ORUN. The footprints are as they were: hers, long in the stride, and the small ones beside them, wandering. North.' }] },
-    { on: ['follow tracks', 'follow'], if: [{ flag: 'road.prints' }], do: [{ say: 'They go north, up the middle of the road. So does the road.' }] },
+    { on: 'orun', do: [{ say: 'ORUN. 발자국은 그대로다. 그녀의 것, 보폭이 길고, 곁에 작은 것들, 기웃거리며. 북쪽.' }] },
+    { on: ['follow tracks', 'follow'], if: [{ flag: 'road.prints' }], do: [{ say: '북쪽으로, 길 한가운데로 간다. 길도 그렇다.' }] },
     ...noFire(['oldroad'])!.slice(1, 2),
   ],
 };
