@@ -1,67 +1,48 @@
-# 테인의 모험 (Thane's Quest 한국어판)
+# 테인의 모험 (Thane's Quest) — 한국어판
 
-![테인의 모험](shots/card.png)
+![마을 화면](shots/village.png)
 
-얼어붙은 골짜기를 배경으로 한 오픈월드 액션 RPG입니다. 초기 타이핑 어드벤처의 껍데기 안에
-실시간 전투를 얹었고, 모든 것을 클릭·탭·숫자 키로 할 수 있습니다. 직접 입력하면 그 이상도
-됩니다.
+눈 덮인 북쪽 땅, 맨몸으로 걸어온 한 사람이 홀로미어 마을에 닿는다. 텍스트 명령으로 노는 픽셀아트 오픈월드 어드벤처 **Thane's Quest**의 한국어판입니다. 설치 없이 브라우저에서 바로 플레이할 수 있습니다.
 
-**이 저장소는 한국어판입니다.** 방 묘사·대사·메뉴·안내 문구까지 전부 한국어로 옮겼고,
-명령도 한국어로 입력할 수 있습니다(영문 명령도 그대로 동작합니다).
+**지금 플레이: https://sigco3111.github.io/thanes-quest-ko/**
 
-## 지금 플레이
+## 주요 특징
 
-https://sigco3111.github.io/thanes-quest-ko/
-
-저장은 브라우저에, 주소별로 보관됩니다.
+- 지문·대화·메뉴·도움말·HUD까지 게임 내 사용자 노출 문자열 전체 한국어화
+- 한국어 명령 입력("표지판 읽어", "도끼 가져가", "대화")과 영어 명령("read sign", "take hatchet") 동시 지원
+- 모바일 터치 화면: 방향 패드, 상황별 명령 버튼("통나무를 화로에 놓기" 등), 한글 웹폰트(Galmuri7) 적용
+- 저장/불러오기, 지도, 일지, 인물, 위업 등 원작 시스템 그대로
 
 ## 스크린샷
 
-| | |
-|---|---|
-| ![마을](shots/village.png) | ![마르타와 대화](shots/talk.png) |
-| ![메뉴](shots/menu.png) | ![멈춘 눈 사이 길](shots/still.png) |
+| 표지판 읽기 | 메뉴 |
+| --- | --- |
+| ![표지판](shots/still.png) | ![메뉴](shots/menu.png) |
 
-## 명령 입력 예시
+| NPC 대화 | 모바일 명령 버튼 |
+| --- | --- |
+| ![대화](shots/talk.png) | ![모바일](shots/mobile.png) |
 
-한국어와 영어를 섞어 써도 됩니다.
+## 설치 및 실행
 
-- `봐` / `look` — 둘러보기
-- `표지판 읽어` / `read sign`
-- `도끼 가져가` / `take hatchet`
-- `도끼 장비` / `equip hatchet`
-- `마르타와 이야기` / `talk to marta`
-- `장로에게 고분 물어봐` / `ask elder about the barrow`
-- `가방` / `bag`, `일지` / `journal`, `저장하기`·`불러오기`(메뉴)
-
-## 직접 돌리기
+GitHub Pages 배포본은 위 링크에서 바로 플레이할 수 있습니다. 로컬에서 실행하려면:
 
 ```bash
 npm install
-npm run dev
+npm run dev      # 개발 서버
+npm run build    # 프로덕션 빌드 (dist/)
+npm test         # 테스트 (279개)
 ```
 
-Vite가 출력하는 주소(보통 http://localhost:5173/)를 열면 됩니다.
+## 기술 메모
 
-| 명령 | 설명 |
-|---|---|
-| `npm run dev` | 개발 서버(디버그 명령 활성) |
-| `npm test` | 단위 테스트 + 게임 전체를 헤드리스로 끝까지 플레이하는 워크스루 테스트 |
-| `npm run typecheck` | 타입 검사만 |
-| `npm run build` | 배포용 빌드 |
+- 원작의 수작업 픽셀 폰트 렌더링을 그대로 두고, 한글 음절은 Galmuri7에서 래스터화해 캔버스에 그립니다 (src/engine/kofont.ts).
+- DOM(UI 버튼, 패널, 입력창)에는 사용 글자만 담은 Galmuri7 서브셋 웹폰트(약 63KB)를 @font-face로 적용해 한글 시스템 폰트가 없는 환경에서도 깨지지 않습니다.
+- 명령 파서는 한국어 동사/명사 어휘를 추가해 원래 영어 파서와 같은 규칙으로 처리하며, 영어 명령과 완전히 호환됩니다.
+- 룬 문자(VETH/ISKA/ORUN/SOL)는 원작 설정 그대로 라틴 문자로 표기합니다.
 
-## 번역에 대해
+## 라이선스 및 크레딧
 
-- 모든 사용자 노출 문자열(방 묘사, 대사, 표지판, 메뉴, 도움말, 시스템 메시지)을 한국어로
-  옮겼고, 테스트의 기대 문구도 실제 한국어 출력 기준으로 맞췄습니다. 테스트 279개 전부 통과.
-- 한국어 글꼴은 **Galmuri7**(이민서, SIL Open Font License 1.1)을 8x8 비트맵으로 변환해
-  사용합니다. 원본: https://github.com/quiple/galmuri — 라이선스 전문은
-  [assets/fonts/Galmuri7-OFL.md](assets/fonts/Galmuri7-OFL.md)에 함께 넣었습니다.
-- 룬 문자(VETH, ISKA, ORUN, SOL)는 원작처럼 라틴 문자 그대로 입력합니다.
-
-## 원작과 라이선스
-
-원작은 rdhelms의 **Thane's Quest**(https://github.com/rdhelms/thanes-quest)입니다.
-세계·이름·등장인물·그림·소리·문장 전부 원작자의 오리지널이며, MIT 라이선스로
-무엇에든 자유롭게 쓰고 고치고 나눌 수 있습니다([LICENSE](LICENSE) 참조). 한국어 번역도
-같은 조건으로 둡니다.
+- 원작: **Thane's Quest** by rdhelms — https://github.com/rdhelms/thanes-quest (MIT License, "Everything in it is original and free to use")
+- 한글 픽셀 폰트: **Galmuri7** (c) 2019-2025 Lee Minseo — SIL Open Font License 1.1 (사본: assets/fonts/Galmuri7-OFL.md)
+- 한국어화: sigco3111 — 원작과 동일하게 MIT License
