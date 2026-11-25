@@ -14,7 +14,7 @@ export function isTouchDevice(): boolean {
 
 export function setupTouch(shell: Shell, renderer: Renderer, canvas: HTMLCanvasElement, refit: () => void): void {
   document.documentElement.classList.add('touch');
-  shell.startHint = 'Pad walks. Tap a button below, or type.';
+  shell.startHint = '패드로 걷는다. 아래 버튼을 탭하거나, 직접 쳐도 된다.';
   shell.roomy = true;
   // These buttons carry no numbers, so a keyboard's digits are only digits here.
   shell.digits = false;
@@ -196,7 +196,7 @@ function setupPanel(shell: Shell): void {
       if (close) {
         const x = el('button', 'close', '\u2715');
         x.type = 'button';
-        x.setAttribute('aria-label', 'Close');
+        x.setAttribute('aria-label', '닫기');
         x.addEventListener('click', () => close());
         h.append(x);
       }
@@ -218,7 +218,7 @@ function setupPanel(shell: Shell): void {
     const go = el('div', 'go');
     c.append(go);
     const hidden = (): boolean => body.scrollTop + body.clientHeight < body.scrollHeight - 4;
-    const label = (): void => void (go.textContent = hidden() ? 'Tap to read on \u25be' : more ? 'Tap for more \u25b8' : 'Tap to go on \u25b8');
+    const label = (): void => void (go.textContent = hidden() ? '탭해서 계속 읽기 \u25be' : more ? '탭해서 더 보기 \u25b8' : '탭해서 계속 \u25b8');
     body.addEventListener('scroll', label);
     requestAnimationFrame(label);
     c.addEventListener('click', () => {
@@ -281,9 +281,9 @@ function setupPanel(shell: Shell): void {
       // A long menu of short rows goes in two columns, so more of it is in reach at once.
       if (m.items.length > 5 && m.items.every((t) => t.length <= 16)) body.classList.add('two');
     } else {
-      [c, body] = card('map', 'The map');
-      body.append(el('p', 'words', 'Tap a place on the map to see its name. The pad moves about it.'));
-      const b = el('button', 'row', 'Close the map');
+      [c, body] = card('map', '지도');
+      body.append(el('p', 'words', '지도에서 장소를 탭하면 이름이 보인다. 패드로 둘러본다.'));
+      const b = el('button', 'row', '지도 닫기');
       b.type = 'button';
       b.addEventListener('click', () => shell.modal === m && shell.keyDown('Enter'));
       c.append(b);
