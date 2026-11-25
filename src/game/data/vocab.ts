@@ -538,7 +538,7 @@ export const koNouns: Record<string, string[]> = {
   ward: ['보호막', '결계'],
 };
 /** English words that appear in the saga's flavor text without being parser nouns: their Korean faces, for `mentioned`. */
-export const mentionedGloss: Record<string, string[]> = { handrails: ['난간'] };
+export const mentionedGloss: Record<string, string[]> = { handrails: ['난간'], plates: ['반죽 판'] };
 
 export const koNounLabel: Record<string, string> = {};
 for (const [k, v] of Object.entries(koVerbs)) (vocab.verbs[k] ??= []).push(...v);

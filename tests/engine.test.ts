@@ -502,7 +502,7 @@ describe("the cup at the end of the Elder's table", () => {
       const shrugs = [content.chars[who === 'elder' ? 'marta' : who].shrug ?? []].flat().map((t) => (typeof t === 'string' ? t : t.say));
       expect(said, who).not.toBe('');
       expect(shrugs, `${who} on the cup`).not.toContain(said);
-      expect(said, who).not.toContain('no use for the word');
+      expect(said, who).not.toContain('쓸 데가 없다');
       answers.add(said);
     }
     expect(answers.size).toBe(Object.keys(at).length);
@@ -1027,8 +1027,8 @@ describe('words the scenery uses', () => {
   it('are answered as scenery, not as nonsense', () => {
     const sim = game();
     expect(type(sim, 'look at the handrails')[0]).toBe('handrails에서 특별한 것은 보이지 않는다.');
-    expect(type(sim, 'take plates')[0]).toContain('only part of the scenery');
-    expect(type(sim, 'look at the gazebo')[0]).toContain('no use for the word');
+    expect(type(sim, 'take plates')[0]).toContain('그저 풍경의 일부다');
+    expect(type(sim, 'look at the gazebo')[0]).toContain('쓸 데가 없다');
   });
 
   it('keeps hints short enough to show', () => {
@@ -1203,7 +1203,7 @@ describe('once the hearth is lit', () => {
     const offer = type(sim, 'talk to elder');
     expect(offer[0]).toContain('테인의 일은 또 있어');
     expect(offer.join(' ')).toMatch(/(북쪽|남쪽|동쪽|서쪽) 능선 [가-힣]+/);
-    expect(offer.join(' ')).toContain("New task: The Elder's Work");
+    expect(offer.join(' ')).toContain('새 과제: 장로의 일');
     const first = String(sim.state.flags['bounty.room']);
     expect(first).toMatch(/^wild_/);
     expect(sim.state.flags.goal).toBe(first);
@@ -1360,7 +1360,7 @@ describe('the menu', () => {
     expect(shell.settings.music).toBe(false);
     // Esc goes back up a level, not straight out.
     shell.keyDown('Escape');
-    expect(shell.modal?.k === 'list' && shell.modal.items[0]).toBe('Resume');
+    expect(shell.modal?.k === 'list' && shell.modal.items[0]).toBe('돌아가기');
   });
 });
 
@@ -1488,7 +1488,7 @@ describe('ways back', () => {
     expect(sim.state.room).toBe('hall');
     for (const room of ['hall', 'village', 'inn']) {
       sim.enterRoom(room, 160, 130);
-      expect(type(sim, 'use ember')[0], room).toContain('already where it wants to be');
+      expect(type(sim, 'use ember')[0], room).toContain('이미 있고 싶은 곳에 있다');
     }
   });
 
@@ -1526,7 +1526,7 @@ describe('a world that notices', () => {
     expect(type(sim, 'look at the dough')[0]).toContain('하나가 다른 것들보다 한참 작다');
     sim.state.flags['hearth.lit'] = true;
     sim.enterRoom('village', 104, 158);
-    expect(type(sim, 'look')[0]).toContain('smoke standing straight up');
+    expect(type(sim, 'look')[0]).toContain('연기가 곧게 솟는다');
     expect(type(sim, 'look at the forge')[0]).toContain('ringing');
     expect(type(sim, 'look at smith')[0]).toContain('forge-light');
     expect(type(sim, 'look at the dough')).toEqual([content.text.notHere]);
@@ -1564,7 +1564,7 @@ describe('a world that notices', () => {
     expect(sim.afield()).toBe(false);
     expect(type(sim, 'light')[0]).toContain('납작하게 눕더니');
     expect(type(sim, 'light the snow')[0]).toContain('눈덩이');
-    expect(type(sim, 'light torch')[0]).toContain('Nothing burns in this valley just now');
+    expect(type(sim, 'light torch')[0]).toContain('지금 이 골짜기에서는 아무것도 타지 않는다');
     expect(sim.state.flags.light ?? 0).toBe(0);
     // Indoors counts as wherever the door leads out; and three coals from Halla's fire keep as far as the square.
     for (const room of ['inn', 'hall', 'village']) {
@@ -1620,7 +1620,7 @@ describe('a world that notices', () => {
     const sim = game('wild_3_-2', 160, 140);
     sim.rs.actors = [];
     expect(type(sim, 'what time is it')[0]).toContain('낮이다');
-    expect(type(sim, 'which way is home')[0]).toContain('Hollowmere lies to the south-west');
+    expect(type(sim, 'which way is home')[0]).toContain('홀로미어는 남서쪽에 있다');
     sim.state.tick = Math.round(DAY_LENGTH * 0.7);
     expect(type(sim, 'time')[0]).toContain('It is night');
     expect(type(sim, 'look at the stars')[0]).toContain('More stars');
@@ -1630,7 +1630,7 @@ describe('a world that notices', () => {
     const sim = game('inn', 160, 130);
     stand(sim, 'halla', 16);
     expect(type(sim, 'how much is the ale')[0]).toContain('맥주는 은화 한 닢');
-    expect(type(sim, 'warm my hands')[0]).toContain('it would be taking it from the fire');
+    expect(type(sim, 'warm my hands')[0]).toContain('불에서 빼앗는 일이 될 테니');
     expect(type(sim, 'heal me')[0]).toContain('붉은 물약');
     const lit = thane('inn', 160, 130);
     stand(lit, 'halla', 16);
@@ -1682,19 +1682,19 @@ describe('where the wind stops', () => {
     sim.enterRoom('tarn', 220, 150);
     stand(sim, 'fenn');
     const sum = type(sim, 'talk to fenn').join(' ');
-    expect(sum).toContain('Do the sum');
-    expect(sum).toContain('getting up slowly');
+    expect(sum).toContain('합을 구해 봐');
+    expect(sum).toContain('느리게, 불평을 잔뜩 곁들여 일어나며');
     expect(sim.state.flags['quest:north']).toBe(2);
     expect(sim.state.flags['goal.dolmen']).toBe('dolmen');
-    expect(type(sim, 'think')[0]).toContain("Giant's Table");
+    expect(type(sim, 'think')[0]).toContain('거인의 탁자');
     // With his amulet back he is at home, and says the same sum from his chair.
     const home = thane('ford');
     Object.assign(home.state.flags, { 'quest:north': 1, 'quest:errand': 2 });
     home.enterRoom('hut', 190, 130);
     stand(home, 'fenn');
     const indoors = type(home, 'talk to fenn').join(' ');
-    expect(indoors).toContain('Do the sum');
-    expect(indoors).toContain('the amulet on its nail by the window');
+    expect(indoors).toContain('합을 구해 봐');
+    expect(indoors).toContain('창가 못에 걸린 부적');
     expect(home.state.flags['quest:north']).toBe(2);
   });
 
@@ -1706,7 +1706,7 @@ describe('where the wind stops', () => {
     const one = guards[0];
     const hp = one.hp;
     combat.hitEnemy(sim, one, 99999, 'blade');
-    expect(notes(sim)).toContain('without hurry, he gets up again');
+    expect(notes(sim)).toContain('서두름 없이, 다시 일어선다');
     expect(one.act).not.toBe('dead');
     expect(one.hp).toBeGreaterThan(hp);
     expect(sim.rs.dead).toEqual([]);
@@ -1749,7 +1749,7 @@ describe('where the wind stops', () => {
     expect(notes(sim)).toContain('바람이 멎어서 안다');
     walk(sim, 0, -1, 80);
     expect(sim.state.room).toBe('windend');
-    expect(notes(sim)).toContain('Each flake is as fixed as a nail');
+    expect(notes(sim)).toContain('송이 하나하나가 못처럼 박혀');
     // Nothing burns here, and the other words change nothing.
     sim.give('flint');
     expect(type(sim, 'light a fire')[0]).toContain('little red seeds');
@@ -1779,7 +1779,7 @@ describe('where the wind stops', () => {
     sim.give('flint');
     sim.enterRoom('windend', 160, 150);
     expect(notes(sim)).toContain('가늘고 놀라운 비');
-    expect(type(sim, 'look')[0]).toContain('big and wet and slow');
+    expect(type(sim, 'look')[0]).toContain('크고 젖고 느리게');
     expect(type(sim, 'light a fire')[0]).not.toContain('little red seeds');
     expect(type(sim, 'light')[0]).toContain('it would take, too');
     walk(sim, 0, -1, 80);
@@ -1869,7 +1869,7 @@ describe('a world with time in it', () => {
     sim.state.tick = Math.round(DAY_LENGTH * 0.48) - 2;
     sim.drain();
     for (let i = 0; i < 6; i++) sim.step();
-    expect(sim.drain().some((e) => e.t === 'note' && e.text.includes('the dead walk further'))).toBe(true);
+    expect(sim.drain().some((e) => e.t === 'note' && e.text.includes('죽은 자들이 더 멀리까지 걸어 다닌다'))).toBe(true);
     sim.state.tick += DAY_LENGTH - 6;
     for (let i = 0; i < 6; i++) sim.step();
     expect(sim.drain().some((e) => e.t === 'note' && e.text === content.text.dusk)).toBe(true);
@@ -1883,7 +1883,7 @@ describe('a world with time in it', () => {
       const page = sim.drain().find((e) => e.t === 'page');
       return page && page.t === 'page' ? page.lines : [];
     };
-    expect(read()).toEqual(['Came north on foot with nothing, and went down toward the one roof with smoke at it.']);
+    expect(read()).toEqual(['맨몸으로 북쪽을 걸어와, 연기 오르는 한 채의 지붕을 향해 내려갔다.']);
     sim.state.flags['hearth.lit'] = true;
     sim.state.flags['bounty.n'] = 3;
     const lines = read().join(' ');
@@ -1970,7 +1970,7 @@ describe('a Thane at home', () => {
   it('has a bed by the hearth he lit, and neighbours who have noticed', () => {
     const sim = game('hall', 160, 120);
     sim.p.hp = 3;
-    expect(type(sim, 'sleep')[0]).toContain('Lie down in this hall and you would not get up');
+    expect(type(sim, 'sleep')[0]).toContain('이 회당에 누우면 다시 일어나지 못할 거다');
     expect(sim.p.hp).toBeLessThan(4);
     expect(type(sim, 'look at the bed')).toEqual([content.text.notHere]);
     sim.state.flags['hearth.lit'] = true;
@@ -2015,7 +2015,7 @@ describe('places with names of their own', () => {
       sim.step();
       for (const e of sim.drain()) if (e.t === 'died') died = e.text;
     }
-    expect(died).toContain('the ice speaks');
+    expect(died).toContain('얼음이 말하고');
 
     sim = game('bellmere', 160, 158);
     sim.rs.actors = [];
