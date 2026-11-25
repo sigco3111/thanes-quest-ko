@@ -427,7 +427,7 @@ export const hollow: RoomDef = {
     },
     { on: TAKE, if: [{ flag: 'sol.said' }, { not: { flag: 'boy.home' } }], do: [{ say: '그 아래로 손을 넣는다. 무게가 없다. 어디든 걸어서 열나흘, 그리고 눈이 내린다. 걷는 것 말고 다른 귀가 방법이 필요하다.' }] },
     // Other things people try.
-    { on: her(['attack kneeler', 'push kneeler', 'pull kneeler']), if: [HELD], do: [{ say: 'No.' }] },
+    { on: her(['attack kneeler', 'push kneeler', 'pull kneeler']), if: [HELD], do: [{ say: '아니.' }] },
     { on: her(['pet kneeler', 'kiss kneeler', 'warm kneeler']), if: [HELD], do: [{ say: '서리를 통해 그녀의 어깨에 손을 얹는다. 그녀에게서 나오는 온기가 전혀 없고, 들어가는 것도 없다. 전에 한 번 느낀 적 있다, 회당에서, 홀로미어의 모든 가죽 밑의 아이에게서.' }] },
     { on: ['take ring', 'pet ring'], if: [HELD], do: [{ say: '그녀의 것이다. 네 것과 같다. 황동, 오래됨, 수많은 손에 매끈하게 닳음. 그녀의 손도 그중에 있었다.' }] },
     { on: her(['give ring', 'give ring kneeler', 'use ring']), if: [HELD], do: [{ say: '그녀는 있다. 같은 반지다. 애초에 하나뿐이었다. 나중에 누군가 다른 하나를 곁에 두었다, 다시 테인이 있을 때를 위해.' }] },
