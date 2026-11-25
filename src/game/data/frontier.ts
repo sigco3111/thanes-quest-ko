@@ -483,8 +483,8 @@ export const frontier: FrontierDef = {
     deadRest: '죽은 이 하나, 멈춘 자리에 앉아, 등을 눈더미에 기대고 얼굴은 북쪽으로, 가던 쪽으로. 일어나지 않는다. 무언가를 들으러 먼 길을 걸어와, 그것을 들은 사람의 얼굴이다.',
     deadRestNouns: ['wight'],
     pines: {
-      first: ['The Hollow', 'The Crowding', 'The Silent', 'The Leaning', 'The Black', 'The Winter', 'The Listening', 'The Wolf', 'The Hare', 'The Owl', 'The Deep', 'The Fox', 'The Raven', 'The Snow-Bent', 'The Long'],
-      second: ['Pines', 'Wood', 'Stand', 'Thicket', 'Boughs', 'Firs', 'Holt', 'Grove', 'Shaw', 'Brake'],
+      first: ['움푹한', '빽빽한', '고요한', '기울어진', '검은', '겨울의', '귀 기울이는', '늑대의', '토끼의', '올빼미의', '깊은', '여우의', '까마귀의', '눈에 휜', '긴'],
+      second: ['소나무숲', '숲', '나무들', '덤불', '가지들', '전나무숲', '작은숲', '수풀', '잡목숲', '울창숲'],
       look: [
         'Pines close in on every side, their lower boughs bowed to the snow.',
         'A stand of old firs. The snow under them is pocked where their loads have fallen.',
@@ -492,8 +492,8 @@ export const frontier: FrontierDef = {
       ],
     },
     open: {
-      first: ['The White', 'The Long', 'The Bare', 'The Wind-Cut', 'The Empty', 'The Far', 'The Crow', 'The Blind', 'The Hungry', 'The Wide'],
-      second: ['Reach', 'Fell', 'Field', 'Shoulder', 'Waste', 'Mile', 'Lea', 'Flat', 'Moor'],
+      first: ['하얀', '긴', '벌거벗은', '바람에 깎인', '빈', '먼', '까마귀의', '눈먼', '굶주린', '넓은'],
+      second: ['벌판', '암릉', '들판', '어깨', '황야', '긴 들', '초원', '평지', '황무지'],
       look: [
         'Open snow, scoured into ridges by the wind. There is nowhere here to hide, for you or for anything else.',
         'A wide white fell under a wide white sky. Your tracks are the only marks on it. So far.',
@@ -501,8 +501,8 @@ export const frontier: FrontierDef = {
       ],
     },
     mere: {
-      first: ['Greywater', 'Stillwater', 'Reedglass', 'Crow', 'Hollow', 'Blind', 'Heron', 'Otter', 'Black', 'Lost', 'Moon'],
-      second: ['Mere', 'Pool', 'Tarn', 'Water', 'Lough', 'Sump'],
+      first: ['잿빛의', '고요한', '갈대의', '까마귀의', '움푹한', '눈먼', '왜가리의', '수달의', '검은', '잃어버린', '달의'],
+      second: ['호수', '못', '산호수', '물', '큰못', '웅덩이'],
       look: [
         'A pond lies frozen in a dip of the ground, reeds standing stiff along its edge.',
         'Ice, grey as a blind eye, with dead reeds round it. Nothing has drunk here since autumn.',
@@ -510,8 +510,8 @@ export const frontier: FrontierDef = {
       ],
     },
     ruin: {
-      first: ['The Broken', 'The Old', 'The Leaning', 'The Forgotten', 'The Crow-Kept', 'The Last'],
-      second: ['Watch', 'Stones', 'Ward', 'Marker', 'Teeth', 'Vigil'],
+      first: ['부서진', '오래된', '기울어진', '잊힌', '까마귀가 지키는', '마지막'],
+      second: ['망루', '돌들', '경계석', '표지', '이빨', '철야'],
       look: [
         'Old stonework stands here, half buried, set up by people nobody remembers for reasons nobody knows.',
         'Something was built here once. What is left of it stands in the snow and waits to fall down.',
@@ -519,8 +519,8 @@ export const frontier: FrontierDef = {
       ],
     },
     camp: {
-      first: ["Cutpurse", "Reaver's", 'Ash', "Wolf's-Head", 'Smoke', "Thief's"],
-      second: ['Hollow', 'Camp', 'Rest', 'Fire', 'Dell'],
+      first: ['소매치기의', '약탈자의', '잿더미', '늑대머리', '연기', '도둑의'],
+      second: ['웅덩이', '야영지', '쉼터', '불터', '골짜기'],
       look: [
         'A camp in a fold of the ground: hide tents, a fire, and the smell of people who have not washed since the leaves fell.',
         'Tents, a fire pit, gnawed bones. Whoever lives here does not grow what they eat.',
@@ -528,8 +528,8 @@ export const frontier: FrontierDef = {
       ],
     },
     crags: {
-      first: ['The Grey', 'The Split', 'The Raven', 'The Frost-Bit', 'The Hungry', 'The Bare', 'The Bear', 'The Eagle', 'The Broken', 'The High'],
-      second: ['Crags', 'Teeth', 'Tor', 'Scar', 'Knuckles', 'Shelf', 'Stair', 'Jaw'],
+      first: ['회색', '갈라진', '까마귀의', '서리에 물린', '굶주린', '벌거벗은', '곰의', '독수리의', '부서진', '높은'],
+      second: ['바위들', '이빨', '바위산', '흉터', '마디', '선반', '계단', '턱'],
       look: [
         'Bare rock breaks out of the snow here in grey teeth, taller than a house. The wind has scoured the ground between them.',
         'Crags. Their ledges hold a little snow and a great many shadows, any one of which might have something in it.',
@@ -537,8 +537,8 @@ export const frontier: FrontierDef = {
       ],
     },
     deadwood: {
-      first: ['The Dead', 'The Drowned', 'The Ashen', 'The Bone', 'The Hanging', 'The Pale', 'The Grey', 'The Burnt', 'The Whispering', 'The Widow'],
-      second: ['Wood', 'Stand', 'Copse', 'Trees', 'Thicket', 'Grove', 'Holt'],
+      first: ['죽은', '물에 빠진', '잿빛의', '뼈의', '매달린', '창백한', '회색의', '탄', '속삭이는', '과부의'],
+      second: ['숲', '나무들', '잡목숲', '나무숲', '덤불', '수풀', '작은숲'],
       look: [
         'Every tree here is dead: bare trunks, bare limbs, bark gone grey. No bird has perched in them for a long time.',
         'A wood that died standing. The snow lies on the branches in thin lines, like chalk on a slate.',
@@ -546,8 +546,8 @@ export const frontier: FrontierDef = {
       ],
     },
     shrine: {
-      first: ['The Quiet', 'The Old', 'The Kept', 'The Listening', 'The Still'],
-      second: ['Ring', 'Stones', 'Circle', 'Hallow', 'Moot'],
+      first: ['고요한', '오래된', '지켜지는', '귀 기울이는', '가만한'],
+      second: ['고리', '돌들', '돌원', '성소', '모임터'],
       look: [
         'A ring of low stones stands here with a cairn in its midst. The snow inside the ring is unmarked. Nothing has crossed it but you.',
         'Standing stones in a rough circle. The wind drops as you come near, the way talk stops in a room.',
@@ -555,8 +555,8 @@ export const frontier: FrontierDef = {
       ],
     },
     steading: {
-      first: ["Trapper's", 'The Lone', 'The Last', 'Smoke-Hole', 'The Lee'],
-      second: ['Steading', 'Croft', 'Hut', 'Hold', 'Garth'],
+      first: ['덫놀이의', '외로운', '마지막', '연기구멍', '바람그늘의'],
+      second: ['가옥', '소농장', '오두막', '터전', '울안'],
       look: [
         'A single hut of logs stands here, a long way from any other roof, with a woodpile against its wall.',
         'One hut, one woodpile, one barrel: all that somebody thought worth building, this far out.',
@@ -564,8 +564,8 @@ export const frontier: FrontierDef = {
       ],
     },
     pass: {
-      first: ['Wind', 'High'],
-      second: ['Gap', 'Hause', 'Nick', 'Gate', 'Pass', 'Notch', 'Throat'],
+      first: ['바람의', '높은'],
+      second: ['틈', '고개', '샛길', '관문', '고갯길', '벌어진 곳', '목구멍'],
       look: [
         'The fell closes in on both hands here, and the snow underfoot has been packed hard by traffic.',
         'A cold wind comes through here without ever stopping, the way water goes through a sluice.',
@@ -579,8 +579,8 @@ export const frontier: FrontierDef = {
     followed: 'It comes after you. Out here, a thing that has your scent does not give it up because you have gone out of its sight.',
     shaken: 'Whatever was after you stops short of this place, and after a while it turns away.',
     valley: {
-      first: ['The Low', 'The Long', "Drovers'", "Shepherd's", 'The Sledge', 'Alder', 'Rowan', 'Birch', 'The Peat', "Hayward's", 'The Common'],
-      second: ['Lane', 'Way', 'Track', 'Bottom', 'Brow', 'Holm', 'Path', 'Road'],
+      first: ['낮은', '긴', '몰이꾼의', '양치기의', '썰매', '오리나무', '마가목', '자작나무', '이탄', '울지기의', '공동'],
+      second: ['오솔길', '길', '자취길', '골짜길', '마루길', '섬길', '샛길', '큰길'],
       look: [
         'A stretch of the valley between one place and the next. The snow is trodden into a path by boots and sledge-runners, all of them on their way somewhere else.',
         'Nobody lives here, but everybody passes through. The path is wide and packed hard, the way paths are that are walked every day.',
@@ -603,8 +603,8 @@ export const frontier: FrontierDef = {
     road: 'The path runs %s.',
     crossroads: 'Two paths cross here. %s.',
     crypt: {
-      first: ['The Low', 'The Sealed', 'The Cold', 'The Forgotten', 'The Drowned', 'The Nameless'],
-      second: ['Vault', 'Crypt', 'Undercroft', 'Cellar', 'Hollow'],
+      first: ['낮은', '봉인된', '차가운', '잊힌', '물에 잠긴', '이름 없는'],
+      second: ['지하묘실', '납골당', '지하실', '땅굴', '움푹한 곳'],
       look: [
         'A vault under the old tower, and older than the tower. Niches line the wall. Something is heaped in the far corner, and a rune cut in the wall gives a little green light.',
         'The stair ends in a low chamber of coffins and dust. Whoever built the tower built it on top of this, and knew what they were sitting on.',
