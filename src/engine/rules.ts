@@ -1,5 +1,6 @@
 // The interpreter for the small condition/effect language rooms and characters are written in.
 
+import { fixJosa } from './sim';
 import type { Sim, Spot } from './sim';
 import type { Cond, Effect, Rule, Topic } from './types';
 import { hasPerk, hostile } from './combat';
@@ -100,8 +101,8 @@ function refuse(sim: Sim, effects: Effect[]): true {
   const seller = sim.rs.actors
     .filter((a) => a.kind === 'npc' && sim.content.chars[a.ref]?.full && sim.within(a.x, a.y, 60))
     .map((a) => sim.content.chars[a.ref])[0];
-  const name = sim.named(what.give, what.n ?? 1, true);
-  if (seller) sim.say(seller.full!.replace('%s', name), seller.name);
+  const name = sim.named(what.give, what.n ?? 1);
+  if (seller) sim.say(fixJosa(seller.full!.replace('%s', name)), seller.name);
   else sim.say(sim.text('fullBuy', name));
   return true;
 }

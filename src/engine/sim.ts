@@ -58,6 +58,20 @@ function newPlayer(c: Content): PlayerState {
   };
 }
 
+/** Resolve Korean particle placeholders like "X을(를)" against the batchim of the word before them. */
+export function fixJosa(text: string): string {
+  const bat = (w: string): boolean => {
+    const c = w.charCodeAt(w.length - 1);
+    return c >= 0xac00 && c <= 0xd7a3 ? (c - 0xac00) % 28 !== 0 : true;
+  };
+  return text
+    .replace(/(\S+)을\(를\)/g, (_, w: string) => `${w}${bat(w) ? '을' : '를'}`)
+    .replace(/(\S+)은\(는\)/g, (_, w: string) => `${w}${bat(w) ? '은' : '는'}`)
+    .replace(/(\S+)이\(가\)/g, (_, w: string) => `${w}${bat(w) ? '이' : '가'}`)
+    .replace(/(\S+)과\(와\)/g, (_, w: string) => `${w}${bat(w) ? '과' : '와'}`)
+    .replace(/(\S+)이\(라\)/g, (_, w: string) => `${w}${bat(w) ? '이' : ''}라`);
+}
+
 export class Sim {
   state: GameState;
   /** Events since the last drain(). */
@@ -151,7 +165,7 @@ export class Sim {
   }
 
   text(key: string, word = ''): string {
-    return (this.content.text[key] ?? key).replace('%s', word);
+    return fixJosa((this.content.text[key] ?? key).replace('%s', word));
   }
 
   /** How something looks just now: its usual description, unless events have changed it. */
@@ -229,7 +243,7 @@ export class Sim {
     if (fit < n) {
       const at = this.dropAt ?? { x: p.x + (p.dir === 'left' ? -14 : 14), y: p.y + 1 };
       this.putDown(item, n - fit, at.x, at.y);
-      this.note(this.text(n - fit > 1 ? 'leftBehindMany' : 'leftBehind', this.named(item, n - fit, true)));
+      this.note(this.text(n - fit > 1 ? 'leftBehindMany' : 'leftBehind', this.named(item, n - fit)));
     } else if (took) this.note(took);
     return fit;
   }
@@ -291,14 +305,12 @@ export class Sim {
     return (def && this.slotFor(def) ? 1 : 0) + this.space(item) >= n;
   }
 
-  /** "a wolf pelt", "3 wolf pelts"; or, with `the`, "the wolf pelt". */
-  named(item: string, n: number, the = false): string {
+  /** "늑대 가죽", "늑대 가죽 3개". Korean needs no article or plural ending. */
+  named(item: string, n: number): string {
     const def = this.content.items[item];
     const name = def?.name ?? item;
-    if (n !== 1) return `${n} ${def?.plural ?? `${name}s`}`;
-    // "Gorm's cheese" is already particular.
-    if (/^[A-Z]|'s /.test(name)) return name;
-    return the ? `the ${name}` : `${/^[aeiou]/i.test(name) ? 'an' : 'a'} ${name}`;
+    if (n !== 1) return `${name} ${n}개`;
+    return name;
   }
 
   /** Leave some of a thing on the ground here, with any of the same already lying here. */

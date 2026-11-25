@@ -147,7 +147,7 @@ function takeFromStore(sim: Sim, id: string, qty: Qty): void {
   const room = sim.space(id);
   const got = Math.min(want, room > 0 ? room : sim.fits(id) ? 1 : 0);
   if (got <= 0) {
-    sim.say(sim.text('tooHeavy', sim.named(id, 1, true)));
+    sim.say(sim.text('tooHeavy', sim.named(id, 1)));
     return;
   }
   kept[id] -= got;
@@ -169,8 +169,8 @@ function weighText(sim: Sim, id: string): string {
   const n = sim.p.inv[id] ?? 0;
   const each = sim.weight(id);
   const load = sim.text('loadIs').replace('%l', String(sim.load())).replace('%m', String(sim.limit()));
-  if (it?.keep) return `${sim.text('weighsKept', sim.named(id, 1, true))} ${load}`;
-  const what = each === 0 ? sim.text('weighsNothing', cap(sim.named(id, 1, true))) : n > 1 && !sim.onPerson(id) ? sim.text('weighsEach', String(each)).replace('%n', String(each * n)).replace('%t', cap(sim.named(id, n, true))) : sim.text('weighs', cap(sim.named(id, 1, true))).replace('%w', String(each));
+  if (it?.keep) return `${sim.text('weighsKept', sim.named(id, 1))} ${load}`;
+  const what = each === 0 ? sim.text('weighsNothing', cap(sim.named(id, 1))) : n > 1 && !sim.onPerson(id) ? sim.text('weighsEach', String(each)).replace('%n', String(each * n)).replace('%t', cap(sim.named(id, n))) : sim.text('weighs', cap(sim.named(id, 1))).replace('%w', String(each));
   return `${what}${sim.onPerson(id) && n === 1 ? ' ' + sim.text('weighsWorn') : ''} ${load}`;
 }
 
@@ -465,7 +465,7 @@ function builtin(sim: Sim, verb: string, nouns: string[], afoot: string | null, 
       else if (needNear(target.def.x, target.def.y, target.def.reach ?? 30)) {
         const item = target.def.take;
         const want = target.def.pile ? (qty === 'all' ? target.def.pile : Math.min(qty, target.def.pile)) : 1;
-        if (!sim.fits(item)) sim.say(sim.text('tooHeavy', sim.named(item, 1, true)));
+        if (!sim.fits(item)) sim.say(sim.text('tooHeavy', sim.named(item, 1)));
         else if (target.def.pile) {
           const got = sim.pickUp(item, want);
           sim.sound('take');
@@ -503,11 +503,11 @@ function builtin(sim: Sim, verb: string, nouns: string[], afoot: string | null, 
         if (into) {
           const kept = (sim.rs.stored ??= {});
           kept[what.id] = (kept[what.id] ?? 0) + n;
-          sim.say(sim.text('stored', sim.named(what.id, n, true)).replace('%t', store!.nouns[0]));
+          sim.say(sim.text('stored', sim.named(what.id, n)).replace('%t', store!.nouns[0]));
         } else {
           // At the player's side, where it can be seen.
           sim.putDown(what.id, n, p.x + (p.dir === 'left' ? -14 : 14), p.y + 1);
-          sim.say(sim.text('dropped', sim.named(what.id, n, true)));
+          sim.say(sim.text('dropped', sim.named(what.id, n)));
         }
         sim.sound('take');
       }
@@ -516,7 +516,7 @@ function builtin(sim: Sim, verb: string, nouns: string[], afoot: string | null, 
     case 'weigh':
       if (!nouns.length || nouns[0] === 'pack') sim.say(sim.text('loadIs').replace('%l', String(sim.load())).replace('%m', String(sim.limit())));
       else if (target?.k === 'item') sim.say(weighText(sim, target.def.id));
-      else if (target?.k === 'thing' && target.def.take) sim.say(sim.text('weighThere', sim.named(target.def.take, 1, true)).replace('%w', String(sim.weight(target.def.take))));
+      else if (target?.k === 'thing' && target.def.take) sim.say(sim.text('weighThere', sim.named(target.def.take, 1)).replace('%w', String(sim.weight(target.def.take))));
       else if (target?.k === 'thing' && target.def.store) sim.say(sim.text('weighStore'));
       else sim.say(target ? sim.text('weighWhat') : sim.text('notHere'));
       return true;
