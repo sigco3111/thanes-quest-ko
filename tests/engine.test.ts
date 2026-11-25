@@ -3300,7 +3300,7 @@ describe('the night the hearth is lit', () => {
     empty.sim.lose('bottle');
     empty.sim.state.flags['quest:hearth'] = 2;
     typed(empty, 'lay the log on the hearth');
-    expect(typed(empty, 'give the flint to the elder').join(' ')).toContain('Bring me the bottle');
+    expect(typed(empty, 'give the flint to the elder').join(' ')).toContain('병을 가져와');
     expect(empty.sim.state.flags['marta.stopped']).toBeUndefined();
     // With both: she stops, and nobody walks out between that and the spark.
     const asked = typed(shell, 'hold out the flint to the elder').join(' ');
@@ -3529,7 +3529,7 @@ describe('found by playing on past the cold hearth', () => {
     const hollow = game('hollow', 160, 140);
     expect(type(hollow, 'look at the woman')[0]).toContain('어깨 위로 서리가 모피처럼 자랐다');
     expect(type(hollow, 'talk to the woman')[0]).toContain('네 말을 듣지 못한다');
-    expect(type(hollow, 'push the woman')).toEqual(['No.']);
+    expect(type(hollow, 'push the woman')).toEqual(['아니.']);
     expect(type(hollow, 'look at the ring')[0]).toContain('너는 네 손을 본다');
     // In the square, the smith is still Odd.
     expect(type(home, 'look at the smith')[0]).toContain('leather apron');
@@ -3873,7 +3873,7 @@ describe('things written by hand, out in the generated country', () => {
     expect(type(cold, 'climb the pegs')[0]).toContain('지금 휘고 있다, 바람이 있으니');
     // And the stone on the old road shows the same footprints that lie beyond the gate.
     const road = beside('roadstone').sim;
-    expect(type(road, 'orun')[0]).toContain('Here the small ones are still keeping up, and still going straight');
+    expect(type(road, 'orun')[0]).toContain('작은 발자국들은 아직 따라가고');
     road.state.flags['winter.broken'] = true;
     road.p.cd = {};
     expect(type(road, 'orun')[0]).toContain('You know where they stop');
@@ -3920,7 +3920,7 @@ describe('things written by hand, out in the generated country', () => {
     expect(sled.p.inv.toyhorse).toBe(1);
     Object.assign(sled.state.flags, { 'hearth.lit': true, 'winter.broken': true, 'thaw.home': true });
     sled.enterRoom('village', 260, 160);
-    expect(type(sled, 'give the horse to the boy')[0]).toContain('Somebody loved this');
+    expect(type(sled, 'give the horse to the boy')[0]).toContain('누가 아꼈나 봐');
     expect(sled.p.inv.toyhorse).toBeUndefined();
     type(sled, 'talk to the boy');
     expect(type(sled, 'talk to the boy').join(' ')).toContain("He's called Ear");
@@ -3966,9 +3966,9 @@ describe('the hollow', () => {
     expect(sim.state.flags['winter.broken']).toBeUndefined();
     expect(sim.rs.actors.map((a) => a.ref)).toEqual(['kneeler']);
     // And the boy could be carried off from under her hands, and is not.
-    expect(type(sim, 'take the boy')[0]).toContain('You take your hands back');
+    expect(type(sim, 'take the boy')[0]).toContain('손을 거둔다');
     expect(sim.state.room).toBe('hollow');
-    expect(type(sim, 'attack the woman')).toEqual(['No.']);
+    expect(type(sim, 'attack the woman')).toEqual(['아니.']);
     expect(type(sim, 'take the ring')[0]).toContain('It is the same as yours');
   });
 
@@ -3989,7 +3989,7 @@ describe('the hollow', () => {
     expect(sim.state.flags['sol.said']).toBeUndefined();
     expect(type(sim, 'take the boy')[0]).toContain('네가 안아 갈 사람이 아니다');
     // The coal is the Thane's own way home. It takes one, and what one can carry.
-    expect(type(sim, 'breathe on the coal')[0]).toContain('It takes one, and what one can carry');
+    expect(type(sim, 'breathe on the coal')[0]).toContain('하나와, 하나가 안을 수 있는 만큼을 데려간다');
     expect(sim.p.inv.ember).toBe(1);
     const score = sim.state.score;
     const end = type(sim, 'give the coal to the woman').join(' ');
@@ -4047,7 +4047,7 @@ describe('the hollow', () => {
     expect(sim.state.room).toBe('hollow');
     sim.p.inv.ember = coal;
     const home = type(sim, 'take the boy').join(' ');
-    expect(home).toContain('"He can have my blanket."');
+    expect(home).toContain('내 이불 줘도 돼');
     expect(home).toContain('He shall have it, and I shall go on sweeping the rest');
     expect(sim.state.room).toBe('hall');
     expect(sim.state.flags['boy.home']).toBe(true);
