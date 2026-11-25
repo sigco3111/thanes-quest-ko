@@ -4003,7 +4003,7 @@ describe('the hollow', () => {
     expect(sim.state.flags['winter.broken']).toBe(true);
     expect(sim.state.flags['quest:north']).toBe(7);
     expect(sim.state.score).toBe(score + 25);
-    expect(type(sim, 'look')[0]).toContain('두 무릎 자국과 너만 남는다');
+    expect(type(sim, 'look')[0]).toContain('두 무릎 자국이 있고, 네가 있다');
     expect(deeds(sim)).toContain('집으로 가는 길을 건네주었다');
     // She is home before the Thane has left the hanging country, and Hollowmere has carried her up to the barrow.
     sim.enterRoom('barrow', 160, 140);
