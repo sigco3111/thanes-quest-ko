@@ -68,7 +68,7 @@ export function fixJosa(text: string): string {
     .replace(/(\S+)을\(를\)/g, (_, w: string) => `${w}${bat(w) ? '을' : '를'}`)
     .replace(/(\S+)은\(는\)/g, (_, w: string) => `${w}${bat(w) ? '은' : '는'}`)
     .replace(/(\S+)이\(가\)/g, (_, w: string) => `${w}${bat(w) ? '이' : '가'}`)
-    .replace(/(\S+)과\(와\)/g, (_, w: string) => `${w}${bat(w) ? '과' : '와'}`)
+    .replace(/(\S+)[과와]\([과와]\)/g, (_, w: string) => `${w}${bat(w) ? '과' : '와'}`)
     .replace(/(\S+)이\(라\)/g, (_, w: string) => `${w}${bat(w) ? '이' : ''}라`);
 }
 

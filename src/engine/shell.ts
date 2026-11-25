@@ -11,7 +11,7 @@ import { chart, roomOf } from './frontier';
 import { ICONS } from './icons';
 import { all } from './rules';
 import { PH, PW } from './scene';
-import { Sim, type Behaviour } from './sim';
+import { fixJosa, Sim, type Behaviour } from './sim';
 import type { ActorState, Content, DoorDef, GameState, Intent } from './types';
 import { routeTo, type Pace } from './walk';
 
@@ -48,7 +48,7 @@ interface SaveFile {
   state: GameState;
 }
 
-const SLOTS = ['Slot 1', 'Slot 2', 'Slot 3'];
+const SLOTS = ['슬롯 1', '슬롯 2', '슬롯 3'];
 const cap = (s: string): string => s[0].toUpperCase() + s.slice(1);
 const MAX_INPUT = 37;
 /** Lines of text a box can hold before it must continue on another. */
@@ -294,7 +294,7 @@ export class Shell {
       return { k: 'talk', label: `${def.name}에게 말 걸기`, line: `talk to ${def.nouns[0]}`, x: who.x, y: who.y, d: 48 };
     }
     // Some are named with their article ("the Greyback"), and most are not ("wolf").
-    if (who) return { k: 'fight', label: `${c.enemies[who.ref].name.replace(/^the /, '')}와(과) 싸우기`, foe: who };
+    if (who) return { k: 'fight', label: fixJosa(`${c.enemies[who.ref].name.replace(/^the /, '')}와(과) 싸우기`), foe: who };
     if (this.doorAt(x, y)) return null;
     // Things: a small picture is itself the mark; anything else is taken to stand on its spot, a
     // little taller than it is wide. Of two that overlap, the smaller is meant: the book, not the table.

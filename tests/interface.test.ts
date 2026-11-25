@@ -65,7 +65,7 @@ function close(shell: Shell): void {
 
 describe('going back', () => {
   it('comes back to the menu from everything it opens, with the cursor where it was', () => {
-    for (const row of ['Bag', 'Map', 'Journal', 'Character', 'Deeds', 'Save game', 'Restore game', 'Settings', 'How to play', 'Start again']) {
+    for (const row of ['가방', '지도', '일지', '인물', '위업', '저장하기', '불러오기', '설정', '플레이 방법', '처음부터 다시']) {
       const shell = playing();
       shell.keyDown('Escape');
       choose(shell, row);
@@ -80,7 +80,7 @@ describe('going back', () => {
       expect(m.title, row).toBe(content.title);
       expect(m.items[m.sel], row).toBe(row);
       // Resume, and the game goes on with nothing waiting to come back.
-      choose(shell, 'Resume');
+      choose(shell, '돌아가기');
       shell.tick();
       expect(shell.modal, row).toBeUndefined();
       expect(shell.backToMenu).toBe(false);
@@ -90,20 +90,20 @@ describe('going back', () => {
   it('goes back to the game from Esc on the menu itself', () => {
     const shell = playing();
     shell.keyDown('Escape');
-    expect(list(shell).items[0]).toBe('Resume');
+    expect(list(shell).items[0]).toBe('돌아가기');
     shell.keyDown('Escape');
     shell.tick();
     expect(shell.modal).toBeUndefined();
   });
 
   it('gives every menu opened from the menu a last row that goes back', () => {
-    for (const row of ['Save game', 'Restore game', 'Settings']) {
+    for (const row of ['저장하기', '불러오기', '설정']) {
       const shell = playing();
       shell.keyDown('Escape');
       choose(shell, row);
       const sub = list(shell);
-      expect(sub.items[sub.items.length - 1], row).toBe('Back');
-      choose(shell, 'Back');
+      expect(sub.items[sub.items.length - 1], row).toBe('뒤로');
+      choose(shell, '뒤로');
       expect(list(shell).title, row).toBe(content.title);
       expect(list(shell).items[list(shell).sel]).toBe(row);
     }
@@ -136,19 +136,19 @@ describe('going back', () => {
   it('leaves nothing to go back to after starting again, restoring, or dying', () => {
     const store = memoryStore();
     const shell = playing('village', 160, 150, store);
-    shell.save('Slot 1', true);
+    shell.save('슬롯 1', true);
     // Starting again, from the menu.
     shell.keyDown('Escape');
-    choose(shell, 'Start again');
-    choose(shell, 'Yes');
+    choose(shell, '처음부터 다시');
+    choose(shell, '예');
     expect(shell.backToMenu).toBe(false);
     shell.modals = [];
     shell.tick();
     expect(shell.modal).toBeUndefined();
     // Restoring, from the menu.
     shell.keyDown('Escape');
-    choose(shell, 'Restore game');
-    choose(shell, 'Slot 1');
+    choose(shell, '불러오기');
+    choose(shell, '슬롯 1');
     expect(shell.backToMenu).toBe(false);
     expect(shell.sim.state.room).toBe('village');
     shell.tick();
@@ -156,9 +156,9 @@ describe('going back', () => {
     // Dying, with the bag waiting to come back after something chosen from it.
     shell.sim.give('bow');
     shell.keyDown('Escape');
-    choose(shell, 'Bag');
-    choose(shell, 'hunting bow');
-    choose(shell, 'Ready');
+    choose(shell, '가방');
+    choose(shell, '사냥 활');
+    choose(shell, '준비');
     expect(shell.backToMenu).toBe(true);
     shell.sim.die('The cold takes you.');
     shell.tick();
@@ -180,23 +180,23 @@ describe('the bag', () => {
   }
 
   it('opens from Tab, from typing, and from the menu, as a row for each kind of thing', () => {
-    for (const open of [(s: Shell) => s.keyDown('Tab'), (s: Shell) => s.submit('inventory'), (s: Shell) => (s.keyDown('Escape'), choose(s, 'Bag'))]) {
+    for (const open of [(s: Shell) => s.keyDown('Tab'), (s: Shell) => s.submit('inventory'), (s: Shell) => (s.keyDown('Escape'), choose(s, '가방'))]) {
       const shell = packed();
       open(shell);
       const m = list(shell);
-      expect(m.title).toContain('Your bag');
-      expect(m.title).toContain('Silver: 37');
+      expect(m.title).toContain('가방');
+      expect(m.title).toContain('은화: 37');
       // And how full the pack is: what is in hand or worn is not in it.
-      expect(m.title).toContain(`Load: ${shell.sim.load()}/${shell.sim.limit()}`);
+      expect(m.title).toContain(`무게: ${shell.sim.load()}/${shell.sim.limit()}`);
       expect(m.title).not.toMatch(/gold/i);
       // One row per kind, with the count and what they weigh, then a row to leave by.
-      expect(m.items).toContain(weighed('red draught x2', 2));
-      expect(m.items).toContain(weighed('wolf pelt', 3));
-      expect(m.items.filter((it) => it.startsWith('red draught')).length).toBe(1);
-      expect(m.items).toContain('iron sword (in hand)');
-      expect(m.items).toContain('round shield (in hand)');
+      expect(m.items).toContain(weighed('붉은 물약 x2', 2));
+      expect(m.items).toContain(weighed('늑대 가죽', 3));
+      expect(m.items.filter((it) => it.startsWith('붉은 물약')).length).toBe(1);
+      expect(m.items).toContain('철검 (손에)');
+      expect(m.items).toContain('둥근 방패 (손에)');
       expect(m.items.length).toBe(new Set(kit).size + 1);
-      expect(['Close', 'Back']).toContain(m.items[m.items.length - 1]);
+      expect(['닫기', '뒤로']).toContain(m.items[m.items.length - 1]);
     }
   });
 
@@ -205,8 +205,8 @@ describe('the bag', () => {
     shell.keyDown('Tab');
     const m = list(shell);
     expect(m.title).toContain(shell.sim.text('emptyHanded'));
-    expect(m.items).toEqual(['Close']);
-    choose(shell, 'Close');
+    expect(m.items).toEqual(['닫기']);
+    choose(shell, '닫기');
     shell.tick();
     expect(shell.modal).toBeUndefined();
   });
@@ -218,20 +218,20 @@ describe('the bag', () => {
     shell.sim.give('glove');
     const sim = shell.sim;
     const acts = (id: string): string[] => itemActions(sim, id).map((a) => `${a.label}: ${a.line}`);
-    expect(acts('potion')).toEqual(['Drink: drink potion', 'Drop: drop potion', 'Drop them all: drop all potion']);
-    expect(acts('cheese')).toEqual(['Eat: eat cheese', 'Drop: drop cheese']);
-    expect(acts('tomeFlame')).toEqual(['Read: read tome', 'Drop: drop tome']);
-    expect(acts('torch')).toEqual(['Use: use torch', 'Drop: drop torch']);
-    expect(acts('sword')).toEqual(['Put away: unequip sword', 'Drop: drop sword']);
-    expect(acts('bow')).toEqual(['Ready: equip bow', 'Drop: drop bow']);
-    expect(acts('shield')).toEqual(['Put away: unequip shield', 'Drop: drop shield']);
-    expect(acts('mail')).toEqual(['Take off: unequip mail', 'Drop: drop mail']);
-    expect(acts('torc')).toEqual(['Take off: unequip torc', 'Drop: drop torc']);
-    expect(acts('token')).toEqual(['Wear: equip token', 'Drop: drop token']);
+    expect(acts('potion')).toEqual(['마시기: drink potion', '내려놓기: drop potion', '전부 내려놓기: drop all potion']);
+    expect(acts('cheese')).toEqual(['먹기: eat cheese', '내려놓기: drop cheese']);
+    expect(acts('tomeFlame')).toEqual(['읽기: read tome', '내려놓기: drop tome']);
+    expect(acts('torch')).toEqual(['쓰기: use torch', '내려놓기: drop torch']);
+    expect(acts('sword')).toEqual(['넣기: unequip sword', '내려놓기: drop sword']);
+    expect(acts('bow')).toEqual(['준비: equip bow', '내려놓기: drop bow']);
+    expect(acts('shield')).toEqual(['넣기: unequip shield', '내려놓기: drop shield']);
+    expect(acts('mail')).toEqual(['벗기: unequip mail', '내려놓기: drop mail']);
+    expect(acts('torc')).toEqual(['벗기: unequip torc', '내려놓기: drop torc']);
+    expect(acts('token')).toEqual(['입기: equip token', '내려놓기: drop token']);
     // Things with no use can only be put down.
-    expect(acts('pelt')).toEqual(['Drop: drop pelt']);
+    expect(acts('pelt')).toEqual(['내려놓기: drop pelt']);
     // What a story needs is never to be put down, and offers nothing but what it is for.
-    expect(acts('ember')).toEqual(['Use: use ember']);
+    expect(acts('ember')).toEqual(['쓰기: use ember']);
     expect(acts('glove')).toEqual([]);
   });
 
@@ -251,12 +251,12 @@ describe('the bag', () => {
 
   it('shows a thing, and its actions do just what typing them does', () => {
     const cases: [string, string, (s: Shell) => unknown][] = [
-      ['red draught', 'Drink', (s) => [s.sim.p.hp, s.sim.p.inv.potion]],
-      ["Gorm's cheese", 'Eat', (s) => [s.sim.p.hp, s.sim.p.inv.cheese]],
-      ['hunting bow', 'Ready', (s) => [s.sim.p.weapon, s.sim.p.other]],
-      ['mail shirt', 'Take off', (s) => s.sim.p.armor],
-      ['iron torc', 'Take off', (s) => s.sim.p.trinket],
-      ['round shield', 'Put away', (s) => [s.sim.p.weapon, s.sim.p.shield]],
+      ['붉은 물약', '마시기', (s) => [s.sim.p.hp, s.sim.p.inv.potion]],
+      ['고름의 치즈', '먹기', (s) => [s.sim.p.hp, s.sim.p.inv.cheese]],
+      ['사냥 활', '준비', (s) => [s.sim.p.weapon, s.sim.p.other]],
+      ['사슬 갑옷', '벗기', (s) => s.sim.p.armor],
+      ['쇠 목고리', '벗기', (s) => s.sim.p.trinket],
+      ['둥근 방패', '넣기', (s) => [s.sim.p.weapon, s.sim.p.shield]],
     ];
     for (const [thing, action, state] of cases) {
       const a = packed();
@@ -268,7 +268,7 @@ describe('the bag', () => {
       const page = list(a);
       expect(page.title.toLowerCase()).toContain(thing.toLowerCase());
       expect(page.lead).toBe(true);
-      expect(page.items[page.items.length - 1]).toBe('Back');
+      expect(page.items[page.items.length - 1]).toBe('뒤로');
       const line = itemActions(a.sim, Object.keys(a.sim.p.inv).find((id) => content.items[id].name === thing)!).find((x) => x.label === action)!.line;
       choose(a, action);
       const saidA = settle(a);
@@ -284,12 +284,12 @@ describe('the bag', () => {
   it('comes back to the bag after a thing that is not used up, and not after one that is', () => {
     const shell = packed();
     shell.keyDown('Tab');
-    choose(shell, 'hunting bow');
-    choose(shell, 'Ready');
+    choose(shell, '사냥 활');
+    choose(shell, '준비');
     settle(shell);
     const back = list(shell);
-    expect(back.title).toContain('Your bag');
-    expect(back.items[back.sel]).toBe('hunting bow (in hand)');
+    expect(back.title).toContain('가방');
+    expect(back.items[back.sel]).toBe('사냥 활 (손에)');
     expect(shell.sim.p.weapon).toBe('bow');
     // Back out of the bag, and the game goes on.
     shell.keyDown('Escape');
@@ -298,8 +298,8 @@ describe('the bag', () => {
 
     shell.sim.p.hp = 10;
     shell.keyDown('Tab');
-    choose(shell, 'red draught');
-    choose(shell, 'Drink');
+    choose(shell, '붉은 물약');
+    choose(shell, '마시기');
     settle(shell);
     expect(shell.modal).toBeUndefined();
     expect(shell.sim.p.hp).toBeGreaterThan(10);
@@ -308,26 +308,26 @@ describe('the bag', () => {
   it('goes back from a thing to the bag, by its last row or by Esc', () => {
     const shell = packed();
     shell.keyDown('Tab');
-    choose(shell, 'wolf pelt');
-    expect(list(shell).items).toEqual(['Drop', 'Back']);
-    choose(shell, 'Back');
-    expect(list(shell).title).toContain('Your bag');
-    expect(list(shell).items[list(shell).sel]).toBe(weighed('wolf pelt', 3));
-    choose(shell, 'mail shirt');
+    choose(shell, '늑대 가죽');
+    expect(list(shell).items).toEqual(['내려놓기', '뒤로']);
+    choose(shell, '뒤로');
+    expect(list(shell).title).toContain('가방');
+    expect(list(shell).items[list(shell).sel]).toBe(weighed('늑대 가죽', 3));
+    choose(shell, '사슬 갑옷');
     shell.keyDown('Escape');
-    expect(list(shell).items[list(shell).sel]).toBe('mail shirt (worn)');
+    expect(list(shell).items[list(shell).sel]).toBe('사슬 갑옷 (착용)');
   });
 
   it('calls the money silver', () => {
     const shell = packed();
-    expect(inventoryPage(shell.sim).lines.join(' ')).toContain('Silver: 37');
+    expect(inventoryPage(shell.sim).lines.join(' ')).toContain('은화: 37');
     expect(inventoryPage(shell.sim).lines.join(' ')).not.toMatch(/gold/i);
   });
 });
 
 describe('the character sheet', () => {
   it('opens from SKILLS and from the menu, as a sheet with sections', () => {
-    for (const open of [(s: Shell) => s.submit('skills'), (s: Shell) => (s.keyDown('Escape'), choose(s, 'Character'))]) {
+    for (const open of [(s: Shell) => s.submit('skills'), (s: Shell) => (s.keyDown('Escape'), choose(s, '인물'))]) {
       const shell = playing();
       shell.sim.state.flags.kills = 3;
       open(shell);
@@ -338,18 +338,18 @@ describe('the character sheet', () => {
         shell.keyDown('Enter');
       }
       expect(pages.length).toBe(2);
-      expect(pages.every((p) => p.title === 'Character')).toBe(true);
+      expect(pages.every((p) => p.title === '인물')).toBe(true);
       const first = pages[0].lines;
-      expect(first[0]).toMatch(/^Level +1 +Day +1$/);
-      expect(first[1]).toMatch(/^Health +\d+\/\d+ +Mana +\d+\/\d+$/);
-      expect(first[2]).toMatch(/^Stamina +\d+\/\d+ +Score +\d+$/);
+      expect(first[0]).toMatch(/^레벨 +1 +날짜 +1$/);
+      expect(first[1]).toMatch(/^체력 +\d+\/\d+ +마나 +\d+\/\d+$/);
+      expect(first[2]).toMatch(/^기력 +\d+\/\d+ +점수 +\d+$/);
       // Skills are a section of their own, under a heading, and so are perks and travels.
       const heads = pages.flatMap((p) => (p.heads ?? []).map((i) => p.lines[i]));
-      expect(heads[0]).toMatch(/^Skill +Next perk$/);
-      expect(heads).toContain('Perks');
-      expect(heads).toContain('Travels');
-      expect(pages[1].lines.join('\n')).toMatch(/Foes felled +3/);
-      expect(first.some((l) => /^Blade +\d+ +Riposte at \d+$/.test(l))).toBe(true);
+      expect(heads[0]).toMatch(/^기술 +다음 특성$/);
+      expect(heads).toContain('특성');
+      expect(heads).toContain('여정');
+      expect(pages[1].lines.join('\n')).toMatch(/쓰러뜨린 적 +3/);
+      expect(first.some((l) => /^검술 +\d+ +.+ \(\d+\)$/.test(l))).toBe(true);
     }
   });
 });
@@ -533,7 +533,7 @@ describe('playing without typing', () => {
     expect(a.sim.within(who.x, who.y, 48)).toBe(false);
     // Anywhere on the figure will do: the middle of it, here.
     const [x, y] = [Math.round(who.x), Math.round(who.y) - 18];
-    expect(a.aim(x, y)).toBe(`Talk to ${def.name}`);
+    expect(a.aim(x, y)).toBe(`${def.name}에게 말 걸기`);
     a.point(x, y);
     a.tick();
     expect(a.busy).toBe(true);
@@ -556,7 +556,7 @@ describe('playing without typing', () => {
     sim.putDown('cheese', 1, 230, 160);
     const pile = sim.things().find((t) => t.take === 'cheese')!;
     expect(sim.within(pile.x, pile.y, pile.reach ?? 30)).toBe(false);
-    expect(shell.aim(pile.x, pile.y - 3)).toMatch(/^Take the /);
+    expect(shell.aim(pile.x, pile.y - 3)).toMatch(/가져가기$/);
     shell.point(pile.x, pile.y - 3);
     shell.tick();
     expect(shell.busy).toBe(true);
@@ -572,9 +572,9 @@ describe('playing without typing', () => {
     const sim = shell.sim;
     sim.rs.actors = [];
     // Something that is not to be taken, with something to try, clear of any door.
-    const thing = sim.things().find((t) => !t.take && t.try?.length && shell.aim(t.x, t.y - 4)?.startsWith('Look at the '))!;
+    const thing = sim.things().find((t) => !t.take && t.try?.length && shell.aim(t.x, t.y - 4)?.includes('살펴보기'))!;
     expect(thing).toBeDefined();
-    const noun = shell.aim(thing.x, thing.y - 4)!.slice('Look at the '.length);
+    const noun = thing.nouns.find((w) => sim.things().find((o) => o.nouns.includes(w)) === thing) ?? thing.nouns[0];
     expect(sim.within(thing.x, thing.y, thing.reach ?? 30)).toBe(false);
     shell.point(thing.x, thing.y - 4);
     shell.tick();
@@ -619,7 +619,7 @@ describe('playing without typing', () => {
     sim.rs.actors = [];
     sim.spawn('wolf', 220, 150);
     const wolf = sim.rs.actors[0];
-    expect(shell.aim(Math.round(wolf.x), Math.round(wolf.y) - 8)).toMatch(/^Fight the /);
+    expect(shell.aim(Math.round(wolf.x), Math.round(wolf.y) - 8)).toMatch(/싸우기$/);
     shell.point(Math.round(wolf.x), Math.round(wolf.y) - 8);
     shell.tick();
     // A walk, and no line sent on the player's behalf.
@@ -658,12 +658,12 @@ describe('the front of the game', () => {
     const shell = playing();
     expect(shell.modal).toBeUndefined();
     shell.keyDown('Escape');
-    expect(list(shell).items[0]).toBe('Resume');
+    expect(list(shell).items[0]).toBe('돌아가기');
     expect(list(shell).front).toBe(true);
     // The bag, opened from the menu, is not; coming back to the menu is.
     list(shell).sel = 1;
     shell.keyDown('Enter');
-    expect(list(shell).title).toContain('Your bag');
+    expect(list(shell).title).toContain('가방');
     expect(list(shell).front).toBeFalsy();
     shell.keyDown('Escape');
     expect(list(shell).front).toBe(true);
