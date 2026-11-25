@@ -537,6 +537,12 @@ const koNouns: Record<string, string[]> = {
   light: ['빛', '광휘'],
   ward: ['보호막', '결계'],
 };
+export const koNounLabel: Record<string, string> = {};
 for (const [k, v] of Object.entries(koVerbs)) (vocab.verbs[k] ??= []).push(...v);
-for (const [k, v] of Object.entries(koNouns)) (vocab.nouns[k] ??= []).push(...v);
+for (const [k, v] of Object.entries(koNouns)) {
+  (vocab.nouns[k] ??= []).push(...v);
+  koNounLabel[k] = v[0];
+}
+// Every word in a noun group, English ones included, answers to the group's Korean label.
+for (const [k, words] of Object.entries(vocab.nouns)) for (const w of [k, ...words]) koNounLabel[w] ??= koNounLabel[k];
 vocab.ignore.push('좀', '제발', '그리고', '그', '저', '것', '수', '있어');

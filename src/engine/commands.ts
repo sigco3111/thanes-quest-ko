@@ -3,6 +3,8 @@
 
 import { playerAttack } from './combat';
 import { beyond, parseWild, roomOf } from './frontier';
+import { wordVariants } from './parser';
+import { koNounLabel } from '../game/data/vocab';
 import { cast, invoke } from './magic';
 import { all, fire, questKey, reach, run, speak, test } from './rules';
 import { PH, PW } from './scene';
@@ -174,6 +176,8 @@ function weighText(sim: Sim, id: string): string {
 
 const cap = (s: string): string => s[0].toUpperCase() + s.slice(1);
 
+const koLabel = (id: string): string => koNounLabel[id] ?? id;
+
 /** A word that, typed after a verb, means this carried thing and not something else in sight or in the pack. */
 export function itemNoun(sim: Sim, id: string): string {
   const nouns = sim.content.items[id]?.nouns ?? [id];
@@ -245,6 +249,8 @@ export const PAGE_BREAK = '\f';
 export function skillsPage(sim: Sim): { title: string; lines: string[]; heads: number[] } {
   const p = sim.p;
   const cap = (s: string): string => s[0].toUpperCase() + s.slice(1);
+
+const koLabel = (id: string): string => koNounLabel[id] ?? id;
   // Two columns in a box 34 wide: a label and value on the left, another on the right.
   const pair = (a: string, av: string, b: string, bv: string): string => `${a.padEnd(8)} ${av.padEnd(8)}${b.padEnd(8)} ${bv}`;
   const of = (v: number, max: number): string => `${Math.ceil(v)}/${max}`;
@@ -261,7 +267,7 @@ export function skillsPage(sim: Sim): { title: string; lines: string[]; heads: n
   for (const [id, s] of Object.entries(p.skills)) {
     // What practice will earn next, so there is something to aim at.
     const next = sim.content.perks.filter((k) => k.skill === id && k.lv > s.lv).sort((a, b) => a.lv - b.lv)[0];
-    lines.push(`${cap(id).padEnd(9)}${String(s.lv).padStart(3)}  ${next ? `${next.name} (${next.lv})` : '-'}`);
+    lines.push(`${(SKILL_KO[id] ?? cap(id)).padEnd(9)}${String(s.lv).padStart(3)}  ${next ? `${next.name} (${next.lv})` : '-'}`);
   }
   lines.push(PAGE_BREAK);
   const perks = sim.content.perks.filter((k) => (p.skills[k.skill]?.lv ?? 0) >= k.lv);
@@ -283,6 +289,7 @@ export function skillsPage(sim: Sim): { title: string; lines: string[]; heads: n
 
 const DIRS: Record<string, 'n' | 's' | 'e' | 'w'> = { north: 'n', south: 's', east: 'e', west: 'w' };
 const DIR_KO: Record<string, string> = { north: '북', south: '남', east: '동', west: '서' };
+const SKILL_KO: Record<string, string> = { blade: '검술', block: '방어', archery: '궁술', sorcery: '마법', mending: '치유', lore: '학식' };
 
 /** What lies one way from here, and a reminder of how to get there. */
 function wayText(sim: Sim, dir: string): string {
@@ -655,11 +662,11 @@ function builtin(sim: Sim, verb: string, nouns: string[], afoot: string | null, 
       // And whatever is within arm's reach right now, as things that could be typed.
       const here: string[] = [];
       const who = nearestChar(sim);
-      if (who && sim.within(who.actor.x, who.actor.y, 48)) here.push(`TALK TO ${who.def.nouns[0].toUpperCase()}`);
+      if (who && sim.within(who.actor.x, who.actor.y, 48)) here.push(`${koLabel(who.def.nouns[0])}에게 말`);
       if (!sim.isDark())
         for (const t of sim.things()) {
           if (!sim.within(t.x, t.y, t.reach ?? 30) || (t.reach ?? 30) > 100) continue;
-          if (t.take) here.push(`TAKE ${t.nouns[0].toUpperCase()}`);
+          if (t.take) here.push(`${koLabel(t.nouns[0])} 줍`);
           for (const line of t.try ?? []) here.push(line.toUpperCase());
         }
       const near = here.length ? `\n\n${sim.text('couldDo')} ${[...new Set(here)].slice(0, 4).join(', ')}.` : '';
@@ -686,8 +693,9 @@ function builtin(sim: Sim, verb: string, nouns: string[], afoot: string | null, 
 }
 
 const NUMBERS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+const NUMBERS_KO: Record<string, number> = { 한: 1, 하나: 1, 두: 2, 둘: 2, 세: 3, 셋: 3, 네: 4, 넷: 4, 다섯: 5, 여섯: 6, 일곱: 7, 여덟: 8, 아홉: 9, 열: 10, 열하나: 11, 열둘: 12 };
 /** Words that mean every one of a thing. */
-const ALL = ['all', 'every', 'everything', 'both'];
+const ALL = ['all', 'every', 'everything', 'both', '모두', '전부', '다'];
 /** Verbs that can be told how many. */
 const COUNTED = ['take', 'drop', 'store', 'use'];
 
@@ -722,15 +730,20 @@ function devCommand(sim: Sim, line: string): boolean {
 
 /** Does what the player can see or read here use this word? Then it is scenery, not nonsense. */
 function mentioned(sim: Sim, word: string): boolean {
-  if (word.length < 3 || sim.isDark()) return false;
-  const stem = word.replace(/(es|s)$/, '');
+  if (sim.isDark()) return false;
   const texts = [sim.lookOf(sim.room), sim.room.name, ...sim.things().map((t) => sim.lookOf(t))].join(' ').toLowerCase();
+  if (/[\uac00-\ud7a3]/.test(word)) {
+    // Korean: the word as typed, or without its trailing particle, may appear in the text.
+    return wordVariants(word).some((v) => v.length >= 2 && texts.includes(v));
+  }
+  if (word.length < 3) return false;
+  const stem = word.replace(/(es|s)$/, '');
   return new RegExp(`\\b${stem}(s|es)?\\b`).test(texts);
 }
 
 /** Is the line a look of some kind, or a bare word? */
 function looking(sim: Sim, line: string): boolean {
-  const words = line.toLowerCase().replace(/[^a-z0-9' ]+/g, ' ').split(' ').filter(Boolean);
+  const words = line.toLowerCase().replace(/[^a-z0-9' \uac00-\ud7a3]+/g, ' ').split(' ').filter(Boolean);
   const verb = sim.parser.verbOf(words.slice(0, 2).join(' ')) ?? sim.parser.verbOf(words[0] ?? '');
   return verb === 'look' || !verb;
 }
@@ -748,13 +761,13 @@ export function command(sim: Sim, line: string, afoot = false): void {
   // How many are meant, by somebody taking, dropping or putting away: "drop 3 pelts", "drop two
   // pelts", "drop all the pelts", "drop pelts". Anything else may use numbers as it likes.
   let qty: Qty = 1;
-  const typed = line.toLowerCase().split(/[^a-z0-9']+/).filter(Boolean);
-  const count = typed.findIndex((w) => /^\d+$/.test(w) || NUMBERS.includes(w));
+  const typed = line.toLowerCase().split(/[^a-z0-9'\uac00-\ud7a3]+/).filter(Boolean);
+  const count = typed.findIndex((w) => /^\d+$/.test(w) || NUMBERS.includes(w) || w in NUMBERS_KO);
   if (count >= 0) {
     const counted = sim.parser.parse(typed.filter((_, i) => i !== count).join(' '));
     if (counted.ok && COUNTED.includes(counted.verb)) {
       r = counted;
-      qty = Math.max(1, /^\d+$/.test(typed[count]) ? Number(typed[count]) : NUMBERS.indexOf(typed[count]) + 1);
+      qty = Math.max(1, /^\d+$/.test(typed[count]) ? Number(typed[count]) : NUMBERS_KO[typed[count]] ?? NUMBERS.indexOf(typed[count]) + 1);
     }
   } else if (r.ok && COUNTED.includes(r.verb) && typed.some((w) => ALL.includes(w) || sim.parser.plural(w))) qty = 'all';
   if (!r.ok) {
