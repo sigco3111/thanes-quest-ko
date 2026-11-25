@@ -1,4 +1,6 @@
 // An original 8x8 bitmap font drawn for this project. Each glyph is eight rows of eight cells.
+// Hangul syllables come from kofont.ts, rasterized from Galmuri7 (SIL OFL 1.1).
+import { hangulGlyph } from './kofont';
 
 const G: Record<string, string> = {
   ' ': '........|........|........|........|........|........|........|........',
@@ -16,6 +18,7 @@ const G: Record<string, string> = {
   ',': '........|........|........|........|........|..XX....|..XX....|.XX.....',
   '-': '........|........|........|XXXXXX..|........|........|........|........',
   '—': '........|........|........|XXXXXXXX|........|........|........|........',
+  '·': '........|........|........|...XX...|...XX...|........|........|........',
   '.': '........|........|........|........|........|..XX....|..XX....|........',
   '/': '.....XX.|....XX..|...XX...|..XX....|.XX.....|XX......|X.......|........',
   '0': '.XXXXX..|XX...XX.|XX..XXX.|XX.XXXX.|XXXX.XX.|XXX..XX.|.XXXXX..|........',
@@ -113,8 +116,11 @@ for (const [ch, src] of Object.entries(G)) {
 }
 const UNKNOWN = BITS.get('?')!;
 
+/** Glyph rows for one character: the hand-drawn Latin set, or a Galmuri7 Hangul syllable. */
+const glyph = (ch: string): Uint8Array | undefined => BITS.get(ch) ?? hangulGlyph(ch.codePointAt(0)!) ?? undefined;
+
 /** Can this character be drawn? Anything that cannot shows as a question mark. */
-export const hasGlyph = (ch: string): boolean => BITS.has(ch);
+export const hasGlyph = (ch: string): boolean => glyph(ch) !== undefined;
 
 /** Draw text into an indexed buffer. bg < 0 leaves the background untouched. */
 export function drawText(buf: Uint8Array, bufW: number, x: number, y: number, text: string, fg: number, bg = -1, scale = 1): void {
@@ -122,7 +128,7 @@ export function drawText(buf: Uint8Array, bufW: number, x: number, y: number, te
   if (scale > 1) {
     // Large text: each font pixel becomes a square block.
     for (let i = 0; i < text.length; i++) {
-      const g = BITS.get(text[i]) ?? UNKNOWN;
+      const g = glyph(text[i]) ?? UNKNOWN;
       for (let r = 0; r < 8; r++)
         for (let c = 0; c < 8; c++) {
           if (!((g[r] >> c) & 1)) continue;
@@ -137,7 +143,7 @@ export function drawText(buf: Uint8Array, bufW: number, x: number, y: number, te
     return;
   }
   for (let i = 0; i < text.length; i++) {
-    const g = BITS.get(text[i]) ?? UNKNOWN;
+    const g = glyph(text[i]) ?? UNKNOWN;
     for (let r = 0; r < 8; r++) {
       const py = y + r;
       if (py < 0 || py >= bufH) continue;
