@@ -304,15 +304,15 @@ export const hollow: RoomDef = {
   id: 'hollow',
   mark: 'open',
   music: 'barrow',
-  name: 'The Hollow',
+  name: '움푹한 곳',
   hung: 420,
-  look: 'She is kneeling in a hollow in the snow. Frost has grown over her shoulders like a fur. Her hands are spread flat on the drift in front of her, and her lips are moving. All round, as far up as you can look, the snow hangs.',
+  look: '그녀가 눈 웅덩이에 무릎 꿇고 있다. 서리가 가죽처럼 어깨를 덮었다. 두 손은 앞의 눈더미에 평평히 펴 얹혀 있고, 입술이 움직이고 있다. 올려다보는 한 사방에, 눈이 매달려 있다.',
   lookWhen: [
-    { if: [BROKEN, { flag: 'coal.given' }], look: 'There is a hollow in the snow, and the print of two knees, and you. Snow is falling into it. In a day there will be nothing here to show where anybody knelt.' },
-    { if: [BROKEN, { flag: 'boy.home' }], look: 'There is a hollow in the snow, and the print of two knees, and a smaller hollow in front of them. Snow is falling into both.' },
-    { if: [BROKEN], look: 'There is a hollow in the snow, and the print of two knees. In front of them a small boy lies curled on his side, with the snow coming down on him. He has finished his breath. A track goes off north into the white, where nobody is.' },
-    { if: [{ flag: 'hollow.joined' }], look: 'You are kneeling beside her in the hollow. Her lips have stopped. She is looking at you, and at your hand, and at the ring on it. The snow still hangs, the whole sky of it, held up now by nothing but you. Your word is going.' },
-    { if: [{ flag: 'hollow.seen' }], look: 'She is kneeling in a hollow in the snow, with her hands spread flat on the drift, and her lips moving. Under her hands, under the snow, a small boy lies curled on his side, facing her, with his breath hanging in front of his mouth: halfway out of him, and not finished.' },
+    { if: [BROKEN, { flag: 'coal.given' }], look: '눈 웅덩이가 있고, 두 무릎 자국이 있고, 네가 있다. 그 안으로 눈이 내리고 있다. 하루면 누가 무릎 꿇었는지 보여 줄 것이 아무것도 없을 거다.' },
+    { if: [BROKEN, { flag: 'boy.home' }], look: '눈 웅덩이가 있고, 두 무릎 자국이 있고, 그 앞에 더 작은 웅덩이가 있다. 둘 다로 눈이 내리고 있다.' },
+    { if: [BROKEN], look: '눈 웅덩이가 있고, 두 무릎 자국이 있다. 그 앞에 어린 소년이 옆으로 웅크려 누워 있고, 그 위로 눈이 내리고 있다. 그는 숨을 다 내뱉었다. 발자국 하나가 하얀 속으로 북쪽으로 난다, 아무도 없는 곳으로.' },
+    { if: [{ flag: 'hollow.joined' }], look: '너는 그녀 곁 웅덩이에 무릎 꿇고 있다. 그녀의 입술이 멈췄다. 너를 보고, 네 손을 보고, 그 위의 반지를 보고 있다. 눈은 여전히 매달려 있다, 하늘 한 면 전부, 이제는 너만이 떠받치고 있다. 네 단어가 가고 있다.' },
+    { if: [{ flag: 'hollow.seen' }], look: '그녀가 눈 웅덩이에 무릎 꿇고, 두 손을 눈더미에 평평히 펴 얹고, 입술이 움직이고 있다. 그 손 아래, 눈 아래, 어린 소년이 옆으로 웅크려 누워 그녀를 향해 있다, 입 앞에 숨이 매달려 있다. 절반쯤 나온 채, 끝나지 않은.' },
   ],
   scene: {
     kind: 'outdoor', horizon: 54, walkTop: 96,
@@ -329,114 +329,114 @@ export const hollow: RoomDef = {
   npcs: [{ char: 'kneeler', x: 160, y: 126, dir: 'down', if: [HELD] }],
   things: [
     {
-      id: 'drift', nouns: ['snow', 'ground'], x: 160, y: 136, reach: 400, try: ['kneel beside her', 'give the coal to her'], look: 'The drift under her hands. She has them on it the way you would put your hands on somebody\'s back, to feel them breathing.',
+      id: 'drift', nouns: ['snow', 'ground'], x: 160, y: 136, reach: 400, try: ['kneel beside her', 'give the coal to her'], look: '그녀의 손 아래 눈더미. 누군가의 등에 손을 얹어 숨 쉬는 걸 느끼듯 얹고 있다.',
       lookWhen: [
-        { if: [BROKEN], look: 'Snow, falling into a hollow, and filling it.' },
-        { if: [{ flag: 'hollow.seen' }], look: 'The drift is clear as a window where the word wiped it. He is under it, curled on his side, facing her.' },
+        { if: [BROKEN], look: '눈, 웅덩이 속으로 내리며, 채우며.' },
+        { if: [{ flag: 'hollow.seen' }], look: '단어가 닦아 낸 곳에서 눈더미가 창처럼 맑다. 그가 그 아래 있다, 옆으로 웅크려, 그녀를 향해.' },
       ],
     },
     {
       id: 'boy', nouns: ['boy', 'breath'], x: 160, y: 138, reach: 40, hidden: true,
-      look: 'A small boy, curled on his side under her hands, facing her, with his mouth a little open. In front of his lips, hanging in the air, is his breath: a small white cloud, halfway out of him, not finished. It has been halfway out of him for three hundred winters.',
-      lookWhen: [{ if: [BROKEN], look: 'A small boy, curled on his side in a hollow the snow is filling. He has finished his breath. He weighs nothing; you can see that from here.' }],
+      look: '어린 소년, 그녀의 손 아래 옆으로 웅크려, 그녀를 향해, 입을 조금 벌리고. 입술 앞에, 공중에 매달려, 그의 숨이 있다. 작은 흰 구름, 절반쯤 나온 채, 끝나지 않은. 삼백 겨울째 절반쯤 나와 있다.',
+      lookWhen: [{ if: [BROKEN], look: '어린 소년, 눈이 채우는 웅덩이에 옆으로 웅크려 있다. 그는 숨을 다 내뱉었다. 무게가 없다, 여기서도 보인다.' }],
     },
     {
-      id: 'ring', nouns: ['ring'], x: 160, y: 128, reach: 400, look: 'On one of her hands is a brass ring, old, and worn smooth.\n\nYou look at your own hand.',
-      lookWhen: [{ if: [BROKEN], look: 'You turn the ring on your finger. It is old, and worn smooth by a good many hands. You know one more of them than you did.' }],
+      id: 'ring', nouns: ['ring'], x: 160, y: 128, reach: 400, look: '그녀의 한 손에 황동 반지가 있다, 오래되고, 매끈하게 닳은.\n\n너는 네 손을 본다.',
+      lookWhen: [{ if: [BROKEN], look: '손가락의 반지를 돌려 본다. 오래되고, 수많은 손에 매끈하게 닳았다. 너는 전보다 한 사람을 더 안다.' }],
     },
-    { id: 'town', nouns: ['village', 'tower', 'roof'], x: 160, y: 56, reach: 400, look: 'The town is still a long way off: towers, and roofs under snow, and no smoke. Wherever she was taking him, it was there. She got this far.' },
-    stillSky('Snow, hanging, as far up as there is anything.', 'Grey. Moving. And a raven in it, a long way north, going about its business.'),
+    { id: 'town', nouns: ['village', 'tower', 'roof'], x: 160, y: 56, reach: 400, look: '마을은 여전히 멀다. 탑들, 눈 밑 지붕들, 연기 없음. 그녀가 그를 데려가던 곳은 그곳이었다. 여기까지 왔다.' },
+    stillSky('눈, 매달려, 무언가가 있는 한 위로.', '회색. 움직인다. 그리고 그 안에 까마귀, 멀리 북쪽, 제 일 보러 가는 중.'),
   ],
   rules: [
     {
       enter: true, if: [HELD, { not: { flag: 'hollow.found' } }],
       do: [
         { set: 'hollow.found' }, { score: 5, id: 'hollow.found' }, { quest: 'north', stage: 6 },
-        { say: 'She is kneeling in a hollow in the snow.\n\nThe cold has kept her as she was the hour she knelt down, and she might be any age. Frost has grown over her shoulders like a fur. Her eyes are open and white. Her hands are spread flat on the drift in front of her, the way you would put your hands on somebody\'s back to feel them breathing, and her lips are moving. They have been moving for longer than Hollowmere has had a hall. She is saying ISKA, ISKA, ISKA, without a breath between, because the dead do not get tired, and do not have to wait.\n\nOn one of her hands is a brass ring.\n\nYou look at your own hand.' },
+        { say: '그녀가 눈 웅덩이에 무릎 꿇고 있다.\n\n추위가 그녀를 무릎 꿇은 그 시간 그대로 지켰고, 나이를 알 수 없다. 서리가 가죽처럼 어깨를 덮었다. 눈이 떠져 있고 하얗다. 두 손은 앞의 눈더미에 평평히 펴 얹혀 있다, 누군가의 등에 손을 얹어 숨 쉬는 걸 느끼듯, 그리고 입술이 움직이고 있다. 홀로미어에 회당이 생긴 때보다 오래 움직여 왔다. ISKA, ISKA, ISKA를 말하고 있다, 숨 사이 틈도 없이, 죽은 이는 지치지 않으니까, 기다릴 필요도 없으니까.\n\n그녀의 한 손에 황동 반지가 있다.\n\n너는 네 손을 본다.' },
       ],
     },
     { enter: true, if: [{ any: [{ flag: 'hollow.seen' }, { flag: 'sol.said' }] }, { not: { flag: 'coal.given' } }, { not: { flag: 'boy.home' } }], do: [{ show: 'boy' }] },
     // What is under her hands.
     {
       on: 'orun', if: [HELD, { not: { flag: 'hollow.seen' } }],
-      do: [{ set: 'hollow.seen' }, { show: 'boy' }, { score: 5, id: 'hollow.seen' }, { say: 'When your tongue is ready you say ORUN, and the drift in front of her clears like a window. Under her hands a small boy lies curled on his side, facing her, with his mouth a little open. In front of his lips, hanging in the air, is his breath: a small white cloud, halfway out of him, not finished. It has been halfway out of him for three hundred winters.' }],
+      do: [{ set: 'hollow.seen' }, { show: 'boy' }, { score: 5, id: 'hollow.seen' }, { say: '혀가 준비되면 ORUN을 말하고, 그녀 앞 눈더미가 창처럼 맑아진다. 그녀의 손 아래 어린 소년이 옆으로 웅크려 누워 그녀를 향해 있고, 입을 조금 벌렸다. 입술 앞에, 공중에 매달려, 그의 숨이 있다. 작은 흰 구름, 절반쯤 나온 채, 끝나지 않은. 삼백 겨울째 절반쯤 나와 있다.' }],
     },
-    { on: 'orun', if: [HELD], do: [{ say: 'ORUN. He is as he was. So is she.' }] },
-    { on: 'orun', do: [{ say: 'ORUN. There is nothing hidden here any more.' }] },
+    { on: 'orun', if: [HELD], do: [{ say: 'ORUN. 그는 그대로다. 그녀도 그대로다.' }] },
+    { on: 'orun', do: [{ say: 'ORUN. 여기 숨겨진 건 더는 없다.' }] },
 
     // The sun's name. It is thought about before it is said; said twice, it is said.
-    { on: 'say sol', if: [HELD, { flag: 'hollow.joined' }], do: [{ say: 'You have the sun\'s name on your tongue, and nobody left to say it to. She has stopped. She is looking at the ring.' }] },
+    { on: 'say sol', if: [HELD, { flag: 'hollow.joined' }], do: [{ say: '혀 위에 태양의 이름이 있고, 말할 사람은 더는 없다. 그녀는 멈췄다. 반지를 보고 있다.' }] },
     {
       on: 'say sol', if: [HELD, { not: { flag: 'hollow.sol' } }, { flag: 'hollow.seen' }],
-      do: [{ set: 'hollow.sol' }, { say: 'You have the sun\'s name on your tongue. It is warm there, like a coal.\n\nYou know what it would do. She would not bear it. The word would stop, and the snow would come down, and the wind would start, and every winter after this one would be a little kinder than the last. The boy would finish his breath out here, with nobody, and whatever she is would go off into the white with its hands over its face, the way the guards went from the gate.\n\nYou have not said it.' }],
+      do: [{ set: 'hollow.sol' }, { say: '혀 위에 태양의 이름이 있다. 거기서 따뜻하다, 숯처럼.\n\n그게 무슨 일을 할지 안다. 그녀는 견디지 못할 거다. 단어가 멈추고, 눈이 내리고, 바람이 시작되고, 이 겨울 다음의 겨울마다 전보다 조금씩 자상해질 거다. 소년은 여기서, 아무도 없이, 숨을 끝낼 거고, 그녀인 무언가가 얼굴을 손으로 가리고 하얀 속으로 사라질 거다, 경비병들이 관문에서 간 것처럼.\n\n너는 아직 말하지 않았다.' }],
     },
     {
       on: 'say sol', if: [HELD, { not: { flag: 'hollow.sol' } }],
-      do: [{ set: 'hollow.sol' }, { say: 'You have the sun\'s name on your tongue. It is warm there, like a coal.\n\nYou know what it would do. She would not bear it. The word would stop, and the snow would come down, and the wind would start, and every winter after this one would be a little kinder than the last. And whatever she is would go off into the white with its hands over its face, the way the guards went from the gate, and leave whatever is under her hands out here, with nobody.\n\nYou have not said it.' }],
+      do: [{ set: 'hollow.sol' }, { say: '혀 위에 태양의 이름이 있다. 거기서 따뜻하다, 숯처럼.\n\n그게 무슨 일을 할지 안다. 그녀는 견디지 못할 거다. 단어가 멈추고, 눈이 내리고, 바람이 시작되고, 이 겨울 다음의 겨울마다 전보다 조금씩 자상해질 거다. 그리고 그녀인 무언가가 얼굴을 손으로 가리고 하얀 속으로 사라질 거다, 경비병들이 관문에서 간 것처럼, 그녀의 손 아래 있는 것을 여기, 아무도 없이, 두고.\n\n너는 아직 말하지 않았다.' }],
     },
     {
       on: 'sol', if: [HELD],
       do: [
         { set: 'sol.said' }, { set: 'winter.broken' }, { run: 'winterBreaks' }, { muster: true }, { show: 'boy' }, { quest: 'north', stage: 7 }, { sound: 'door' },
-        { say: 'You say the sun\'s name.\n\nShe cannot bear it. Her lips stop. She takes her hands off the snow, for the first time in three hundred winters, and puts them over her face; and whatever she is goes off into the white like that, not fast, the way the guards went from the gate. She does not look back.\n\nAll the snow in the sky comes down at once. It comes down with a sound like a long sigh, three hundred years of it, and the wind gets up under it and blows it sideways, and the raven drops out of the air, and catches itself, and flaps away north, complaining.\n\nIn the hollow, the boy\'s breath finishes going out of him. There is nobody with him but you.\n\nIn your pack the horn box has gone warm.' },
+        { say: '태양의 이름을 말한다.\n\n그녀는 견디지 못한다. 입술이 멎는다. 삼백 겨울 만에 처음으로 눈에서 손을 떼고, 얼굴을 가린다. 그러고는 그녀인 무언가가 그대로 하얀 속으로 사라진다, 빠르지 않게, 경비병들이 관문에서 간 것처럼. 돌아보지 않는다.\n\n하늘의 눈 전부가 한꺼번에 내려온다. 긴 한숨 같은 소리로 내려온다, 삼백 년치가, 바람이 그 밑에서 일어 옆으로 몰고, 까마귀가 공중에서 떨어졌다가, 몸을 가다듬고, 북쪽으로 날아간다, 투덜거리며.\n\n웅덩이에서, 소년의 숨이 나가기를 끝낸다. 그 곁에는 너뿐이다.\n\n짐 속에서 뿔 상자가 따뜻해졌다.' },
       ],
     },
-    { on: 'sol', do: [{ say: 'SOL. Nobody is here to hear it. The sun is coming up anyway.' }] },
+    { on: 'sol', do: [{ say: 'SOL. 들을 사람이 여기 없다. 해는 어차피 뜬다.' }] },
 
     // Her word, said with her.
     {
       on: 'iska', if: [HELD, { not: { flag: 'hollow.joined' } }, { flag: 'hollow.seen' }],
       do: [
         { set: 'hollow.joined' }, { score: 10, id: 'hollow.joined' }, { goto: 'hollow', x: 184, y: 130, dir: 'left' },
-        { say: 'You kneel down beside her in the snow.\n\nThen you say her word with her. You put your own ISKA into the cold beside hers, over the boy, and feel it go out of you, and the warmth go after it: out of your hands, out of your feet, out of the middle of you, as if somebody were drawing it off on a thread. For the space of one word there are two people holding him.\n\nHer lips stop.\n\nThe silence afterward is larger than any you have ever heard. The snow still hangs, held up now by nothing but you: the whole sky of it, on one word. Slowly, with a sound like ice cracking on a pond in spring, she turns her head and looks at you, and at your hand, and at the ring on it.\n\nYou take out the horn box and open it, and the coal in it is as grey and dull as before, because you are holding something still. Your word is going. You feel it thin in your mouth like the last heat going out of a stone, and you know you cannot say it again, not for a long while, not in time.' },
+        { say: '눈 속에서 그녀 곁에 무릎 꿇는다.\n\n그러고는 그녀의 단어를 함께 말한다. 너의 ISKA를 그녀의 곁 추위 속에 놓는다, 소년 위에, 그것이 너에게서 빠지는 걸, 온기가 뒤따르는 걸 느낀다. 손에서, 발에서, 네 한가운데서, 누군가 실에 감아 뽑아내듯. 한 단어가 이어지는 동안 그를 붙드는 사람이 둘이다.\n\n그녀의 입술이 멎는다.\n\n그 뒤의 침묵은 네가 들은 어떤 침묵보다 크다. 눈은 여전히 매달려 있다, 이제는 너만이 떠받치고. 하늘 한 면 전부가, 단어 하나에. 천천히, 봄 연못의 얼음 갈라지는 소리로, 그녀가 고개를 돌려 너를 보고, 네 손을 보고, 그 위의 반지를 본다.\n\n뿔 상자를 꺼내 열자, 안의 숯은 여전히 회색이고 침침하다, 네가 무언가를 붙들고 있으니까. 네 단어가 가고 있다. 입 안에서 옅어지는 게 느껴진다, 돌에서 마지막 열기가 빠지듯, 그리고 다시는 말할 수 없음을 안다, 한참 동안은, 제시간에는.' },
       ],
     },
     {
       on: 'iska', if: [HELD, { not: { flag: 'hollow.joined' } }],
       do: [
         { set: 'hollow.joined' }, { score: 10, id: 'hollow.joined' }, { goto: 'hollow', x: 184, y: 130, dir: 'left' },
-        { say: 'You kneel down beside her in the snow.\n\nThen you say her word with her. You put your own ISKA into the cold beside hers, over whatever it is she has under her hands, and feel it go out of you, and the warmth go after it: out of your hands, out of your feet, out of the middle of you, as if somebody were drawing it off on a thread. For the space of one word there are two people holding it.\n\nHer lips stop.\n\nThe silence afterward is larger than any you have ever heard. The snow still hangs, held up now by nothing but you: the whole sky of it, on one word. Slowly, with a sound like ice cracking on a pond in spring, she turns her head and looks at you, and at your hand, and at the ring on it.\n\nYou take out the horn box and open it, and the coal in it is as grey and dull as before, because you are holding something still. Your word is going. You feel it thin in your mouth like the last heat going out of a stone, and you know you cannot say it again, not for a long while, not in time.' },
+        { say: '눈 속에서 그녀 곁에 무릎 꿇는다.\n\n그러고는 그녀의 단어를 함께 말한다. 너의 ISKA를 그녀의 곁 추위 속에 놓는다, 그녀가 손 아래 둔 그것이 무엇이든 위에, 그것이 너에게서 빠지는 걸, 온기가 뒤따르는 걸 느낀다. 손에서, 발에서, 네 한가운데서, 누군가 실에 감아 뽑아내듯. 한 단어가 이어지는 동안 그것을 붙드는 사람이 둘이다.\n\n그녀의 입술이 멎는다.\n\n그 뒤의 침묵은 네가 들은 어떤 침묵보다 크다. 눈은 여전히 매달려 있다, 이제는 너만이 떠받치고. 하늘 한 면 전부가, 단어 하나에. 천천히, 봄 연못의 얼음 갈라지는 소리로, 그녀가 고개를 돌려 너를 보고, 네 손을 보고, 그 위의 반지를 본다.\n\n뿔 상자를 꺼내 열자, 안의 숯은 여전히 회색이고 침침하다, 네가 무언가를 붙들고 있으니까. 네 단어가 가고 있다. 입 안에서 옅어지는 게 느껴진다, 돌에서 마지막 열기가 빠지듯, 그리고 다시는 말할 수 없음을 안다, 한참 동안은, 제시간에는.' },
       ],
     },
-    { on: 'iska', do: [{ say: 'ISKA. The snow that is falling in front of you stops, and hangs, for as long as one word lasts. Then it comes on down.' }] },
+    { on: 'iska', do: [{ say: 'ISKA. 네 앞에 내리던 눈이 멎고, 한 단어가 이어지는 동안 매달린다. 그러고는 다시 내려온다.' }] },
 
     // The coal: the way home. It takes one, and what one can carry.
     {
       on: GIVE, if: [HELD, { flag: 'hollow.joined' }, { has: 'ember' }],
       do: [
         { lose: 'ember' }, { set: 'coal.given' }, { set: 'winter.broken' }, { run: 'winterBreaks' }, { muster: true }, { hide: 'boy' }, { score: 25, id: 'winter.coal' }, { quest: 'north', stage: 7 }, { sound: 'win' },
-        { say: 'You put the box into her hands.\n\nThe word ends.\n\nAll the snow in the sky comes down at once. It comes down with a sound like a long sigh, three hundred years of it, and the wind gets up under it and blows it sideways, and the raven drops out of the air, and catches itself, and flaps away north, complaining. The boy\'s breath finishes going out of him.\n\nIn her hands the coal wakes. It goes from grey to red to orange, and the smell comes up out of the box, peat and pine-smoke and broth and wet wool: the smell of a hall with a fire at one end and a door at the other. Something moves in her face that has not moved in a very long time.\n\nAnd she gathers him up. Stiffly at first, and then not stiffly, the way she must have done it a thousand times, she gets him into her arms, and holds him against her, and bends her head over the open box the way a woman bends over a hearth on a cold morning to blow it awake. She breathes on it.\n\nThen there is a hollow in the snow in front of you, and the print of two knees, and you.' },
-        { say: 'You did not say the sun\'s name. It comes up anyway.\n\nYou are further from anywhere than you have ever been, with nothing but a brass ring, and it is a very long way back on foot. You start walking.' },
+        { say: '상자를 그녀의 손에 넣어 준다.\n\n단어가 끝난다.\n\n하늘의 눈 전부가 한꺼번에 내려온다. 긴 한숨 같은 소리로 내려온다, 삼백 년치가, 바람이 그 밑에서 일어 옆으로 몬다, 까마귀가 공중에서 떨어졌다가, 몸을 가다듬고, 북쪽으로 날아간다, 투덜거리며. 소년의 숨이 나가기를 끝낸다.\n\n그녀의 손에서 숯이 깬다. 회색에서 붉게, 주황으로, 냄새가 상자에서 올라온다. 이탄과 소나무 연기와 수프와 젖은 양모. 한쪽 끝에 불이 있고 다른 쪽 끝에 문이 있는 회당의 냄새. 아주 오래 움직이지 않던 무언가가 그녀의 얼굴에서 움직인다.\n\n그러고는 그녀가 그를 안아 올린다. 처음엔 뻣뻣하게, 그러다 뻣뻣하지 않게, 천 번은 그랬을 방식으로, 그를 품에 넣고, 몸에 대고, 열린 상자 위로 고개를 숙인다, 추운 아침 여자가 난로에 몸을 숙여 불을 깨우듯. 숨을 불어넣는다.\n\n그러고는 네 앞에 눈 웅덩이와 두 무릎 자국과 너만 남는다.' },
+        { say: '너는 태양의 이름을 말하지 않았다. 어차피 해는 뜬다.\n\n너는 지금까지 중 가장 먼 곳에 있다, 가진 건 황동 반지 하나뿐, 돌아가기엔 걸어서 아주 먼 길. 걷기 시작한다.' },
       ],
     },
-    { on: GIVE, if: [HELD, { has: 'ember' }], do: [{ say: 'You hold the box out to her. She does not see it. She does not see anything. Her hands are on the snow, and her lips are moving, and the coal in the box is as dull as an old eye. Nothing wakes here while that word is being said.' }] },
-    { on: ['use ember', 'blow ember', 'open ember', 'light ember', 'warm ember', 'pet ember'], if: [HELD, { flag: 'hollow.joined' }, { has: 'ember' }], do: [{ say: 'You have the box open in your hand. It is yours. It is the way back to the Elder\'s hearth, and the bed beside it, and a child who keeps trying to give you a name. It takes one, and what one can carry.\n\nYou look at her hands.' }] },
+    { on: GIVE, if: [HELD, { has: 'ember' }], do: [{ say: '상자를 그녀에게 내민다. 보지 못한다. 아무것도 보지 못한다. 손은 눈 위에, 입술은 움직이고, 상자 속 숯은 늙은 눈처럼 침침하다. 저 단어가 말해지는 동안 여기선 아무것도 깨지 않는다.' }] },
+    { on: ['use ember', 'blow ember', 'open ember', 'light ember', 'warm ember', 'pet ember'], if: [HELD, { flag: 'hollow.joined' }, { has: 'ember' }], do: [{ say: '상자를 열어 손에 들고 있다. 네 것이다. 원로의 난로와 그 곁 침대, 그리고 네게 자꾸 이름을 지어 주려는 아이에게로 가는 길. 하나와, 하나가 안을 수 있는 만큼을 데려간다.\n\n그녀의 손을 본다.' }] },
     // What the hero could do, and knows better than to.
     {
       on: TAKE, if: [HELD, { not: { flag: 'hollow.joined' } }, { flag: 'hollow.seen' }],
-      do: [{ say: 'You could take him yourself. He would weigh nothing. You would breathe on the coal and be at the Elder\'s hearth with him in your arms before his breath was done, and she would kneel here with her hands on the empty snow, saying her word over nothing, for as long as there is a world to be cold in.\n\nYou take your hands back.' }],
+      do: [{ say: '네가 직접 데려갈 수도 있다. 무게가 없을 거다. 숯에 숨을 불면 그의 숨이 다하기 전에 원로의 난로에 그를 안고 서 있을 거고, 그녀는 텅 빈 눈 위에 손을 얹은 채 여기 무릎 꿇고, 아무것도 아닌 것 위에 단어를 말하겠지, 세상이 차가울 동안 내내.\n\n손을 거둔다.' }],
     },
-    { on: TAKE, if: [HELD, { flag: 'hollow.joined' }], do: [{ say: 'He is not yours to carry. She is looking at you. Her hands are empty, and yours have a box in them.' }] },
+    { on: TAKE, if: [HELD, { flag: 'hollow.joined' }], do: [{ say: '그는 네가 안아 갈 사람이 아니다. 그녀가 너를 보고 있다. 그녀의 손은 비어 있고, 네 손에는 상자가 있다.' }] },
     // If the sun's name was said, he is left; and he can still be carried home.
     {
       on: TAKE, if: [{ flag: 'sol.said' }, { not: { flag: 'boy.home' } }, { has: 'ember' }, { near: 'boy', d: 60 }],
       do: [
         { set: 'boy.home' }, { set: 'marta.asked' }, { hide: 'boy' }, { sound: 'word' }, { run: 'emberReady' }, { goto: 'hall', x: 160, y: 124, dir: 'down' },
-        { say: 'You get him up out of the hollow. He weighs nothing. It takes one, and what one can carry. You open the horn box, and the coal in it is awake, and you breathe on it.\n\nThen you are standing on the Elder\'s hearthstone, in the middle of supper, with a small boy in your arms who finished his breath three hundred winters late. Marta is on her feet before the bowl she dropped has stopped rolling. She looks at the boy, and at you, and asks nothing yet. Tova, in the bed on the other side of the hearth, says: "He can have my blanket."\n\nLater you tell Marta the rest: the footprints, the hollow, the hands flat on the snow, the brass ring; what you said, and what went off into the white with its hands over its face.\n\n"A ring like that one," says Marta. She is quiet for a long time. "There is a place swept. It was swept for more than him. He shall have it, and I shall go on sweeping the rest."' },
+        { say: '웅덩이에서 그를 일으켜 안는다. 무게가 없다. 하나와, 하나가 안을 수 있는 만큼을 데려간다. 뿔 상자를 열자, 안의 숯이 깨어 있고, 숨을 불어넣는다.\n\n그러자 너는 원로의 난로돌 위에 서 있다, 저녁 한창에, 삼백 겨울 늦게 숨을 다한 어린 소년을 안고. 마르타가 떨어뜨린 그릇이 멈추기 전에 일어서 있다. 소년을 보고, 너를 보고, 아직 아무것도 묻지 않는다. 난로 건너편 침대에서 토바가 말한다. "내 이불 줘도 돼."\n\n나중에 너는 마르타에게 나머지를 말한다. 발자국, 웅덩이, 눈 위에 평평히 얹힌 손들, 황동 반지. 네가 한 말, 그리고 얼굴을 손으로 가리고 하얀 속으로 사라진 것.\n\n"저런 반지라," 마르타가 말한다. 오래 조용하다. "쓸어 둔 자리가 있어. 그 애 하나를 위해 쓴 게 아니었지. 그 애가 갖겠고, 나는 나머지를 계속 쓸겠어."' },
       ],
     },
-    { on: TAKE, if: [{ flag: 'sol.said' }, { not: { flag: 'boy.home' } }], do: [{ say: 'You get your hands under him. He weighs nothing. It is fourteen days to anywhere, on foot, and snowing. You would need another way home than walking.' }] },
+    { on: TAKE, if: [{ flag: 'sol.said' }, { not: { flag: 'boy.home' } }], do: [{ say: '그 아래로 손을 넣는다. 무게가 없다. 어디든 걸어서 열나흘, 그리고 눈이 내린다. 걷는 것 말고 다른 귀가 방법이 필요하다.' }] },
     // Other things people try.
     { on: her(['attack kneeler', 'push kneeler', 'pull kneeler']), if: [HELD], do: [{ say: 'No.' }] },
-    { on: her(['pet kneeler', 'kiss kneeler', 'warm kneeler']), if: [HELD], do: [{ say: 'You put your hand on her shoulder, through the frost. There is no warmth coming off her at all, and none going in. You have felt that once before, in a hall, with a child under every fur in Hollowmere.' }] },
-    { on: ['take ring', 'pet ring'], if: [HELD], do: [{ say: 'It is hers. It is the same as yours: brass, old, worn smooth by a good many hands. Hers were among them.' }] },
-    { on: her(['give ring', 'give ring kneeler', 'use ring']), if: [HELD], do: [{ say: 'She has one. It is the same ring. There was only ever the one; somebody kept another by, afterwards, for when there should be a Thane again.' }] },
-    { on: ['listen', 'listen *'], if: [HELD, { not: { flag: 'hollow.joined' } }], do: [{ say: 'ISKA, ISKA, ISKA: a small dry sound, like ice settling in a cold night, with no space at all between one and the next.' }] },
-    { on: ['listen', 'listen *'], if: [HELD], do: [{ say: 'Nothing. It is the first silence there has been here in three hundred winters, and you are the only thing holding it up.' }] },
-    { on: 'veth', if: [HELD], do: [{ say: 'VETH. The hanging snow goes back from the hollow a pace, and stays there. She does not look up. It is not that kind of holding.' }] },
-    { on: her(['pray', 'sit', 'pray kneeler', 'sit kneeler']), if: [HELD, { not: { flag: 'hollow.joined' } }], do: [{ say: 'You kneel down beside her in the snow. She does not turn her head. Her hands are on the drift, and her lips are moving. You know the word. You are near enough, now, to say it with her.' }] },
+    { on: her(['pet kneeler', 'kiss kneeler', 'warm kneeler']), if: [HELD], do: [{ say: '서리를 통해 그녀의 어깨에 손을 얹는다. 그녀에게서 나오는 온기가 전혀 없고, 들어가는 것도 없다. 전에 한 번 느낀 적 있다, 회당에서, 홀로미어의 모든 가죽 밑의 아이에게서.' }] },
+    { on: ['take ring', 'pet ring'], if: [HELD], do: [{ say: '그녀의 것이다. 네 것과 같다. 황동, 오래됨, 수많은 손에 매끈하게 닳음. 그녀의 손도 그중에 있었다.' }] },
+    { on: her(['give ring', 'give ring kneeler', 'use ring']), if: [HELD], do: [{ say: '그녀는 있다. 같은 반지다. 애초에 하나뿐이었다. 나중에 누군가 다른 하나를 곁에 두었다, 다시 테인이 있을 때를 위해.' }] },
+    { on: ['listen', 'listen *'], if: [HELD, { not: { flag: 'hollow.joined' } }], do: [{ say: 'ISKA, ISKA, ISKA. 작고 마른 소리, 추운 밤 얼음이 가라앉는 소리처럼, 하나와 다음 사이에 틈이 전혀 없이.' }] },
+    { on: ['listen', 'listen *'], if: [HELD], do: [{ say: '아무것도. 삼백 겨울 만에 처음 있는 침묵이고, 그것을 떠받치는 건 너뿐이다.' }] },
+    { on: 'veth', if: [HELD], do: [{ say: 'VETH. 매달린 눈이 웅덩이에서 한 걸음 물러나, 그대로 머문다. 그녀는 눈을 들지 않는다. 그런 종류의 붙듦이 아니다.' }] },
+    { on: her(['pray', 'sit', 'pray kneeler', 'sit kneeler']), if: [HELD, { not: { flag: 'hollow.joined' } }], do: [{ say: '눈 속에서 그녀 곁에 무릎 꿇는다. 고개를 돌리지 않는다. 손은 눈더미 위에, 입술은 움직이고 있다. 단어를 안다. 이제 충분히 가까워서, 함께 말할 수 있다.' }] },
     // Nobody walks away from a sky they are holding up.
-    { zone: 'away', if: [HELD, { flag: 'hollow.joined' }], do: [{ goto: 'hollow', x: 184, y: 130, dir: 'left' }, { say: 'You are holding up the sky, and she is looking at you. You do not get up.' }] },
+    { zone: 'away', if: [HELD, { flag: 'hollow.joined' }], do: [{ goto: 'hollow', x: 184, y: 130, dir: 'left' }, { say: '너는 하늘을 떠받치고 있고, 그녀가 너를 보고 있다. 일어나지 않는다.' }] },
     ...noFire(['hollow'])!.slice(0, 2),
   ],
 };
