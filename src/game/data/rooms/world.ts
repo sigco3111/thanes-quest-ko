@@ -249,7 +249,7 @@ export const village: RoomDef = {
       do: [{ lose: 'toyhorse' }, { set: 'boy.horse' }, { sound: 'take' }, { say: '남자아이가 말을 두 손으로 받아 씹힌 귀를 직업적 관심으로 살핀다. "누가 아꼈나 봐," 그가 말한다. 따뜻할 튜닉 안에 넣고, 한 손으로 눈 작업으로 돌아간다.' }],
     },
     { on: ['attack snowman', 'push snowman'], do: [{ say: '너는 홀로미어의 테인이다. 약간 놀랍게도, 그건 네가 그럴 수 없다는 뜻임을 깨닫는다.' }] },
-    { on: ['use snowman', 'pet snowman', 'take snowman', 'take snow'], if: [THAW], do: [{ say: 'You roll a head for it. The girl inspects the head and pronounces it too small for the Elder, but about right for you. It goes on a second, shorter figure, which is stood at the Elder\'s elbow and given a stick to hold.' }] },
+    { on: ['use snowman', 'pet snowman', 'take snowman', 'take snow'], if: [THAW], do: [{ say: 'You roll a head for it. The girl inspects the head and pronounces it too small for the Elder, but about right for you. 두 번째, 더 작은 형상에 올라가, 장로 팔꿈치 옆에 세워지고 막대기를 쥐게 된다.' }] },
     { on: ['read sign', 'read inn'], do: [{ say: '글자는 없고, 날씨에 잿빛이 된 그림뿐이다. 솥, 혹은 투구. 그린 사람은 그림보다 따뜻함에 더 강했던 모양이다. 케틀 앤 헬름이라고들 부른다, 안전한 쪽으로.' }] },
     { on: ['wish', 'wish well'], if: [{ near: 'well' }], do: [{ say: '우물에 기대어 소원을 빈다. 소원이 아주 깊이 내려가고 돌아오지 않는다. 전망이 좋다.' }] },
     { on: ['climb well', 'enter well', 'jump well'], do: [{ die: '얼마나 깊은지 보려고 우물에 들어간다. 네 키보다 깊고, 네 용기보다 차갑고, 줄을 들고 오는 사람은 없다.' }] },
@@ -342,7 +342,7 @@ export const pinewood: RoomDef = {
     },
     { on: 'climb tree', do: [{ say: '맨 아래 가지는 닿지 않을 만큼 높고, 껍질은 얼음으로 번들거린다.' }] },
     { on: 'listen', do: [{ say: '솔잎에 바람 소리. 그 아래, 멀리, 울부짖음일지도 네 신경일지도 모를 소리.' }] },
-    { on: 'orun', if: [{ not: { flag: 'orun.pinewood' } }], do: [{ set: 'orun.pinewood' }, { give: 'venison' }, { sound: 'take' }, { say: 'ORUN. High in the fork of a pine, where you have walked past it a dozen times, a bundle hangs wrapped in bark: a hunter\'s cache, out of the reach of wolves. Smoked venison. Toke\'s, very likely. You take one piece and leave the rest, which is nearly honest.' }] },
+    { on: 'orun', if: [{ not: { flag: 'orun.pinewood' } }], do: [{ set: 'orun.pinewood' }, { give: 'venison' }, { sound: 'take' }, { say: 'ORUN. 소나무 가지 높은 곳, 열두 번은 지나쳤을 곳에 껍질로 싼 꾸러미가 매달려 있다. 사냥꾼의 비축, 늑대가 못 닿는 곳에. 훈제 사슴고기. 아마 토케 거다. 한 점만 가지고 나머지는 둔다, 거의 정직하게.' }] },
     { on: 'orun', do: [{ say: 'ORUN. 숲에는 더 이상 비밀이 없거나, 기꺼이 내줄 비밀이 없다.' }] },
   ],
 };
