@@ -5,8 +5,20 @@
 import { hostile } from './combat';
 import { koNounLabel, vocab } from '../game/data/vocab';
 const koLabel = (id: string): string => koNounLabel[id] ?? id;
+/** Ready-made commands, worded as a plain action on a plain object. Anything not listed falls back to the parser's own words. */
+const koTryLabel: Record<string, string> = {
+  'light fire': '불 지피기', 'read sign': '표지판 읽기', 'read stone': '선돌의 새김 읽기', 'open sledge': '썰매 열기',
+  'look snowman': '눈사람 살펴보기', 'pull rod': '낚싯대 당기기', 'pet sheep': '양 쓰다듬기', 'listen to the hump': '눈 불룩이에 귀 기울이기',
+  'open door': '문 열기', sleep: '잠자기', skate: '스케이트 타기', 'light the lantern': '등불 켜기', 'make a wish': '소원 빌기',
+  'blow the horn': '뿔나팔 불기', 'read the board': '근무표 읽기', 'light the oven': '화덕에 불 지피기', 'climb the pegs': '쇠못을 딛고 오르기',
+  'knock on the door': '문 두드리기', 'open the door': '문 열기', 'read the notches': '문의 새김 읽기', 'read the frame': '지게의 글자 읽기',
+  'take the frame': '지게 가져가기', 'lay the log on the hearth': '통나무를 화로에 놓기', 'drink from the cup': '잔으로 마시기',
+  'sit down': '긴 의자에 앉기', 'open chest': '상자 열기', 'ring bell': '종 울리기', 'read bell': '종의 글자 읽기', 'cut rope': '밧줄 끊기',
+  'read rune': '룬 문자 읽기', 'take wood': '장작 가져가기',
+};
 /** A ready-made command, named the way the hints name things: Korean where the words have Korean. */
 const koLineLabel = (sim: Sim, line: string): string => {
+  if (koTryLabel[line]) return koTryLabel[line];
   const r = sim.parser.parse(line);
   if (!r.ok) return line[0].toUpperCase() + line.slice(1);
   const v = vocab.verbs[r.verb]?.find((w) => /[\uac00-\ud7a3]/.test(w)) ?? r.verb;

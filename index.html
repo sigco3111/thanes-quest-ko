@@ -32,6 +32,8 @@
     <meta name="apple-mobile-web-app-title" content="테인의 모험 (Thane's Quest)" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%23161927'/%3E%3Cpath d='M7 2h2v12H7zM9 4h2v2H9zM11 6h2v2h-2zM9 8h2v2H9zM5 9h2v2H5zM3 11h2v2H3z' fill='%234cc4bc'/%3E%3C/svg%3E" />
     <style>
+      @font-face { font-family: 'Galmuri7KO'; src: url('fonts/Galmuri7-sub.woff') format('woff'); font-display: swap; }
+
       html, body { height: 100%; margin: 0; background: #000; overflow: hidden; }
       body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
       canvas { image-rendering: pixelated; display: block; touch-action: none; }
@@ -41,7 +43,7 @@
          script gives it a fixed size, so nothing shifts as the buttons come and go. */
       #bar {
         display: flex; flex: none; gap: 6px; align-items: flex-start; box-sizing: border-box;
-        font: 13px/1 system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; -webkit-user-select: none; user-select: none;
+        font: 13px/1 'Galmuri7KO', system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; -webkit-user-select: none; user-select: none;
       }
       .touch #bar { display: none; }
       #offers {
@@ -57,7 +59,7 @@
       }
       #bar button:hover { background: #2e3442; border-color: #6c8ad0; }
       #bar button:active { background: #3c59a8; border-color: #6c8ad0; }
-      #bar kbd { margin-right: 7px; font: 600 11px/1 ui-monospace, Menlo, monospace; color: #e8c15a; }
+      #bar kbd { margin-right: 7px; font: 600 11px/1 ui-monospace, Menlo, 'Galmuri7KO', monospace; color: #e8c15a; }
       #keys button { color: #b9bdc8; }
       #keys kbd { color: #8d919c; }
       /* The ways out: to the rest of Daventry, and to the game's own source. Quiet until looked
@@ -65,7 +67,7 @@
          On a phone they show only on the title screen and the main menu: under the menu held
          upright, in a corner held sideways. */
       .out {
-        display: flex; flex: none; align-items: baseline; gap: 7px; font: 12px/1 system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; letter-spacing: 0.02em;
+        display: flex; flex: none; align-items: baseline; gap: 7px; font: 12px/1 'Galmuri7KO', system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; letter-spacing: 0.02em;
         color: #5d6371; white-space: nowrap;
       }
       .out a { color: #7d8494; text-decoration: none; -webkit-tap-highlight-color: transparent; transition: color 0.15s; }
@@ -97,7 +99,7 @@
       .touch body { justify-content: flex-start; padding-top: max(6px, env(safe-area-inset-top)); box-sizing: border-box; }
       .touch #ui {
         display: flex; flex-direction: column; gap: 8px; width: min(100vw, 520px); padding: 0 10px; box-sizing: border-box;
-        font: 15px/1.2 system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; color: #e4e4e4; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+        font: 15px/1.2 'Galmuri7KO', system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; color: #e4e4e4; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
       }
       .touch button {
         font: inherit; color: #e8e8e8; background: #23262e; border: 1px solid #474d5d; border-radius: 8px;
@@ -109,7 +111,7 @@
       #chips button { flex: none; padding: 8px 12px; white-space: nowrap; }
       #say { display: flex; gap: 6px; margin: 0; }
       #cmd {
-        flex: 1; min-width: 0; font: 16px/1.2 ui-monospace, Menlo, monospace; color: #fff; background: #10121c;
+        flex: 1; min-width: 0; font: 16px/1.2 ui-monospace, Menlo, 'Galmuri7KO', monospace; color: #fff; background: #10121c;
         border: 1px solid #474d5d; border-radius: 8px; padding: 9px 10px; -webkit-user-select: text; user-select: text;
       }
       #cmd:focus { outline: none; border-color: #6c8ad0; }
@@ -143,7 +145,7 @@
         .touch canvas { flex: none; }
         .touch #panel {
           display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; width: min(100vw, 520px); padding: 0 10px; box-sizing: border-box;
-          font: 17px/1.45 system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; color: #ecebe6; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+          font: 17px/1.45 'Galmuri7KO', system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif; color: #ecebe6; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
         }
         .touch #ui { flex: none; }
         .typing body { padding-bottom: 6px; }
@@ -165,7 +167,7 @@
       #panel .head span { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #e8c15a; }
       #panel .close { flex: none; width: 34px; height: 28px; margin: -4px -4px -4px 0; padding: 0; font-size: 15px; color: #b9bdc8; }
       #panel .words { margin: 0; white-space: pre-line; }
-      #panel .cols { white-space: pre-wrap; font: 15px/1.4 ui-monospace, Menlo, monospace; }
+      #panel .cols { white-space: pre-wrap; font: 15px/1.4 ui-monospace, Menlo, 'Galmuri7KO', monospace; }
       #panel .go { flex: none; margin-top: 6px; text-align: right; font-size: 14px; color: #8fa6dc; }
       #panel .row { flex: none; min-height: 42px; padding: 7px 12px; text-align: left; font-size: 17px; line-height: 1.25; }
       #panel .row.sel { border-color: #8fa6dc; background: #2a3044; }
