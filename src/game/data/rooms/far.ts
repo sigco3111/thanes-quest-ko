@@ -148,7 +148,7 @@ export const dolmen: RoomDef = {
     { id: 'tablewarden2', kind: 'wight', x: 214, y: 144, level: 2, when: 'night', respawn: 4000 },
   ],
   things: [
-    { id: 'table', nouns: ['table', 'menhir', 'boulder'], x: 160, y: 128, reach: 400, look: 'The capstone alone must weigh as much as the Elder\'s hall. It has lain up there, level as a board, since before anybody was counting winters.' },
+    { id: 'table', nouns: ['table', 'menhir', 'boulder'], x: 160, y: 128, reach: 400, look: '덮개돌 하나만 해도 원로의 회당만큼 무거울 것이다. 누구도 겨울을 세기 전부터 저 위에, 판자처럼 수평으로 얹혀 있다.' },
     {
       id: 'rune', nouns: ['rune', 'inscription'], x: 160, y: 130, reach: 36, try: ['read rune'],
       look: '덮개돌 아래 바위가 깎여 매끈한 면이 됐다, 룬을 위한 것처럼. 하지만 룬은 없다. 아래쪽에, 훨씬 뒤에 작게 긁힌, 네가 읽을 수 있는 글자. 해가 지면 자신을 드러낸다.',
