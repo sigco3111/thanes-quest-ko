@@ -3307,7 +3307,7 @@ describe('the night the hearth is lit', () => {
     expect(asked).toContain('"내가 멈추면," 그녀가 말한다. "그 전에는 안 돼." 그녀가 멈춘다.');
     expect(shell.sim.state.flags['quest:hearth']).toBe(4);
     expect(folk(shell)).toEqual(['marta']);
-    expect(typed(shell, 'look')[0]).toContain('The cold has gone out of the hall');
+    expect(typed(shell, 'look')[0]).toContain('추위가 회당에서 빠져나갔다');
     expect(makeForTheDoor(shell)).toContain('You turn round');
     expect(shell.sim.state.room).toBe('hall');
     expect(shell.sim.state.won).toBe(false);
@@ -3994,7 +3994,7 @@ describe('the hollow', () => {
     const score = sim.state.score;
     const end = type(sim, 'give the coal to the woman').join(' ');
     expect(end).toContain('그녀의 손에서 숯이 깬다');
-    expect(end).toContain('the print of two knees, and you');
+    expect(end).toContain('두 무릎 자국과 너만 남는다');
     expect(end).toContain("You did not say the sun's name. It comes up anyway.");
     expect(sim.p.inv.ember).toBeUndefined();
     expect(sim.p.inv.ring).toBe(1);
@@ -4003,7 +4003,7 @@ describe('the hollow', () => {
     expect(sim.state.flags['winter.broken']).toBe(true);
     expect(sim.state.flags['quest:north']).toBe(7);
     expect(sim.state.score).toBe(score + 25);
-    expect(type(sim, 'look')[0]).toContain('the print of two knees, and you');
+    expect(type(sim, 'look')[0]).toContain('두 무릎 자국과 너만 남는다');
     expect(deeds(sim)).toContain('집으로 가는 길을 건네주었다');
     // She is home before the Thane has left the hanging country, and Hollowmere has carried her up to the barrow.
     sim.enterRoom('barrow', 160, 140);
@@ -4057,7 +4057,7 @@ describe('the hollow', () => {
     sim.enterRoom('ford', 160, 150);
     expect(type(sim, 'breathe on the coal')[0]).toContain('회색이 되고');
     sim.enterRoom('hollow', 160, 150);
-    expect(type(sim, 'look')[0]).toContain('a smaller hollow in front of them');
+    expect(type(sim, 'look')[0]).toContain('그 앞에 더 작은 웅덩이가 있다');
     expect(type(sim, 'look at the boy')).toEqual([content.text.notHere]);
   });
 
