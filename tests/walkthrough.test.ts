@@ -18,55 +18,55 @@ function playThrough(reloadEvery = 0, sloth = 0): Bot {
 
   // The ford, then down toward the one roof with smoke at it.
   bot.walkTo(196, 162, 20);
-  expect(bot.say('read sign')).toContain('HOLLOWMERE');
+  expect(bot.say('read sign')).toContain('홀로미어, 북쪽');
   bot.travel('village');
-  expect(bot.say('look')).toContain('smoke from one');
+  expect(bot.say('look')).toContain('지붕 열한 개, 연기는 하나에서');
   bot.walkTo(172, 126, 12);
   bot.say('take hatchet');
   bot.say('equip hatchet');
   expect(sim.p.weapon).toBe('hatchet');
   bot.meet('sigga');
-  expect(bot.say('talk to sigga')).toContain('Kettle and Helm');
+  expect(bot.say('talk to sigga')).toContain('케틀 앤 헬름으로 가');
   bot.meet('odd');
-  expect(bot.say('talk to the smith')).toContain("That's the trade");
+  expect(bot.say('talk to the smith')).toContain("그게 이 일이야");
 
   // Everybody is in the one room with a fire. The Elder comes down to look at the stranger.
   bot.door('inn');
   expect(sim.rs.actors.filter((a) => a.kind === 'npc').length).toBe(4);
   bot.meet('halla');
-  expect(bot.say('talk to halla')).toContain('Who would miss you');
+  expect(bot.say('talk to halla')).toContain('네가 없어지면 슬퍼할 사람이 누구지');
   expect(sim.state.flags[questKey('hearth')]).toBe(1);
   bot.meet('gorm');
-  expect(bot.say('talk to farmer')).toContain('seed grain');
+  expect(bot.say('talk to farmer')).toContain('씨앗 곡식을 가져갔어');
   bot.meet('toke');
-  expect(bot.say('talk to hunter')).toContain('Kill three');
+  expect(bot.say('talk to hunter')).toContain('세 마리를 잡아주면');
   bot.meet('fenn');
   bot.say('talk to fenn');
-  expect(bot.say('ask fenn about the tarn')).toContain('amulet');
+  expect(bot.say('ask fenn about the tarn')).toContain('부적은');
   bot.door('village');
 
   // The hall: a girl under every fur in Hollowmere, and an errand.
   bot.door('hall');
-  expect(said()).toContain('Not there');
+  expect(said()).toContain('거기 말고');
   bot.meet('marta');
-  expect(bot.say('talk to elder')).toContain('You, I can spare');
+  expect(bot.say('talk to elder')).toContain('너는 낼 수 있어');
   expect(sim.state.flags[questKey('hearth')]).toBe(2);
   expect(String(sim.state.flags['goal.runa'])).toMatch(/^wild_/);
   bot.door('village');
   bot.door('inn');
   bot.meet('halla');
-  expect(bot.say('talk to halla')).toContain('dead before the bridge');
+  expect(bot.say('talk to halla')).toContain('다리 전에 꺼질 거야');
   expect(has('flint') && has('coals')).toBe(true);
   bot.door('village');
   bot.walkTo(146, 124, 12);
-  expect(bot.say('take wood')).toContain('dry all through');
+  expect(bot.say('take wood')).toContain('속까지 마른 통나무');
   expect(has('log')).toBe(true);
   // A fire will not take here. Not even laid properly, on the Elder's own hearth.
   bot.door('hall');
   bot.walkTo(160, 112, 10);
-  expect(bot.say('lay the log on the hearth')).toContain("It won't take");
-  expect(bot.say('light the fire')).toContain('while I');
-  expect(bot.say('give the flint to the elder')).toContain('if you knew what they were saying');
+  expect(bot.say('lay the log on the hearth')).toContain("안 붙어");
+  expect(bot.say('light the fire')).toContain('내가—');
+  expect(bot.say('give the flint to the elder')).toContain('그 입술이 뭐라 하는지 안다면');
   bot.door('village');
 
   // West: wolves for Toke, and the word on the ridge.
@@ -82,54 +82,54 @@ function playThrough(reloadEvery = 0, sloth = 0): Bot {
   bot.travel('ford');
   bot.travel('tower');
   expect(has('coals')).toBe(false);
-  expect(said()).toContain('black and cold');
+  expect(said()).toContain('새까맣게 식었다');
   bot.fight();
   bot.walkTo(100, 138, 12);
   expect(bot.say('read the stone')).toContain('ISKA');
   bot.walkTo(126, 152, 12);
-  expect(bot.say('light a fire')).toContain('waiting all its life');
+  expect(bot.say('light a fire')).toContain('평생 이 순간을 기다렸다는 듯');
   bot.waitFor('word:iska');
-  expect(bot.say('iska')).toContain('fixed as nails');
+  expect(bot.say('iska')).toContain('못처럼 박혀 있다');
   expect(sim.state.flags['tower.fire']).toBe(false);
 
   // Out past the watchtower: Runa, and the black bottle.
   const runa = String(sim.state.flags['goal.runa']);
   bot.travel(runa);
   bot.meet('runa');
-  expect(bot.say('talk to runa')).toContain('"If," says Runa');
+  expect(bot.say('talk to runa')).toContain('삼킬 수 있다면," 루나가 말한다');
   expect(has('bottle')).toBe(true);
-  expect(bot.say('ask runa about the stone')).toContain('milk froze');
+  expect(bot.say('ask runa about the stone')).toContain('양동이의 젖이 얼었어');
   expect(sim.state.flags[questKey('hearth')]).toBe(3);
 
   // Back by the robbers' camp, with a word now that stops three of them where they stand: Gorm's grain.
   bot.travel('camp');
   bot.fight();
   bot.walkTo(56, 162, 14);
-  expect(bot.say('open chest')).toContain('seed grain');
+  expect(bot.say('open chest')).toContain('씨앗 곡식 한 자루');
 
   // Home by the tarn: freeze it, and take what the ice kept.
   bot.travel('tarn');
   bot.waitFor('word:iska');
-  expect(bot.say('iska')).toContain('thickens');
+  expect(bot.say('iska')).toContain('두꺼워진다');
   bot.walkTo(124, 137, 4);
   bot.say('take amulet');
   expect(has('amulet')).toBe(true);
   bot.door('hut');
   bot.walkTo(122, 150, 14);
   bot.say('take tome');
-  expect(bot.say('read tome')).toContain('how fire is spoken to');
+  expect(bot.say('read tome')).toContain('불에 말을 거는 법을 이해한다');
   bot.door('tarn');
 
   // The inn again: a bow, twenty-five silver and a cheese, a book for the amulet, and a sword.
   bot.travel('village');
   bot.door('inn');
   bot.meet('toke');
-  expect(bot.say('talk to hunter')).toContain("A bargain's a bargain");
+  expect(bot.say('talk to hunter')).toContain("약속은 약속이야");
   expect(has('bow')).toBe(true);
   bot.meet('gorm');
-  expect(bot.say('talk to farmer')).toContain('twenty-five silver');
+  expect(bot.say('talk to farmer')).toContain('은화 스물다섯 닢을 네 손에 세어 주고');
   bot.meet('fenn');
-  expect(bot.say('give amulet to fenn')).toContain('Light');
+  expect(bot.say('give amulet to fenn')).toContain('빛. 어두운 곳에서 필요할 게다');
   bot.say('read tome');
   expect(sim.p.spells).toContain('light');
   bot.walkTo(44, 118, 16);
@@ -137,25 +137,25 @@ function playThrough(reloadEvery = 0, sloth = 0): Bot {
   bot.meet('odd');
   sellAll(bot, 'pelt');
   if (sim.p.gold >= 25) {
-    expect(bot.say('buy sword')).toContain('iron sword');
+    expect(bot.say('buy sword')).toContain('철검에 은화 스물다섯 닢');
     bot.say('equip sword');
   }
 
   // The hall. This time the word on her lips is one the stranger knows.
   bot.door('hall');
-  expect(said()).toContain('You know that word');
+  expect(said()).toContain('그 단어를 안다');
   bot.walkTo(160, 112, 10);
-  expect(bot.say('give the bottle to the girl')).toContain("She can't swallow");
-  expect(bot.say('light the fire')).toContain('while I');
+  expect(bot.say('give the bottle to the girl')).toContain("삼키지 못해");
+  expect(bot.say('light the fire')).toContain('내가—');
   bot.meet('marta');
-  expect(bot.say('hold out the flint to the elder')).toContain('She stops.');
+  expect(bot.say('hold out the flint to the elder')).toContain('그녀가 멈춘다');
   expect(sim.state.flags[questKey('hearth')]).toBe(4);
   // Nobody walks out now.
   makeForTheDoor(bot);
   expect(sim.state.room).toBe('hall');
-  expect(said()).toContain('You turn round');
+  expect(said()).toContain('돌아본다.');
   bot.walkTo(160, 112, 10);
-  expect(bot.say('strike the flint')).toContain('The Cold Hearth');
+  expect(bot.say('strike the flint')).toContain('과제 완료: 차가운 화로.');
   expect(sim.state.won).toBe(true);
   expect(has('ring')).toBe(true);
   expect(has('bottle')).toBe(false);
@@ -163,12 +163,12 @@ function playThrough(reloadEvery = 0, sloth = 0): Bot {
   expect(sim.rs.actors.filter((a) => a.kind === 'npc').length).toBe(7);
   expect(has('ember')).toBe(false);
   makeForTheDoor(bot);
-  expect(said()).toContain("I'll keep the broom");
+  expect(said()).toContain("빗자루는 내가 간직할 테니");
   expect(has('ember')).toBe(true);
   expect(sim.state.room).toBe('hall');
-  expect(bot.say('sleep')).toContain('smoke from every roof');
+  expect(bot.say('sleep')).toContain('모든 지붕에서 연기가 난다');
   bot.meet('tova');
-  expect(bot.say('talk to tova')).toContain('Biscuit');
+  expect(bot.say('talk to tova')).toContain('그럼 넌 과자야');
   return bot;
 }
 
@@ -252,23 +252,23 @@ describe('a Thane', () => {
 
     // The morning after: it is colder every day, and the Elder can count.
     bot.meet('marta');
-    expect(bot.say('talk to elder')).toContain("He'll be half right");
+    expect(bot.say('talk to elder')).toContain("절반은 맞을 거고");
     expect(sim.state.flags[questKey('north')]).toBe(1);
-    expect(bot.say('ask the elder about her name')).toContain('nine years old');
+    expect(bot.say('ask the elder about her name')).toContain('아홉 살 때부터');
     bot.door('village');
-    expect(bot.say('look')).toContain('smoke standing straight up from every roof');
+    expect(bot.say('look')).toContain('모든 지붕에서 연기가 곧게 솟는다');
     // Odd is at his forge, and has something to say that is not about iron.
     bot.meet('odd');
-    expect(bot.say('talk to the smith')).toContain('For the sword');
+    expect(bot.say('talk to the smith')).toContain('칼 값이야');
     if (!has('sword')) {
       expect(bot.say('buy sword')).toContain('iron sword');
       bot.say('equip sword');
     }
     bot.door('inn');
     bot.walkTo(44, 118, 16);
-    expect(bot.say('put the hatchet in the chest')).toContain('You put the hatchet in the chest');
+    expect(bot.say('put the hatchet in the chest')).toContain('손도끼를 궤짝에 넣었다');
     bot.meet('halla');
-    expect(bot.say('talk to halla')).toContain('A day and a night');
+    expect(bot.say('talk to halla')).toContain('하루하고 밤을');
     while (sim.p.gold >= 6 && (sim.p.inv.potion ?? 0) < 3 && sim.fits('potion')) bot.say('buy potion');
     bot.door('village');
 
@@ -276,13 +276,13 @@ describe('a Thane', () => {
     bot.travel('tarn');
     bot.door('hut');
     expect(sim.rs.actors.filter((a) => a.kind === 'npc').length).toBe(1);
-    expect(bot.say('look')).toContain('moonstone');
+    expect(bot.say('look')).toContain('월장석이 걸려 있다');
     bot.meet('fenn');
-    expect(bot.say('talk to fenn')).toContain('Do the sum');
+    expect(bot.say('talk to fenn')).toContain('합을 구해 봐');
     expect(sim.state.flags[questKey('north')]).toBe(2);
     expect(sim.state.flags['goal.dolmen']).toBe('dolmen');
     journalReads();
-    expect(bot.say('return the books to fenn')).toContain('on a shelf is a book');
+    expect(bot.say('return the books to fenn')).toContain('선반 위의 책이 책이오');
     bot.door('tarn');
 
     // The Elder's work: out to wherever she names, and back to be paid. It is how a Thane comes by silver.
@@ -298,7 +298,7 @@ describe('a Thane', () => {
       expect(sim.state.flags['bounty.done']).toBe(true);
       elder();
       const gold = sim.p.gold;
-      expect(bot.say('talk to elder')).toContain(`${pay} silver`);
+      expect(bot.say('talk to elder')).toContain(`은화 ${pay}닢`);
       expect(sim.p.gold).toBe(gold + pay);
       bot.door('village');
     };
@@ -308,26 +308,26 @@ describe('a Thane', () => {
     work();
     bot.meet('odd');
     sellAll(bot, 'pelt');
-    if (sim.p.gold >= 45) expect(bot.say('buy mail')).toContain('Forty-five');
+    if (sim.p.gold >= 45) expect(bot.say('buy mail')).toContain('은화 마흔다섯 닢');
     work();
     bot.meet('odd');
     sellAll(bot, 'pelt');
     sim.p.gold = Math.max(sim.p.gold, 60);
-    expect(bot.say('buy longsword')).toContain('Sixty silver');
+    expect(bot.say('buy longsword')).toContain('은화 예순 닢');
     if (!has('mail')) {
       sim.p.gold = Math.max(sim.p.gold, 45);
       bot.say('buy mail');
     }
-    expect(bot.say('sell the sword back')).toContain('10 silver');
+    expect(bot.say('sell the sword back')).toContain('은화 10 닢');
     sim.p.gold = Math.max(sim.p.gold, 40);
     expect(bot.say('have my sword tempered')).toContain('Better');
     expect(sim.p.temper?.weapon).toBe(1);
     bot.door('inn');
     bot.walkTo(44, 118, 16);
-    expect(bot.say('put bow in chest')).toContain('You put the hunting bow in the chest');
-    expect(bot.say('look in the chest')).toContain('a hatchet, a hunting bow');
+    expect(bot.say('put bow in chest')).toContain('사냥 활을 궤짝에 넣었다');
+    expect(bot.say('look in the chest')).toContain('손도끼, 사냥 활');
     bot.meet('halla');
-    expect(bot.say('ask halla about the news')).toContain('Brekka');
+    expect(bot.say('ask halla about the news')).toContain('올가미꾼 브레카');
     bot.door('village');
     bot.travel('tarn');
     bot.door('hut');
@@ -343,28 +343,28 @@ describe('a Thane', () => {
     bot.travel(cell(at.ivar));
     bot.meet('ivar');
     bot.say('talk to ivar');
-    expect(bot.say('ask ivar about the elder')).toContain('not dead yet');
+    expect(bot.say('ask ivar about the elder')).toContain('이바르는 아직 안 죽었다고');
     elder();
-    expect(bot.say('talk to elder')).toContain('grey glove');
+    expect(bot.say('talk to elder')).toContain('회색 장갑 한 짝');
     journalReads();
     bot.door('village');
     bot.travel(cell(at.ivar));
     bot.meet('ivar');
-    expect(bot.say('talk to ivar')).toContain('boar-spear');
+    expect(bot.say('talk to ivar')).toContain('멧돼지창을 네 손에');
     expect(sim.p.weapon).toBe('spear');
 
     // Brekka's bear.
     bot.travel(cell(at.brekka));
     bot.meet('brekka');
     bot.say('talk to brekka');
-    expect(bot.say('ask brekka about bears')).toContain('Greyback');
+    expect(bot.say('ask brekka about bears')).toContain('그레이백');
     journalReads();
     bot.travel(cell(lair(content, 'greyback')!));
     expect(sim.state.flags[questKey('greyback')]).toBe(2);
     journalReads();
     bot.travel(cell(at.brekka));
     bot.meet('brekka');
-    expect(bot.say('talk to brekka')).toContain('keep you warm');
+    expect(bot.say('talk to brekka')).toContain('너는 따뜻하게 해주겠지');
     expect(sim.p.armor).toBe('bearcloak');
     // The spear and the cloak have taken the place of the longsword and the mail, which only weigh
     // the pack down now: they are left with Brekka, who has a use for everything.
@@ -384,7 +384,7 @@ describe('a Thane', () => {
     bot.travel(cell(at.brekka));
     bot.meet('brekka');
     const room = sim.limit();
-    expect(bot.say('ask brekka about a pack')).toContain('They can carry yours');
+    expect(bot.say('ask brekka about a pack')).toContain('네 것도 짊어지겠지');
     expect(sim.limit()).toBe(room + 20);
 
     // Frostcaps for Runa: gathered wherever they grow nearest.
@@ -402,8 +402,8 @@ describe('a Thane', () => {
     expect(sim.p.inv.herb).toBe(3);
     bot.travel(cell(at.runa));
     bot.meet('runa');
-    expect(bot.say('talk to runa')).toContain('She swallowed it');
-    expect(bot.say('trade frostcaps for a tonic')).toContain('mortar');
+    expect(bot.say('talk to runa')).toContain('삼켰어?');
+    expect(bot.say('trade frostcaps for a tonic')).toContain('절구');
     const hp = sim.p.maxHp;
     bot.say('drink tonic');
     expect(sim.p.maxHp).toBe(hp + 5);
@@ -412,31 +412,31 @@ describe('a Thane', () => {
     // A bell in the ice, to the east.
     bot.travel('bellmere');
     bot.waitFor('word:iska');
-    expect(bot.say('iska')).toContain('out to the bell');
+    expect(bot.say('iska')).toContain('종까지');
     bot.walkTo(160, 142, 4);
     const mana = sim.p.maxMp;
-    expect(bot.say('ring the bell')).toContain('one note');
+    expect(bot.say('ring the bell')).toContain('한 음');
     expect(sim.p.maxMp).toBe(mana + 10);
 
     // South, beyond the first wall: the Giant's Table, which keeps what it has until dark.
     bot.travel('dolmen');
     bot.walkTo(160, 136, 10);
-    if (sim.daylight() >= 0.35) expect(bot.say('read the rune')).toContain('WHEN THE SUN IS GONE');
+    if (sim.daylight() >= 0.35) expect(bot.say('read the rune')).toContain('해가 지면 자신을 드러낸다');
     while (sim.daylight() >= 0.35) bot.step();
     bot.fight();
     bot.walkTo(160, 136, 10);
-    expect(bot.say('read the rune')).toContain('tastes like summer');
+    expect(bot.say('read the rune')).toContain('여름 맛이 난다');
     expect(sim.p.words).toContain('word:sol');
     expect(sim.state.flags[questKey('north')]).toBe(3);
     expect(sim.state.flags['goal.gate']).toBe('northgate');
 
     // It is a month back north the way you came. The coal is quicker.
     bot.fight();
-    expect(bot.say('breathe on the coal')).toContain("Elder's hearthstone");
+    expect(bot.say('breathe on the coal')).toContain("장로의 화로돌 위에 서 있다");
     expect(sim.state.room).toBe('hall');
-    expect(bot.log.join(' ')).toContain('Wipe your feet');
+    expect(bot.log.join(' ')).toContain('발 닦아라');
     bot.meet('tova');
-    expect(bot.say('ask tova about her knitting')).toContain('but worse');
+    expect(bot.say('ask tova about her knitting')).toContain('더 못하게');
     bot.door('village');
     bot.door('inn');
     bot.meet('halla');
@@ -446,7 +446,7 @@ describe('a Thane', () => {
     // North: the tree of ropes.
     bot.travel('hangtree');
     bot.walkTo(174, 136, 14);
-    expect(bot.say('cut down the ropes')).toContain('faces turned north');
+    expect(bot.say('cut down the ropes')).toContain('북쪽을 향해 매달려');
 
     // The gate in the last wall. Its guards are not to be fought; they are to be told.
     bot.truce.add('gateguard');
@@ -455,8 +455,8 @@ describe('a Thane', () => {
     bot.waitFor('word:sol');
     bot.exit('n');
     expect(sim.state.room).toBe('northgate');
-    expect(bot.log.join(' ')).toContain('lift what is left of their spears');
-    expect(bot.say('sol')).toContain('They cannot bear it');
+    expect(bot.log.join(' ')).toContain('남은 창을 든다');
+    expect(bot.say('sol')).toContain('그들은 견디지 못한다');
     expect(sim.rs.actors.length).toBe(0);
     expect(sim.state.flags[questKey('north')]).toBe(4);
 
@@ -466,46 +466,46 @@ describe('a Thane', () => {
     bot.walkTo(214, 140, 12);
     expect(bot.say('read the rune')).toContain('ORUN');
     bot.waitFor('word:orun');
-    expect(bot.say('orun')).toContain("a child's");
+    expect(bot.say('orun')).toContain("아이의");
     expect(sim.state.flags[questKey('north')]).toBe(5);
 
     // Where the wind stops. The hanging snow does not move aside for a shoulder.
     bot.exit('n');
     expect(sim.state.room).toBe('windend');
-    expect(bot.log.join(' ')).toContain('the way the snow stopped at the watchtower');
+    expect(bot.log.join(' ')).toContain('망루에서 눈이 멎은 것처럼');
     expect(() => bot.exit('n')).toThrow();
     expect(sim.state.room).toBe('windend');
-    expect(bot.say('light a fire')).toContain('little red seeds');
-    expect(bot.say('breathe on the coal')).toContain('dull as an old eye');
+    expect(bot.say('light a fire')).toContain('작은 붉은 씨앗처럼');
+    expect(bot.say('breathe on the coal')).toContain('늙은 눈처럼 흐리다');
     bot.waitFor('word:veth');
-    expect(bot.say('veth')).toContain('pushes a path open');
+    expect(bot.say('veth')).toContain('길이 밀려 열린다');
     bot.exit('n');
     expect(sim.state.room).toBe('hanging');
-    expect(bot.say('look at the raven')).toContain('wings half open');
+    expect(bot.say('look at the raven')).toContain('날개를 반쯤 편 채');
     expect(() => bot.exit('n')).toThrow();
     bot.waitFor('word:veth');
-    expect(bot.say('veth')).toContain('a small dry sound');
+    expect(bot.say('veth')).toContain('작고 마른 소리');
     bot.exit('n');
 
     // The hollow.
     expect(sim.state.room).toBe('hollow');
-    expect(bot.log.join(' ')).toContain('You look at your own hand');
+    expect(bot.log.join(' ')).toContain('너는 네 손을 본다.');
     expect(sim.state.flags[questKey('north')]).toBe(6);
     bot.waitFor('word:orun');
-    expect(bot.say('orun')).toContain('three hundred winters');
+    expect(bot.say('orun')).toContain('삼백 겨울째 절반쯤 나와 있다');
     // Two things that could be done, and are thought about, and are not done.
     bot.waitFor('word:sol');
-    expect(bot.say('sol')).toContain('You have not said it');
+    expect(bot.say('sol')).toContain('너는 아직 말하지 않았다');
     expect(sim.p.cd['word:sol'] ?? 0).toBe(0);
-    expect(bot.say('take the boy')).toContain('You take your hands back');
-    expect(bot.say('give the coal to the woman')).toContain('She does not see it');
+    expect(bot.say('take the boy')).toContain('손을 거둔다');
+    expect(bot.say('give the coal to the woman')).toContain('보지 못한다');
     // Her word, said with her; and the way home, given away.
     bot.waitFor('word:iska');
     bot.meet('kneeler');
-    expect(bot.say('iska')).toContain('Her lips stop');
-    expect(bot.say('breathe on the coal')).toContain('It takes one');
-    expect(bot.say('sol')).toContain('nobody left to say it to');
-    expect(bot.say('give the coal to the woman')).toContain('the print of two knees');
+    expect(bot.say('iska')).toContain('입술이 멎는다');
+    expect(bot.say('breathe on the coal')).toContain('하나와, 하나가 안을 수 있는 만큼을 데려간다');
+    expect(bot.say('sol')).toContain('말할 사람은 더는 없다');
+    expect(bot.say('give the coal to the woman')).toContain('두 무릎 자국');
     expect(has('ember')).toBe(false);
     expect(sim.rs.actors.length).toBe(0);
     expect(sim.state.flags['winter.broken']).toBe(true);
@@ -514,42 +514,42 @@ describe('a Thane', () => {
     // It is a very long way back on foot. The thaw goes south faster.
     bot.exit('s');
     bot.exit('s');
-    expect(bot.log.join(' ')).toContain('a thin, astonishing rain');
+    expect(bot.log.join(' ')).toContain('가늘고 놀라운 비');
     bot.exit('s');
     bot.exit('s');
     expect(sim.state.room).toBe('northgate');
-    expect(bot.say('look')).toContain('like men at the end of a long watch');
+    expect(bot.say('look')).toContain('긴 근무를 마친 사내들처럼');
     bot.travel('hangtree');
-    expect(bot.say('look')).toContain('as if into a bed');
+    expect(bot.say('look')).toContain('침대처럼 무른 눈 속으로');
     bot.waitFor('word:orun');
-    expect(bot.say('orun')).toContain('a lid');
+    expect(bot.say('orun')).toContain('뚜껑');
     bot.walkTo(204, 140, 12);
-    expect(bot.say('open chest')).toContain('Seventy silver');
+    expect(bot.say('open chest')).toContain('은화 일흔 닢');
     expect(has('torc')).toBe(true);
     // The barrow, where a place was kept swept.
     bot.travel('barrow');
     bot.waitFor('word:orun');
-    expect(bot.say('look')).toContain('The whole village has been up here');
-    expect(bot.say('orun')).toContain('not empty any more');
+    expect(bot.say('look')).toContain('마을 전체가 여기 올라왔다');
+    expect(bot.say('orun')).toContain('쓸어 둔 자리는 더 이상 비어 있지 않다');
 
     // Hollowmere, and the end of the bench nearest the door.
     bot.travel('village');
-    expect(bot.say('look')).toContain('the smell of a feast');
+    expect(bot.say('look')).toContain('잔치 냄새');
     expect(sim.rs.actors.filter((a) => a.kind === 'npc').length).toBe(0);
     bot.door('hall');
-    expect(bot.log.join(' ')).toContain('Shut the door');
+    expect(bot.log.join(' ')).toContain('문 닫아');
     expect(sim.rs.actors.filter((a) => a.kind === 'npc').length).toBe(7);
     bot.walkTo(80, 162, 14);
-    expect(bot.say('sit down')).toContain('It came back without you');
+    expect(bot.say('sit down')).toContain('너 없이 돌아왔더군');
     expect(has('ember')).toBe(true);
     const silver = sim.p.gold;
-    expect(bot.say('drink the cup')).toContain('Where the Wind Stops');
+    expect(bot.say('drink the cup')).toContain('과제 완료: 바람이 멈추는 곳.');
     expect(sim.state.flags['home.cup']).toBe(true);
     expect(sim.p.gold).toBe(silver);
     bot.meet('marta');
-    expect(bot.say('ask the elder about the cup')).toContain('Yours');
+    expect(bot.say('ask the elder about the cup')).toContain('네 거야');
     bot.door('village');
-    expect(bot.say('look')).toContain('a drip at every eave');
+    expect(bot.say('look')).toContain('처마마다 물방울');
     expect(sim.rs.actors.filter((a) => a.kind === 'npc').length).toBe(4);
     expect(bot.say('deeds')).toBe('');
 
@@ -557,7 +557,7 @@ describe('a Thane', () => {
     bot.travel('tarn');
     bot.door('hut');
     bot.meet('fenn');
-    expect(bot.say('talk to fenn')).toContain('On the far side of the gate');
+    expect(bot.say('talk to fenn')).toContain('문 저편에');
     sim.p.gold = Math.max(sim.p.gold, 60);
     for (const book of ['mend', 'frost', 'ward']) {
       if (sim.p.spells.includes(book)) continue;
@@ -572,7 +572,7 @@ describe('a Thane', () => {
     bot.travel('tower');
     bot.say('orun');
     bot.walkTo(150, 160, 12);
-    expect(bot.say('open chest')).toContain('forty silver');
+    expect(bot.say('open chest')).toContain('은화 마흔 닢');
 
     // Nothing the content offers has been left undone.
     for (const q of Object.values(content.quests)) if (!q.repeats) expect(sim.state.flags[questKey(q.id)], q.name).toBe(q.done);
