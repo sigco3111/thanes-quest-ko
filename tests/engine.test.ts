@@ -3325,15 +3325,15 @@ describe('the night the hearth is lit', () => {
     expect(folk(shell)).toEqual(['gorm', 'halla', 'marta', 'odd', 'sigga', 'toke', 'tova']);
     expect(typed(shell, 'look')[0]).toContain('회당이 가득하고, 따뜻하고, 시끄럽다');
 
-    for (const [who, word] of [['odd', 'nothing to say about iron'], ['halla', 'asleep on her feet'], ['sigga', 'Take both'], ['gorm', 'That will do'], ['toke', "Don't give them one"], ['elder', 'Let them shout'], ['tova', 'properly asleep']]) {
+    for (const [who, word] of [['odd', '쇠 얘기가 없다'], ['halla', '선 채로 자고 있다'], ['sigga', '둘 다 가져가'], ['gorm', '됐다'], ['toke', '해주지 마'], ['elder', '떠들게 놔둬'], ['tova', '제대로 자고 있다']]) {
       expect(typed(shell, `talk to ${who}`).join(' '), who).toContain(word);
       // Said in passing: no menu opens, on a night when nobody is selling anything.
       for (let i = 0; i < 5; i++) shell.tick();
       expect(shell.modal, who).toBeUndefined();
     }
-    expect(typed(shell, 'sleep')[0]).toContain('They would only watch');
-    expect(typed(shell, 'look at table')[0]).toContain('even tonight');
-    expect(typed(shell, 'light the fire')[0]).toContain('It is burning beautifully');
+    expect(typed(shell, 'sleep')[0]).toContain('구경만 할 거다');
+    expect(typed(shell, 'look at table')[0]).toContain('오늘 밤에도');
+    expect(typed(shell, 'light the fire')[0]).toContain('아주 잘 타고 있다');
   });
 
   it('ends at the door, where Marta hands over a coal from the hearth, and keeps the broom', () => {
