@@ -618,7 +618,7 @@ export const chars: Record<string, CharDef> = {
       { label: '다 읽은 책을 돌려준다', say: 'give tome to fenn', if: [{ any: [{ has: 'tomeFlame' }, { has: 'tomeFrost' }, { has: 'tomeMend' }, { has: 'tomeLight' }, { has: 'tomeWard' }] }] },
       ask('fenn', '옛 단어들', 'word'),
       ask('fenn', 'ISKA', 'iska', [{ any: [{ knows: 'word:iska' }, LIT] }]),
-      ask('fenn', "The sun's name", 'sol', [{ quest: 'north', min: 2 }]),
+      ask('fenn', '태양의 이름', 'sol', [{ quest: 'north', min: 2 }]),
       ask('fenn', '북쪽의 문', 'gap', [{ quest: 'north', min: 2 }]),
       { label: '돌이 있던 곳', say: 'ask fenn about orun', if: [{ knows: 'word:orun' }, { not: { flag: 'fenn.told' } }] },
       ask('fenn', '호수', 'tarn'),
