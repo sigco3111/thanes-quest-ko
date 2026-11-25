@@ -3995,7 +3995,7 @@ describe('the hollow', () => {
     const end = type(sim, 'give the coal to the woman').join(' ');
     expect(end).toContain('그녀의 손에서 숯이 깬다');
     expect(end).toContain('두 무릎 자국과 너만 남는다');
-    expect(end).toContain("You did not say the sun's name. It comes up anyway.");
+    expect(end).toContain('너는 태양의 이름을 말하지 않았다. 어차피 해는 뜬다.');
     expect(sim.p.inv.ember).toBeUndefined();
     expect(sim.p.inv.ring).toBe(1);
     expect(sim.rs.actors).toEqual([]);
