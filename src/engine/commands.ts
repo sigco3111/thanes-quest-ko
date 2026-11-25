@@ -78,7 +78,7 @@ export function bagRows(sim: Sim): { id: string; label: string; weight: number }
     .filter(([, n]) => n > 0)
     .map(([id, n]) => {
       const it = c.items[id];
-      const worn = p.weapon === id || p.shield === id ? ' (in hand)' : p.armor === id || p.trinket === id ? ' (worn)' : '';
+      const worn = p.weapon === id || p.shield === id ? ' (손에)' : p.armor === id || p.trinket === id ? ' (착용)' : '';
       // A smith's work shows as a number after the name.
       const temper = p.weapon === id ? p.temper?.weapon : p.armor === id ? p.temper?.armor : 0;
       const weight = sim.weight(id) * (n - (sim.onPerson(id) ? 1 : 0));
@@ -103,8 +103,8 @@ export function weighed(label: string, weight: number | null, width = 33): strin
 export function inventoryPage(sim: Sim): { title: string; lines: string[] } {
   const lines = bagRows(sim).map((r) => weighed(r.label, r.weight));
   if (!lines.length) lines.push(sim.text('emptyHanded'));
-  lines.push('', `Load: ${loadText(sim)}`, `Silver: ${sim.p.gold}`);
-  return { title: 'You are carrying:', lines };
+  lines.push('', `무게: ${loadText(sim)}`, `은화: ${sim.p.gold}`);
+  return { title: '가지고 있는 것:', lines };
 }
 
 /** The room's store, if it has one: the chest where things are kept. */
@@ -196,16 +196,16 @@ export function itemActions(sim: Sim, id: string): { label: string; line: string
   const noun = itemNoun(sim, id);
   const out: { label: string; line: string }[] = [];
   const can = (verb: string): boolean => !!it.use && USE_VERBS[verb].includes(it.kind);
-  if (it.kind === 'potion' && can('drink')) out.push({ label: 'Drink', line: `drink ${noun}` });
-  else if (it.kind === 'food' && can('eat')) out.push({ label: 'Eat', line: `eat ${noun}` });
-  else if (it.kind === 'tome' && can('read')) out.push({ label: 'Read', line: `read ${noun}` });
-  else if (can('use')) out.push({ label: 'Use', line: `use ${noun}` });
+  if (it.kind === 'potion' && can('drink')) out.push({ label: '마시기', line: `drink ${noun}` });
+  else if (it.kind === 'food' && can('eat')) out.push({ label: '먹기', line: `eat ${noun}` });
+  else if (it.kind === 'tome' && can('read')) out.push({ label: '읽기', line: `read ${noun}` });
+  else if (can('use')) out.push({ label: '쓰기', line: `use ${noun}` });
   if (it.kind === 'weapon' || it.kind === 'bow' || it.kind === 'shield') {
     const held = p.weapon === id || p.shield === id;
-    out.push(held ? { label: 'Put away', line: `unequip ${noun}` } : { label: 'Ready', line: `equip ${noun}` });
+    out.push(held ? { label: '넣기', line: `unequip ${noun}` } : { label: '준비', line: `equip ${noun}` });
   } else if (it.kind === 'armor' || it.kind === 'trinket') {
     const worn = p.armor === id || p.trinket === id;
-    out.push(worn ? { label: 'Take off', line: `unequip ${noun}` } : { label: 'Wear', line: `equip ${noun}` });
+    out.push(worn ? { label: '벗기', line: `unequip ${noun}` } : { label: '입기', line: `equip ${noun}` });
   }
   // Anything but what a story needs can be put down, or put away somewhere safe.
   if (!it.keep) {
@@ -213,11 +213,11 @@ export function itemActions(sim: Sim, id: string): { label: string; line: string
     const store = storeHere(sim);
     if (store) {
       const into = `${store.nouns[0]}`;
-      out.push({ label: `Put in the ${into}`, line: `put ${noun} in ${into}` });
-      if (many) out.push({ label: `Put them all in the ${into}`, line: `put all ${noun} in ${into}` });
+      out.push({ label: `${into}에 넣기`, line: `put ${noun} in ${into}` });
+      if (many) out.push({ label: `전부 ${into}에 넣기`, line: `put all ${noun} in ${into}` });
     }
-    out.push({ label: 'Drop', line: `drop ${noun}` });
-    if (many) out.push({ label: 'Drop them all', line: `drop all ${noun}` });
+    out.push({ label: '내려놓기', line: `drop ${noun}` });
+    if (many) out.push({ label: '전부 내려놓기', line: `drop all ${noun}` });
   }
   return out;
 }
@@ -229,9 +229,9 @@ export function journalPage(sim: Sim): { title: string; lines: string[] } {
     .map((q) => ({ q, stage: Number(sim.state.flags[questKey(q.id)] ?? 0) }))
     .filter((k) => k.stage > 0)
     .sort((a, b) => Number(a.stage >= a.q.done) - Number(b.stage >= b.q.done));
-  for (const { q, stage } of known) lines.push(`${q.name}${stage >= q.done ? ' (done)' : ''}`, `  ${sim.fill(q.stages[stage] ?? '')}`, '');
+  for (const { q, stage } of known) lines.push(`${q.name}${stage >= q.done ? ' (완료)' : ''}`, `  ${sim.fill(q.stages[stage] ?? '')}`, '');
   if (!lines.length) lines.push(sim.text('noQuests'));
-  return { title: 'Journal', lines };
+  return { title: '일지', lines };
 }
 
 /** A line of the character sheet that heads a section, and a break to a new box. */
@@ -252,41 +252,42 @@ export function skillsPage(sim: Sim): { title: string; lines: string[]; heads: n
   const heads: number[] = [];
   const head = (text: string): void => void (heads.push(lines.length), lines.push(text));
   lines.push(
-    pair('Level', String(p.level), 'Day', String(Math.floor(sim.state.tick / DAY_LENGTH) + 1)),
-    pair('Health', of(p.hp, p.maxHp), 'Mana', of(p.mp, p.maxMp)),
-    pair('Stamina', of(p.sp, p.maxSp), 'Score', String(sim.state.score)),
+    pair('레벨', String(p.level), '날짜', String(Math.floor(sim.state.tick / DAY_LENGTH) + 1)),
+    pair('체력', of(p.hp, p.maxHp), '마나', of(p.mp, p.maxMp)),
+    pair('기력', of(p.sp, p.maxSp), '점수', String(sim.state.score)),
     '',
   );
-  head(`${'Skill'.padEnd(12)}  Next perk`);
+  head(`${'기술'.padEnd(12)}  다음 특성`);
   for (const [id, s] of Object.entries(p.skills)) {
     // What practice will earn next, so there is something to aim at.
     const next = sim.content.perks.filter((k) => k.skill === id && k.lv > s.lv).sort((a, b) => a.lv - b.lv)[0];
-    lines.push(`${cap(id).padEnd(9)}${String(s.lv).padStart(3)}  ${next ? `${next.name} at ${next.lv}` : '-'}`);
+    lines.push(`${cap(id).padEnd(9)}${String(s.lv).padStart(3)}  ${next ? `${next.name} (${next.lv})` : '-'}`);
   }
   lines.push(PAGE_BREAK);
   const perks = sim.content.perks.filter((k) => (p.skills[k.skill]?.lv ?? 0) >= k.lv);
-  head('Perks');
-  lines.push(perks.length ? '  ' + perks.map((k) => k.name).join(', ') : '  None yet: practice earns them.', '');
+  head('특성');
+  lines.push(perks.length ? '  ' + perks.map((k) => k.name).join(', ') : '  아직 없다. 연습하면 얻는다.', '');
   if (p.spells.length) {
-    head('Spells');
+    head('주문');
     lines.push('  ' + p.spells.map((id) => sim.content.spells[id]?.name ?? id).join(', '), '');
   }
   if (p.words.length) {
-    head('Runewords');
+    head('룬어');
     lines.push('  ' + p.words.map((w) => w.replace('word:', '').toUpperCase()).join(', '), '');
   }
-  head('Travels');
+  head('여정');
   const places = Object.keys(sim.state.flags).filter((k) => k.startsWith('seen.')).length;
-  lines.push(`  Places found ${String(places).padStart(6)}`, `  Foes felled  ${String(Number(sim.state.flags.kills ?? 0)).padStart(6)}`);
-  return { title: 'Character', lines, heads };
+  lines.push(`  발견한 곳 ${String(places).padStart(6)}`, `  쓰러뜨린 적  ${String(Number(sim.state.flags.kills ?? 0)).padStart(6)}`);
+  return { title: '인물', lines, heads };
 }
 
 const DIRS: Record<string, 'n' | 's' | 'e' | 'w'> = { north: 'n', south: 's', east: 'e', west: 'w' };
+const DIR_KO: Record<string, string> = { north: '북', south: '남', east: '동', west: '서' };
 
 /** What lies one way from here, and a reminder of how to get there. */
 function wayText(sim: Sim, dir: string): string {
   const to = sim.room.exits?.[DIRS[dir]];
-  return to ? sim.text('wayTo', dir).replace('%r', wayName(sim, to, DIRS[dir])) : sim.text('noWay', dir);
+  return to ? sim.text('wayTo', DIR_KO[dir] ?? dir).replace('%r', wayName(sim, to, DIRS[dir])) : sim.text('noWay', DIR_KO[dir] ?? dir);
 }
 
 /**
@@ -296,7 +297,7 @@ function wayText(sim: Sim, dir: string): string {
 function goWay(sim: Sim, dir: string): boolean {
   const side = DIRS[dir];
   if (!sim.room.exits?.[side]) {
-    sim.say(sim.text('noWay', dir));
+    sim.say(sim.text('noWay', DIR_KO[dir] ?? dir));
     return true;
   }
   const sc = sim.scene();
@@ -391,11 +392,11 @@ function exitsText(sim: Sim): string {
     return to ? [`${name[0].toUpperCase()}${name.slice(1)}: ${wayName(sim, to, side)}.`] : [];
   });
   const doors = [...new Set((room.doors ?? []).map((d) => roomOf(sim.content, d.to)?.name ?? d.to))];
-  if (doors.length) parts.push(`${doors.length > 1 ? 'Doors' : 'A door'} to: ${doors.join(', ')}.`);
+  if (doors.length) parts.push(`${doors.join(', ')}(으)로 통하는 문.`);
   // Out in the wild, which way home lies is worth knowing.
   const at = parseWild(sim.state.room);
-  const home = at ? ' ' + sim.text('homeWay', [at[1] > 0 ? 'north' : at[1] < 0 ? 'south' : '', at[0] > 0 ? 'west' : at[0] < 0 ? 'east' : ''].filter(Boolean).join('-')) : '';
-  return `${room.name}. ${parts.join(' ') || 'There is no obvious way out.'}${home} ${sim.text('walkHint')}`;
+  const home = at ? ' ' + sim.text('homeWay', [at[1] > 0 ? '북' : at[1] < 0 ? '남' : '', at[0] > 0 ? '서' : at[0] < 0 ? '동' : ''].filter(Boolean).join('')) : '';
+  return `${room.name}. ${parts.join(' ') || '뚜렷한 출구는 보이지 않는다.'}${home} ${sim.text('walkHint')}`;
 }
 
 const USE_VERBS: Record<string, ItemDef['kind'][]> = {
@@ -619,7 +620,7 @@ function builtin(sim: Sim, verb: string, nouns: string[], afoot: string | null, 
       return true;
     case 'deeds': {
       const done = (sim.content.deeds ?? []).filter((d) => !d.if || d.if.every((c) => test(sim, c))).map((d) => sim.fill(d.text));
-      sim.page('Deeds', done.length ? done : [sim.text('noDeeds')]);
+      sim.page('위업', done.length ? done : [sim.text('noDeeds')]);
       return true;
     }
     case 'time': {
