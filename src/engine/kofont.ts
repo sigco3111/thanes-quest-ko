@@ -1010,3 +1010,13 @@ export function hangulGlyph(code: number): Uint8Array | null {
   const off = (code - HANGUL_BASE) * 8;
   return table.subarray(off, off + 8);
 }
+
+// Compatibility jamo (U+3131-U+3163), shown while a syllable is still being composed. Same font and method.
+export const JAMO_BASE = 0x3131;
+export const JAMO_END = 0x3163;
+const JAMO = Uint8Array.from(atob("AD4gICAgAAAAPigoKCgAAAA+ICAgIAAAAAICAgI+AAAAcSEhUVcAACBxIVFRJwAAAD4CAgI+AAAAPgoKCj4AAAA+ID4CPgAAAHdER0FHAAAAd1RXUXcAAABXVHdRdwAAACckV1FXAAAAdxR3EXcAAAB/BDcxfwAAIHckV1EnAAAAPiIiIj4AAAAiIj4iPgAAAFVVd1V3AAAAJSVXVVcAAAAICBQUIgAAABQUKipJAAAAHCIiIhwAAAA+CBQUIgAAAH8UKipJAAAIPggUFCIAAAA+ID4gIAAAAD4CPgI+AAAAPhQUFD4AAAg+HCIiHAAABAQEHAQEBAAUFBQcFBQUAAQEHAQcBAQAFBQcFBwUFAAQEBAcEBAQACgoKC4oKCgAEBAcEBwQEAAoKC4oLigoAAAACAh/AAAAICAgYiIvIABQUFByUl9QACAgICIiLyAAAAAUFH8AAAAAAH8ICAAAACAgIC8yIiIAUFBQV1pSUgAgICAvIiIiAAAAfxQUAAAAAAAAfwAAAAAgICAgIC8gAAgICAgICAgA"), (c) => c.charCodeAt(0));
+export function jamoGlyph(code: number): Uint8Array | null {
+  if (code < JAMO_BASE || code > JAMO_END) return null;
+  const off = (code - JAMO_BASE) * 8;
+  return JAMO.subarray(off, off + 8);
+}

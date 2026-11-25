@@ -120,12 +120,46 @@ fit();
 window.addEventListener('keydown', (e) => {
   wake();
   // Typing in the touch command field is handled by the field itself.
-  if (e.target instanceof HTMLInputElement) return;
+  if (e.target instanceof HTMLInputElement && e.target.id !== 'ime') return;
+  // A Korean (or other) input method is composing: the hidden field below takes it, not the game keys.
+  if (e.isComposing || e.key === 'Process' || e.keyCode === 229) return;
   if (e.metaKey || e.altKey || (e.ctrlKey && e.key !== 'Control')) return;
   // A held arrow key repeats; only the first press counts, so walking can be halted at a door.
   if (e.repeat && (e.key.startsWith('Arrow') || e.key === 'Control' || e.key === 'Shift')) return void e.preventDefault();
   if (shell.keyDown(e.key)) e.preventDefault();
 });
+// Desktop typing through an input method (Hangul): a hidden field holds focus so the browser can compose
+// syllables; the composing text is shown on the typing line and the finished text is added to it.
+if (!touch) {
+  const ime = document.createElement('input');
+  ime.id = 'ime';
+  ime.type = 'text';
+  ime.autocomplete = 'off';
+  ime.setAttribute('aria-hidden', 'true');
+  ime.tabIndex = -1;
+  ime.style.cssText = 'position:fixed;left:0;bottom:0;width:1px;height:1px;opacity:0;border:0;padding:0;pointer-events:none;';
+  document.body.appendChild(ime);
+  let base = '';
+  const show = (text: string): void => void (shell.input = (base + text).slice(0, 37));
+  ime.addEventListener('compositionstart', () => (base = shell.input));
+  ime.addEventListener('compositionupdate', (e) => show(e.data));
+  ime.addEventListener('compositionend', (e) => {
+    show(e.data);
+    ime.value = '';
+  });
+  ime.addEventListener('input', (e) => {
+    if ((e as InputEvent).isComposing) return;
+    // Text that arrived without composing (a paste, a one-shot insert) goes on the line as it is.
+    if (ime.value) shell.input = (shell.input + ime.value).slice(0, 37);
+    ime.value = '';
+  });
+  const focus = (): void => {
+    if (!document.activeElement || document.activeElement === document.body || document.activeElement instanceof HTMLButtonElement) ime.focus({ preventScroll: true });
+  };
+  window.addEventListener('pointerup', () => setTimeout(focus, 0));
+  window.addEventListener('focus', focus);
+  focus();
+}
 window.addEventListener('keyup', (e) => shell.keyUp(e.key));
 // Looking away pauses the game: the world is real-time, and wolves do not wait.
 window.addEventListener('blur', () => shell.pause());

@@ -28,6 +28,23 @@ export function wordVariants(word: string): string[] {
   return out;
 }
 
+// Endings a player may leave on a verb: the "-기" form the buttons use ("읽기"), "-하기", "-해", "-해줘".
+const KO_ENDINGS = ['하기', '해줘', '해', '기', '어', '아'];
+
+/** The bare verb stems a typed Korean word might be: "읽기" -> "읽", "살펴보기" itself first. */
+function verbVariants(word: string): string[] {
+  const out = wordVariants(word);
+  if (/[\uac00-\ud7a3]/.test(word)) {
+    for (const e of KO_ENDINGS) {
+      if (word.length > e.length && word.endsWith(e)) {
+        out.push(word.slice(0, -e.length));
+        break;
+      }
+    }
+  }
+  return out;
+}
+
 export class Parser {
   private verbs = new Map<string, string>();
   private nouns = new Map<string, string>();
@@ -84,14 +101,21 @@ export class Parser {
         const phrase = words.slice(i, i + n).join(' ');
         // The verb usually comes first, but need not: "have my sword tempered".
         // With a Korean word, also try it without its trailing particle ("검을" -> "검").
-        const variants = n === 1 ? wordVariants(phrase) : [phrase];
-        const asVerb = !verb ? variants.map((v) => this.verbs.get(v)).find(Boolean) : undefined;
+        const variants = wordVariants(phrase);
+        const asVerb = !verb ? verbVariants(phrase).map((v) => this.verbs.get(v)).find(Boolean) : undefined;
         // A plain plural of a known thing is that thing: "crowns", "candles".
         const asNoun =
           variants.map((v) => this.nouns.get(v)).find(Boolean) ??
           (n === 1 && !this.verbs.has(phrase) && !this.ignore.has(phrase)
             ? this.nouns.get(phrase.replace(/s$/, '')) ?? this.nouns.get(phrase.replace(/es$/, ''))
             : undefined);
+        // A second word for the verb already given ("소원 빌기": 소원 is the wish, 빌기 is only "to make it").
+        const again = verb && n === 1 && verbVariants(phrase).some((v) => this.verbs.get(v) === verb);
+        if (again) {
+          i += n;
+          hit = true;
+          continue;
+        }
         if (asVerb) verb = asVerb;
         else if (asNoun) nouns.push(asNoun);
         else continue;
@@ -99,11 +123,13 @@ export class Parser {
         hit = true;
       }
       if (hit) continue;
-      if (!this.ignore.has(words[i]) && wordVariants(words[i]).every((v) => !this.ignore.has(v)))
+      if (!this.ignore.has(words[i]) && verbVariants(words[i]).every((v) => !this.ignore.has(v)))
         return { ok: false, why: 'unknown', word: words[i] };
       i++;
     }
     if (!verb) return nouns.length ? { ok: false, why: 'noverb', nouns } : { ok: false, why: 'empty' };
+    // "Put the log on the hearth" in Korean is "놓기", the verb of dropping: with two things named it is the use of one on the other.
+    if (verb === 'drop' && nouns.length === 2) verb = 'use';
     return { ok: true, verb, nouns };
   }
 }

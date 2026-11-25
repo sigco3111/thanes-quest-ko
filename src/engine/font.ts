@@ -1,6 +1,6 @@
 // An original 8x8 bitmap font drawn for this project. Each glyph is eight rows of eight cells.
 // Hangul syllables come from kofont.ts, rasterized from Galmuri7 (SIL OFL 1.1).
-import { hangulGlyph } from './kofont';
+import { hangulGlyph, jamoGlyph } from './kofont';
 
 const G: Record<string, string> = {
   ' ': '........|........|........|........|........|........|........|........',
@@ -117,7 +117,7 @@ for (const [ch, src] of Object.entries(G)) {
 const UNKNOWN = BITS.get('?')!;
 
 /** Glyph rows for one character: the hand-drawn Latin set, or a Galmuri7 Hangul syllable. */
-const glyph = (ch: string): Uint8Array | undefined => BITS.get(ch) ?? hangulGlyph(ch.codePointAt(0)!) ?? undefined;
+const glyph = (ch: string): Uint8Array | undefined => BITS.get(ch) ?? hangulGlyph(ch.codePointAt(0)!) ?? jamoGlyph(ch.codePointAt(0)!) ?? undefined;
 
 /** Can this character be drawn? Anything that cannot shows as a question mark. */
 export const hasGlyph = (ch: string): boolean => glyph(ch) !== undefined;
