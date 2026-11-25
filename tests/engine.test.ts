@@ -111,7 +111,7 @@ describe('simulation', () => {
     expect(type(sim, 'take wood')[0]).toContain('속까지 마른 통나무');
     expect(sim.p.inv.log).toBe(1);
     expect(sim.state.score).toBe(score + 1);
-    expect(type(sim, 'take wood')[0]).toContain('It is enough to lay a fire with');
+    expect(type(sim, 'take wood')[0]).toContain('불을 쌓기에 충분하다');
     expect(sim.state.score).toBe(score + 1);
   });
 
@@ -123,7 +123,7 @@ describe('simulation', () => {
     expect(type(sim, 'talk to woman')[0]).toContain('매일 아침 만들어');
     expect(type(sim, 'talk to woman')[0]).toContain('아직도 여기 있어?');
     expect(type(sim, 'ask sigga about the barrow')[0]).toContain('북쪽 고분');
-    expect(type(sim, 'ask sigga about snow')[0]).toContain("I wouldn't know about that");
+    expect(type(sim, 'ask sigga about snow')[0]).toContain('그런 건 모르지');
   });
 
   it('cannot cross the river except by the bridge', () => {
@@ -205,7 +205,7 @@ describe('simulation', () => {
     expect(type(safe, 'iska')[0]).toContain('두꺼워진다');
     walk(safe, 0, -1, 24);
     expect(safe.p.dead).toBe(false);
-    expect(type(safe, 'take amulet')[0]).toContain('chip the amulet free');
+    expect(type(safe, 'take amulet')[0]).toContain('부적을 쪼아 낸다');
   });
 
   it('is deterministic and survives a save and restore', () => {
@@ -570,7 +570,7 @@ describe('things found in QA', () => {
     expect(exits).toContain(`북: ${road('wild_0_1')}, 홀로미어로 가는 길.`);
     expect(exits).toContain(`서: ${road('wild_-1_2')}, 도적 야영지로 가는 길.`);
     // South is out of the valley: no road of Hollowmere's, and nothing said of where it leads.
-    expect(exits).toContain(`South: ${road('wild_0_3')}.`);
+    expect(exits).toContain(`남: ${road('wild_0_3')}.`);
     // Outside, leaving is a matter of which way; under a roof, it is the door.
     expect(type(game('ford'), 'leave')[0]).toContain('North:');
     const hall = game('hall', 160, 130);
@@ -593,14 +593,14 @@ describe('things found in QA', () => {
 
   it('understands the phrasings players actually try', () => {
     const lines: [string, string, string, string?][] = [
-      ['ridge', 'touch the standing stone', 'You are not close enough.'],
-      ['barrow', 'push the door', 'not for one person with cold hands'],
-      ['inn', 'buy healing potion', 'six silver', 'halla'],
-      ['inn', 'rent room', 'Four silver', 'halla'],
-      ['inn', 'ask fenn about magic', 'two kinds', 'fenn'],
-      ['village', 'unequip', 'already empty', 'sigga'],
-      ['village', 'sell hatchet', 'silver to spare', 'sigga'],
-      ['tarn', 'freeze lake', 'With what?'],
+      ['ridge', 'touch the standing stone', '충분히 가까이 있지 않다.'],
+      ['barrow', 'push the door', '손 시린 사람 하나를 위한 문이 아니다'],
+      ['inn', 'buy healing potion', '은화 여섯 닢', 'halla'],
+      ['inn', 'rent room', '은화 네 닢', 'halla'],
+      ['inn', 'ask fenn about magic', '두 종류', 'fenn'],
+      ['village', 'unequip', '이미 비어 있다', 'sigga'],
+      ['village', 'sell hatchet', '여윳돈이 없다', 'sigga'],
+      ['tarn', 'freeze lake', '뭐로?'],
     ];
     for (const [room, line, expected, who] of lines) {
       const sim = game(room, 160, 160);
@@ -675,7 +675,7 @@ describe('conversation, hints and first run', () => {
     shell.tick();
     const menu = shell.modal;
     if (menu?.k !== 'list') throw new Error('expected the conversation menu');
-    expect(menu.title).toBe('Odd the smith');
+    expect(menu.title).toBe('대장장이 오드');
     expect(menu.items).toEqual(['Buy the iron sword (25 silver)', 'Buy the round shield (15 silver)', 'Buy the mail shirt (45 silver)', 'His girl', 'The cold forge', 'Farewell']);
 
     // Buying from the menu works, and the bought thing leaves the menu.
@@ -785,7 +785,7 @@ describe('the frontier', () => {
 
   it('joins the hand-made map at its open edges', () => {
     const sim = game();
-    expect(type(sim, 'exits')[0]).toContain('South:');
+    expect(type(sim, 'exits')[0]).toContain('남:');
     sim.step([{ t: 'move', dx: 0, dy: 1 }]);
     for (let i = 0; i < 40 && sim.state.room === 'ford'; i++) sim.step();
     expect(sim.state.room).toBe('wild_0_3');
@@ -1072,7 +1072,7 @@ describe('what the wild holds', () => {
     // Which boon depends on the shrine; there is always one.
     expect(['ward', 'might', 'light'].some((k) => Number(sim.state.flags[k] ?? 0) > sim.state.tick)).toBe(true);
     sim.p.hp = 5;
-    expect(type(sim, 'pray at the shrine')[0]).toContain('given for today');
+    expect(type(sim, 'pray at the shrine')[0]).toContain('오늘치는 다 준 것이다');
     expect(sim.p.hp).toBeLessThan(6);
   });
 
@@ -1093,7 +1093,7 @@ describe('what the wild holds', () => {
     expect(sim.p.inv.potion).toBe(1);
     const said = type(sim, `ask ${content.chars[who.ref].nouns[0]} about news`);
     expect(said.length).toBe(2);
-    expect(said[1]).toMatch(/ridges? (north|south|east|west)|every direction/);
+    expect(said[1]).toMatch(/(북쪽|남쪽|동쪽|서쪽) 능선 [가-힣]+|사방/);
   });
 
   it('marks the way home', async () => {
@@ -1129,7 +1129,7 @@ describe('what the wild holds', () => {
     sim.p.y = b.y + 4;
     expect(type(sim, 'search the bones')[0]).toContain('은화');
     expect(sim.p.gold).toBeGreaterThan(0);
-    expect(type(sim, 'search the bones')[0]).toContain('Let them rest');
+    expect(type(sim, 'search the bones')[0]).toContain('쉬게 두어라');
   });
 
   it('breeds bigger things further out', async () => {

@@ -76,7 +76,7 @@ export const ford: RoomDef = {
   },
   things: [
     { id: 'river', nouns: ['river', 'water'], x: 160, y: 126, reach: 400, look: '빠르고, 검고, 시끄럽다. 얼음 판들이 화물처럼 실려 간다.' },
-    { id: 'bridge', nouns: ['bridge', 'handrails', 'rails', '난간'], x: 160, y: 126, reach: 400, look: '통나무 두 개 위에 쪼갠 통나무를 얹은 다리. 만든 사람도 믿지 않았다. 난간이 있다.' },
+    { id: 'bridge', nouns: ['bridge'], x: 160, y: 126, reach: 400, look: '통나무 두 개 위에 쪼갠 통나무를 얹은 다리. 만든 사람도 믿지 않았다. 난간이 있다.' },
     { id: 'sign', nouns: ['sign'], x: 196, y: 158, reach: 34, try: ['read sign'], look: '적혀 있다. 홀로미어, 북쪽. 아래에 다른 필체로. "그 외 모든 곳: 각자 책임."' },
     { id: 'trees', nouns: ['tree'], x: 160, y: 100, reach: 400, look: '양쪽 제방의 소나무들, 네가 다리를 시험하는 걸 보려는 듯 기울어 있다.' },
     ...scenery('제방의 눈은 단단히 껍질 졌다. 걸을 때마다 장화가 뚫고 들어간다.', '여기 북쪽의 산들은 끝내지 못한 일이 있는 표정이다.'),

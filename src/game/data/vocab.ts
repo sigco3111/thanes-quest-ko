@@ -127,7 +127,7 @@ export const vocab: VocabDef = {
     bones: ['skeleton', 'remains', 'traveller', 'traveler', 'body'],
     ground: ['floor', 'earth'],
     river: ['stream', 'ford', 'bank'],
-    bridge: ['planks', 'handrails', 'rails'],
+    bridge: ['planks', 'handrails'],
     bell: ['bronze bell', 'dome', 'rim'],
     sign: ['signpost', 'signboard'],
     anvil: ['forge', 'smithy', 'stall'],
