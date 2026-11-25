@@ -98,13 +98,13 @@ describe('simulation', () => {
   it('describes the room and the things in it', () => {
     const sim = game();
     expect(type(sim, 'look')).toEqual([content.rooms.ford.look]);
-    expect(type(sim, 'look at the bridge')[0]).toContain('handrails');
+    expect(type(sim, 'look at the bridge')[0]).toContain('난간');
     expect(type(sim, 'look well')).toEqual([content.text.notHere]);
   });
 
   it('requires being close to take things, and scores once', () => {
     const sim = game('village', 160, 160);
-    expect(type(sim, 'take wood')).toEqual(['You are not close enough.']);
+    expect(type(sim, 'take wood')).toEqual(['충분히 가까이 있지 않다.']);
     sim.p.x = 146;
     sim.p.y = 124;
     const score = sim.state.score;
@@ -120,8 +120,8 @@ describe('simulation', () => {
     const who = sim.rs.actors.find((a) => a.ref === 'sigga')!;
     sim.p.x = who.x - 20;
     sim.p.y = who.y;
-    expect(type(sim, 'talk to woman')[0]).toContain('I make it every morning');
-    expect(type(sim, 'talk to woman')[0]).toContain('Still out here?');
+    expect(type(sim, 'talk to woman')[0]).toContain('매일 아침 만들어');
+    expect(type(sim, 'talk to woman')[0]).toContain('아직도 여기 있어?');
     expect(type(sim, 'ask sigga about the barrow')[0]).toContain('The mound up north');
     expect(type(sim, 'ask sigga about snow')[0]).toContain("I wouldn't know about that");
   });
@@ -163,7 +163,7 @@ describe('simulation', () => {
     expect(sim.state.flags['gate.open']).toBeUndefined();
     // The word alone turns them, and they turn back: it is the ring they stand aside for.
     sim.teach('word:sol');
-    expect(type(sim, 'sol').join(' ')).toContain('they turn them back');
+    expect(type(sim, 'sol').join(' ')).toContain('견디지 못한다');
     expect(sim.state.flags['gate.open']).toBeUndefined();
     walk(sim, 0, -1, 60);
     expect(sim.state.room).toBe('northgate');
@@ -181,7 +181,7 @@ describe('simulation', () => {
     expect(sim.state.room).toBe('barrow');
     expect(content.rooms.barrow.doors ?? []).toEqual([]);
     sim.teach('word:veth');
-    expect(type(sim, 'veth')[0]).toContain('settles back');
+    expect(type(sim, 'veth')[0]).toContain('도로 앉는다');
     expect(type(sim, 'open the door')[0]).toContain('not for one person with cold hands');
     walk(sim, 0, -1, 30);
     expect(sim.state.room).toBe('barrow');
@@ -195,7 +195,7 @@ describe('simulation', () => {
       sim.step();
       for (const e of sim.drain()) if (e.t === 'died') died = e.text;
     }
-    expect(died).toContain('CRACK');
+    expect(died).toContain('쩌억');
     const tick = sim.state.tick;
     walk(sim, 1, 0, 10);
     expect(sim.state.tick).toBe(tick);
@@ -270,7 +270,7 @@ describe('shell', () => {
     gainSkill(shell.sim, 'blade', 400);
     shell.tick();
     while (shell.modal?.k !== 'list') shell.keyDown('Enter');
-    expect(shell.modal.items).toEqual(['Health', 'Mana', 'Stamina']);
+    expect(shell.modal.items).toEqual(['체력', '마나', '기력']);
     shell.keyDown('ArrowDown');
     shell.keyDown('Enter');
     shell.tick();
@@ -331,7 +331,7 @@ describe('combat', () => {
       sim.step();
       for (const e of sim.drain()) if (e.t === 'died') died = e.text;
     }
-    expect(died).toContain('wolf');
+    expect(died).toContain('늑대');
   });
 
   it('blocks blows from the front', () => {
@@ -2417,7 +2417,7 @@ describe('doing things out of order', () => {
     sim.drain();
     expect(sim.p.inv.ring).toBeUndefined();
     const said = type(sim, 'sol').join(' ');
-    expect(said).toContain('they turn them back');
+    expect(said).toContain('견디지 못한다');
     expect(said).toContain('There is nothing on it');
     expect(sim.state.flags['gate.open']).toBeUndefined();
     expect(sim.rs.actors.filter((a) => a.ref === 'gateguard').length).toBe(4);
@@ -3122,7 +3122,7 @@ describe('typed lines and walking', () => {
 
   it('walks over to somebody to talk, to take, and to buy', () => {
     const shell = playing('village', 160, 160);
-    expect(typed(shell, 'talk to sigga').join(' ')).toContain('I make it every morning');
+    expect(typed(shell, 'talk to sigga').join(' ')).toContain('매일 아침 만들어');
     shell.keyDown('Escape');
     expect(typed(shell, 'take hatchet').join(' ')).toContain('It is yours now');
     expect(typed(shell, 'buy sword').join(' ')).toContain("you don't have twenty-five silver");
