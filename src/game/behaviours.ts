@@ -216,8 +216,8 @@ export const behaviours: Record<string, Behaviour> = {
     sim.enterRoom('hall', 160, 124, 'down');
     sim.say(
       f['sol.said'] && !f['thaw.home']
-        ? 'You breathe on the coal. It flares; the snow, the wind and the long way back all fold up like a letter, and when you can see again you are standing on the Elder\'s hearthstone, with broth in your nose. Nothing has changed here. Weather walks; it will be a day yet before any of this has heard.'
-        : 'You breathe on the coal. It flares; the snow, the cold and the long way back all fold up like a letter, and when you can see again you are standing on the Elder\'s hearthstone, with smoke and broth in your nose. The coal has gone grey. It will want a while by its own fire before it does that again.',
+        ? '숯에 숨을 불어넣는다. 타오른다. 눈도, 바람도, 먼 귀갓길도 편지처럼 접히고, 다시 보일 때 너는 장로의 화로돌 위에 서 있다. 코에 수프 냄새. 여기는 아무것도 변하지 않았다. 날씨는 걸어 다닌다. 소식이 닿기까지는 아직 하루.'
+        : '숯에 숨을 불어넣는다. 타오른다. 눈도, 추위도, 먼 귀갓길도 편지처럼 접히고, 다시 보일 때 너는 장로의 화로돌 위에 서 있다. 코에 연기와 수프 냄새. 숯은 회색이 됐다. 다시 하려면 제 불 곁에서 한참을 원할 것이다.',
     );
   },
 
@@ -232,14 +232,14 @@ export const behaviours: Record<string, Behaviour> = {
     const p = sim.p;
     const spare = Object.keys(p.inv).find((id) => sim.content.items[id]?.kind === 'trinket' && (p.trinket !== id || p.inv[id] > 1));
     if (!spare) {
-      sim.say('"Take it off first, if you mean to sell it," says Odd. "I do not buy things off a customer\'s neck."', 'Odd the smith');
+      sim.say('"팔 생각이라면 먼저 벗어라," 오드가 말한다. "나는 손님 목에서 물건을 사지 않는다."', '대장장이 오드');
       return;
     }
     sim.lose(spare);
     if (p.trinket === spare && !p.inv[spare]) p.trinket = null;
     p.gold += 12;
     sim.sound('take');
-    sim.say(`Odd weighs the ${sim.content.items[spare].name} in his palm, bites it, and shrugs. "Twelve silver. I can melt it or sell it on; either way it is worth twelve."`);
+    sim.say(`오드가 ${sim.content.items[spare].name}을(를) 손바닥에 올려 무게를 재고, 깨물어 보고, 어깨를 으쓱한다. "은화 열두 닢. 녹이든 되팔든, 어느 쪽이든 열두 닢 값이다."`);
   },
 
   /** Odd buys back something he made. `arg` is "item=price". What is in hand comes out of it first. */
@@ -256,7 +256,7 @@ export const behaviours: Record<string, Behaviour> = {
     sim.lose(id);
     p.gold += Number(price);
     sim.sound('take');
-    sim.say(`Odd takes the ${it.name}, turns it over once, and grunts. "${price} silver. It will be somebody else's soon enough. Most things are."`, 'Odd the smith');
+    sim.say(`오드가 ${it.name}을(를) 받아 한 번 뒤집어 보고 끙 소리를 낸다. "은화 ${price} 닢. 곧 남의 것이 될 테지. 대부분 그렇다."`, '대장장이 오드');
   },
 
   /** Fenn takes back the books that have been read: they go back on his shelf, and teach a little on the way. */
@@ -268,7 +268,7 @@ export const behaviours: Record<string, Behaviour> = {
       return it?.kind === 'tome' && teach && 'teach' in teach && (p.spells.includes(teach.teach) || p.words.includes(teach.teach));
     });
     if (!read.length) {
-      sim.say('"Read it first," says Fenn, without looking up. "Then bring it back. That is the whole of the arrangement."', 'Old Fenn');
+      sim.say('"먼저 읽으시오," 펜이 올려다보지도 않고 말한다. "그러고는 돌려주시오. 그게 약속의 전부요."', '늙은 펜');
       return;
     }
     for (const id of read) sim.lose(id);
@@ -276,9 +276,9 @@ export const behaviours: Record<string, Behaviour> = {
     gainSkill(sim, 'lore', 5 * read.length);
     sim.say(
       read.length > 1
-        ? 'Fenn takes the books one at a time, looks at each spine, and finds each a gap on the shelf without seeming to look for one. "A book in a pack is only a weight," he says. "A book on a shelf is a book. Come and read them again whenever you like. You will not need to. That is rather the point."'
-        : 'Fenn takes the book, looks at the spine, and slides it into a gap on the shelf that you would have sworn was not there a moment ago. "A book in a pack is only a weight," he says. "A book on a shelf is a book."',
-      'Old Fenn',
+        ? '펜이 책을 한 권씩 받아 등을 보고, 찾는 시늉도 없이 각각 선반의 틈을 찾아낸다. "배낭 속의 책은 짐일 뿐이오," 그가 말한다. "선반 위의 책이 책이오. 언제든 다시 읽으러 오시오. 그럴 필요는 없을 게요. 그게 요점이니까."'
+        : '펜이 책을 받아 등을 보고, 조금 전까지는 분명 없던 선반의 틈에 밀어 넣는다. "배낭 속의 책은 짐일 뿐이오," 그가 말한다. "선반 위의 책이 책이오."',
+      '늙은 펜',
     );
   },
 
@@ -304,17 +304,17 @@ export const behaviours: Record<string, Behaviour> = {
     const temper = (p.temper ??= { weapon: 0, armor: 0 });
     const cost = TEMPER_COST(temper[what]);
     if (!item || (what === 'weapon' && item.kind !== 'weapon')) {
-      sim.say(what === 'armor' ? '"Temper what? You are wearing wool," says Odd. "I cannot harden wool."' : '"Put a blade in your hand and I will look at it," says Odd. "I do not do bows. Bows are carpentry."', 'Odd the smith');
+      sim.say(what === 'armor' ? '"Temper what? You are wearing wool," says Odd. "I cannot harden wool."' : '"Put a blade in your hand and I will look at it," says Odd. "I do not do bows. Bows are carpentry."', '대장장이 오드');
       return;
     }
     // Mail can only be made so thick; an edge can always be made a little truer.
     const done = what === 'armor' ? (item.power ?? 0) + 4 * temper.armor >= 70 : temper.weapon >= 40;
     if (done) {
-      sim.say('"There is nothing more I can do to that," says Odd, and for once he sounds sorry. "It is as good as iron gets. Anything better, you will have to find a better smith, and there is not one."', 'Odd the smith');
+      sim.say('"그건 이제 내가 할 수 있는 게 없다," 오드가 말한다. 이번에는 미안한 기색이다. "철로는 그게 최선이다. 더 나은 걸 원하면 더 나은 대장장이를 찾아야 하는데, 그런 사람은 없다."', '대장장이 오드');
       return;
     }
     if (p.gold < cost) {
-      sim.say(`"${cost} silver for the work," says Odd, "and you are short. Fire costs. Charcoal costs. My time costs most."`, 'Odd the smith');
+      sim.say(`"일삯은 은화 ${cost} 닢," 오드가 말한다, "그런데 모자라는군. 불도 돈이고. 숯도 돈이다. 내 시간이 제일 비싸고."`, '대장장이 오드');
       return;
     }
     p.gold -= cost;
@@ -324,9 +324,9 @@ export const behaviours: Record<string, Behaviour> = {
     sim.award(`temper.${what}.${temper[what]}`, 1);
     sim.say(
       what === 'armor' && item.id !== 'mail'
-        ? `Odd looks at the ${item.name} as if it had insulted him, takes your ${cost} silver anyway, and spends an hour sewing iron rings under the hide where a blade would land. "It will turn more than it did. Do not tell anyone I sew."`
+        ? `오드가 모욕이라도 당한 듯 ${item.name}을(를) 보지만, 그래도 네 은화 ${cost} 닢을 받고, 한 시간 동안 칼이 닿을 자리의 가죽 아래에 쇠고리를 꿰맨다. "전보다 더 튕겨낼 거다. 내가 바느질했다고는 말하지 마라."`
         : what === 'armor'
-        ? `Odd takes the ${item.name} and your ${cost} silver, and for an hour the square rings. He closes every link that had opened and doubles the rings across the shoulders. "It will turn more than it did. Try not to test it on purpose."`
+        ? `오드가 ${item.name}과(와) 네 은화 ${cost} 닢을 받고, 한 시간 동안 광장이 울린다. 벌어진 고리를 전부 오므리고 어깨 쪽 고리를 두 겹으로 한다. "전보다 더 튕겨낼 거다. 일부러 시험해 보지는 마라."`
         : `Odd takes the ${item.name} and your ${cost} silver. The forge roars; he draws the edge out, quenches it, and tests it on a hair from his own arm. "Better," he says, handing it back. From Odd, that is a poem.`,
     );
     sim.note(`${item.name} +${temper[what]}`);
@@ -375,7 +375,7 @@ export const behaviours: Record<string, Behaviour> = {
     if (f['bounty.room'] !== sim.state.room || f['bounty.done']) return;
     f['bounty.done'] = true;
     sim.setQuest('bounty', 2);
-    sim.note("That is the Elder's work done. She will want to hear of it.");
+    sim.note('장로의 일이 끝났다. 그녀가 듣고 싶어할 것이다.');
   },
 
   /** The Elder pays for finished work. */
