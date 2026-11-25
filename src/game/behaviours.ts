@@ -304,7 +304,7 @@ export const behaviours: Record<string, Behaviour> = {
     const temper = (p.temper ??= { weapon: 0, armor: 0 });
     const cost = TEMPER_COST(temper[what]);
     if (!item || (what === 'weapon' && item.kind !== 'weapon')) {
-      sim.say(what === 'armor' ? '"Temper what? You are wearing wool," says Odd. "I cannot harden wool."' : '"Put a blade in your hand and I will look at it," says Odd. "I do not do bows. Bows are carpentry."', '대장장이 오드');
+      sim.say(what === 'armor' ? '"뭘 담금질해? 양털을 입고 있잖아," 오드가 말한다. "양털은 못 단단하게 해."' : '"칼을 손에 들고 와, 그러면 봐 주지," 오드가 말한다. "활은 안 해. 활은 목공이야."', '대장장이 오드');
       return;
     }
     // Mail can only be made so thick; an edge can always be made a little truer.

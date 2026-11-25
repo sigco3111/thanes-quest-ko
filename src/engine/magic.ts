@@ -23,15 +23,15 @@ export function cast(sim: Sim, noun: string | undefined): void {
     p.hp = Math.min(p.maxHp, p.hp + spell.power * mending * (hasPerk(sim, 'hale') ? 1.5 : 1));
     if (hasPerk(sim, 'secondwind')) p.sp = p.maxSp;
     gainSkill(sim, 'mending', 6);
-    sim.note('Warmth knits you back together.');
+    sim.note('따뜻함이 너를 다시 깁는다.');
   } else if (spell.kind === 'light') {
     sim.state.flags.light = sim.state.tick + spell.power;
     gainSkill(sim, 'sorcery', 4);
-    sim.note('A pale light gathers around you.');
+    sim.note('창백한 빛이 네 주위에 모인다.');
   } else {
     sim.state.flags.ward = sim.state.tick + spell.power;
     gainSkill(sim, 'mending', 5);
-    sim.note('The air hardens around you.');
+    sim.note('공기가 네 주위에서 단단해진다.');
   }
 }
 

@@ -393,7 +393,7 @@ export class Renderer {
     const y0 = cy + m.vy - hy;
 
     const o = this.box(36, 16);
-    drawText(fb, SW, o.x, o.y, 'The country so far', UI.red);
+    drawText(fb, SW, o.x, o.y, '지금까지의 땅', UI.red);
     drawText(fb, SW, o.x + 36 * 8 - 8, o.y, 'N', UI.black);
     const left = o.x + 1;
     const top = o.y + 11;
@@ -507,7 +507,7 @@ export class Renderer {
 
     const under = at.get(`${cx + m.dx},${cy + m.dy}`);
     const away = [m.dy < 0 ? `${-m.dy} north` : m.dy > 0 ? `${m.dy} south` : '', m.dx < 0 ? `${-m.dx} west` : m.dx > 0 ? `${m.dx} east` : ''].filter(Boolean).join(', ');
-    const name = !(m.dx || m.dy) ? (here ? here.name : sim.room.name) : under?.mark ? under.name : under ? (under.goal ? 'Where you have been sent' : 'Not yet walked') : 'Unknown country';
+    const name = !(m.dx || m.dy) ? (here ? here.name : sim.room.name) : under?.mark ? under.name : under ? (under.goal ? '보내진 곳' : '아직 걷지 않은 곳') : '알 수 없는 땅';
     // Too long to say in full, the way there is shortened to compass letters.
     const brief = [m.dy ? `${Math.abs(m.dy)}${m.dy < 0 ? 'N' : 'S'}` : '', m.dx ? `${Math.abs(m.dx)}${m.dx < 0 ? 'W' : 'E'}` : ''].filter(Boolean).join(' ');
     const said = !away ? name : `${name} (${away})`.length <= 36 ? `${name} (${away})` : `${name.slice(0, 36 - brief.length - 3)} (${brief})`;

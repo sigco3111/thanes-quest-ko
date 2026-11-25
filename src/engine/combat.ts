@@ -428,7 +428,7 @@ function updateShots(sim: Sim): void {
       return false;
     }
     if (Math.abs(p.x - s.x) < 7 && Math.abs(p.y - s.y) < 5) {
-      hurtPlayer(sim, s.dmg, s.x - s.dx, s.y, s.kind === 'arrow' ? 'An arrow finds the one gap in your attention. It was not a small gap.' : 'It takes you full in the chest. You have time to notice how cold it is, and no time for anything else.');
+      hurtPlayer(sim, s.dmg, s.x - s.dx, s.y, s.kind === 'arrow' ? '화살이 네 주의의 유일한 틈을 찾는다. 작은 틈은 아니었다.' : '정통으로 가슴에 맞는다. 얼마나 차가운지 알아차릴 시간은 있고, 다른 어떤 시간도 없다.');
       return false;
     }
     return true;
