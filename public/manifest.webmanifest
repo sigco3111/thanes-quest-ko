@@ -1,7 +1,7 @@
 {
-  "name": "테인의 모험 (테인의 모험 (Thane's Quest)",
-  "short_name": "테인의 모험 (테인의 모험 (Thane's Quest)",
-  "description": "An open-world action RPG in an early typing-adventure shell.",
+  "name": "테인의 모험 (Thane's Quest)",
+  "short_name": "테인의 모험",
+  "description": "초기 타이핑 어드벤처 껍데기 안의 오픈월드 액션 RPG.",
   "start_url": ".",
   "display": "fullscreen",
   "background_color": "#000000",
