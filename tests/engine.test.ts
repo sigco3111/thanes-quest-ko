@@ -3304,7 +3304,7 @@ describe('the night the hearth is lit', () => {
     expect(empty.sim.state.flags['marta.stopped']).toBeUndefined();
     // With both: she stops, and nobody walks out between that and the spark.
     const asked = typed(shell, 'hold out the flint to the elder').join(' ');
-    expect(asked).toContain('"When I stop," she says. "Not before." She stops.');
+    expect(asked).toContain('"내가 멈추면," 그녀가 말한다. "그 전에는 안 돼." 그녀가 멈춘다.');
     expect(shell.sim.state.flags['quest:hearth']).toBe(4);
     expect(folk(shell)).toEqual(['marta']);
     expect(typed(shell, 'look')[0]).toContain('The cold has gone out of the hall');
@@ -3532,7 +3532,7 @@ describe('found by playing on past the cold hearth', () => {
     expect(type(hollow, 'push the woman')).toEqual(['아니.']);
     expect(type(hollow, 'look at the ring')[0]).toContain('너는 네 손을 본다');
     // In the square, the smith is still Odd.
-    expect(type(home, 'look at the smith')[0]).toContain('leather apron');
+    expect(type(home, 'look at the smith')[0]).toContain('가죽 앞치마');
   });
 
   it('greets a Thane it has not met as a Thane, not as it would have nine days before', () => {
@@ -3876,7 +3876,7 @@ describe('things written by hand, out in the generated country', () => {
     expect(type(road, 'orun')[0]).toContain('작은 발자국들은 아직 따라가고');
     road.state.flags['winter.broken'] = true;
     road.p.cd = {};
-    expect(type(road, 'orun')[0]).toContain('You know where they stop');
+    expect(type(road, 'orun')[0]).toContain('어디서 멈추는지 너는 안다');
   });
 
   it('lets a door with no house be knocked at and gone through', () => {
@@ -3923,7 +3923,7 @@ describe('things written by hand, out in the generated country', () => {
     expect(type(sled, 'give the horse to the boy')[0]).toContain('누가 아꼈나 봐');
     expect(sled.p.inv.toyhorse).toBeUndefined();
     type(sled, 'talk to the boy');
-    expect(type(sled, 'talk to the boy').join(' ')).toContain("He's called Ear");
+    expect(type(sled, 'talk to the boy').join(' ')).toContain('이름은 귀야');
   });
 });
 
@@ -3969,7 +3969,7 @@ describe('the hollow', () => {
     expect(type(sim, 'take the boy')[0]).toContain('손을 거둔다');
     expect(sim.state.room).toBe('hollow');
     expect(type(sim, 'attack the woman')).toEqual(['아니.']);
-    expect(type(sim, 'take the ring')[0]).toContain('It is the same as yours');
+    expect(type(sim, 'take the ring')[0]).toContain('네 것과 같다');
   });
 
   it('can be ended with her own word, said with her, and the way home given away', () => {
@@ -3993,7 +3993,7 @@ describe('the hollow', () => {
     expect(sim.p.inv.ember).toBe(1);
     const score = sim.state.score;
     const end = type(sim, 'give the coal to the woman').join(' ');
-    expect(end).toContain('In her hands the coal wakes');
+    expect(end).toContain('그녀의 손에서 숯이 깬다');
     expect(end).toContain('the print of two knees, and you');
     expect(end).toContain("You did not say the sun's name. It comes up anyway.");
     expect(sim.p.inv.ember).toBeUndefined();
