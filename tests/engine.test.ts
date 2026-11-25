@@ -3308,7 +3308,7 @@ describe('the night the hearth is lit', () => {
     expect(shell.sim.state.flags['quest:hearth']).toBe(4);
     expect(folk(shell)).toEqual(['marta']);
     expect(typed(shell, 'look')[0]).toContain('추위가 회당에서 빠져나갔다');
-    expect(makeForTheDoor(shell)).toContain('You turn round');
+    expect(makeForTheDoor(shell)).toContain('돌아본다');
     expect(shell.sim.state.room).toBe('hall');
     expect(shell.sim.state.won).toBe(false);
   });
