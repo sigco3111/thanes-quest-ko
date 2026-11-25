@@ -165,7 +165,7 @@ export class Sim {
   }
 
   text(key: string, word = ''): string {
-    return fixJosa((this.content.text[key] ?? key).replace('%s', word));
+    return (this.content.text[key] ?? key).replace('%s', word);
   }
 
   /** How something looks just now: its usual description, unless events have changed it. */
