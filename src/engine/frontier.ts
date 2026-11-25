@@ -332,6 +332,8 @@ function groundAt(c: Content, X: number, Y: number): string {
 
 const WAY: Record<Side, string> = { n: '북쪽', s: '남쪽', e: '동쪽', w: '서쪽' };
 const CORNERS: [number, number][] = [[-1, -1], [1, -1], [1, 1], [-1, 1]];
+const josa = (w: string, pair: [string, string]): string => { const c = w.charCodeAt(w.length - 1); const bat = c >= 0xac00 && c <= 0xd7a3 ? (c - 0xac00) % 28 !== 0 : true; return pair[bat ? 0 : 1]; };
+
 const listed = (parts: string[]): string => (parts.length < 2 ? parts.join('') : `${parts.slice(0, -1).join(', ')}, 그리고 ${parts[parts.length - 1]}`);
 
 /**
@@ -354,7 +356,7 @@ export function roadOf(c: Content, X: number, Y: number): { ways: Side[]; says: 
   // Between four, two paths cross, and each place lies off a corner.
   const round = CORNERS.flatMap(([dx, dy]) => {
     const hand = handAt(c, X + dx, Y + dy);
-    return hand ? [`${called(hand)}은 ${COMPASS(dx, dy)}`] : [];
+    return hand ? [`${called(hand)}${josa(called(hand), ['은', '는'])} ${COMPASS(dx, dy)}`] : [];
   });
   // With no place beside it or off a corner (a corner of the valley that has nothing in it), the
   // path still leads somewhere: to whatever lies next along it, a road's length further on.
@@ -366,7 +368,7 @@ export function roadOf(c: Content, X: number, Y: number): { ways: Side[]; says: 
     }
     if (on.length) return { ways: ['n', 's', 'e', 'w'], says: f.text.road.replace('%s', listed(on.map(([way, id]) => `${WAY[way]}으로 ${called(id)}`))) };
   }
-  const says = f.text.crossroads.replace('%s', listed(round.map((p, i) => (i ? `${p} 쪽` : `${p} 쪽에 놓여 있다`))));
+  const says = f.text.crossroads.replace('%s', listed(round.map((p, i) => (i ? p : `${p}에 놓여 있다`))));
   return { ways: ['n', 's', 'e', 'w'], says: says.replace(/(^|\. )([a-z])/g, (_, a: string, b: string) => a + b.toUpperCase()) };
 }
 

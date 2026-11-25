@@ -16,7 +16,7 @@ const places = Object.entries(f.grid).filter(([, [x, y]]) => ring(x, y) <= reach
 const roads: [string, number, number][] = [];
 for (let y = -reach; y <= reach; y++) for (let x = -reach; x <= reach; x++) if (kindAt(content, x, y) === 'valley') roads.push([wildId(x, y), x, y]);
 const SIDES = { n: [0, -1], s: [0, 1], e: [1, 0], w: [-1, 0] } as const;
-const WORD = { n: 'north', s: 'south', e: 'east', w: 'west' } as const;
+const WORD = { n: '북쪽', s: '남쪽', e: '동쪽', w: '서쪽' } as const;
 const placeAt = (x: number, y: number): string | undefined => places.find(([, at]) => at[0] === x && at[1] === y)?.[0];
 const hostile = (kind: string): boolean => content.enemies[kind]?.ai !== 'prey';
 // A creature with a lair of its own is as tough as it is, wherever its lair happens to be.
@@ -104,19 +104,19 @@ describe('the valley', () => {
         return at ? [[side, at] as const] : [];
       });
       if (beside.length) {
-        for (const [side, at] of beside) expect(def.look, id).toContain(`${WORD[side]} to ${f.valley!.called[at]}`);
+        for (const [side, at] of beside) expect(def.look, id).toContain(`${WORD[side]}으로 ${f.valley!.called[at]}`);
       } else {
         // A crossing: the places round it, each named with the way it lies.
         const round = ([[-1, -1], [1, -1], [1, 1], [-1, 1]] as const).flatMap(([dx, dy]) => (placeAt(x + dx, y + dy) ? [[dx, dy, placeAt(x + dx, y + dy)!] as const] : []));
         for (const [dx, dy, at] of round) {
-          const way = `${dy < 0 ? 'north' : 'south'}-${dx < 0 ? 'west' : 'east'}`;
-          expect(def.look.toLowerCase(), id).toMatch(new RegExp(`${f.valley!.called[at].toLowerCase()}( lies)? ${way}`));
+          const way = `${dy < 0 ? '북' : '남'}${dx < 0 ? '서' : '동'}`;
+          expect(def.look, id).toMatch(new RegExp(`${f.valley!.called[at]}[은는] ${way}쪽`));
         }
         // The empty corner of the valley has no place off any corner of it: its path says where it leads on to.
         if (!round.length) {
           const on = (Object.keys(SIDES) as (keyof typeof SIDES)[]).flatMap((side) => (placeAt(x + 2 * SIDES[side][0], y + 2 * SIDES[side][1]) ? [[side, placeAt(x + 2 * SIDES[side][0], y + 2 * SIDES[side][1])!] as const] : []));
           expect(on.length, id).toBeGreaterThan(0);
-          for (const [side, at] of on) expect(def.look, id).toContain(`${WORD[side]} to ${f.valley!.called[at]}`);
+          for (const [side, at] of on) expect(def.look, id).toContain(`${WORD[side]}으로 ${f.valley!.called[at]}`);
         }
       }
       // Whatever it says, it says something: never a sentence with nothing in it.
