@@ -365,7 +365,7 @@ const koVerbs: Record<string, string[]> = {
   block: ['막아', '방어', '가드'],
   run: ['달려', '달리', '뛰', '도망', '서둘러'],
 };
-const koNouns: Record<string, string[]> = {
+export const koNouns: Record<string, string[]> = {
   self: ['나', '내', '자신', '용사'],
   north: ['북', '북쪽'],
   south: ['남', '남쪽'],

@@ -4,7 +4,7 @@
 import { playerAttack } from './combat';
 import { beyond, parseWild, roomOf } from './frontier';
 import { wordVariants } from './parser';
-import { koNounLabel } from '../game/data/vocab';
+import { koNounLabel, koNouns, vocab } from '../game/data/vocab';
 import { cast, invoke } from './magic';
 import { all, fire, questKey, reach, run, speak, test } from './rules';
 import { PH, PW } from './scene';
@@ -738,7 +738,10 @@ function mentioned(sim: Sim, word: string): boolean {
   }
   if (word.length < 3) return false;
   const stem = word.replace(/(es|s)$/, '');
-  return new RegExp(`\\b${stem}(s|es)?\\b`).test(texts);
+  if (new RegExp(`\\b${stem}(s|es)?\\b`).test(texts)) return true;
+  // The saga speaks Korean: an English word still counts as used here when one of its Korean aliases appears.
+  const id = Object.entries(vocab.nouns).find(([k, ws]) => word === k || ws.includes(word))?.[0];
+  return !!id && (koNouns[id] ?? []).some((w: string) => w.length >= 2 && texts.includes(w));
 }
 
 /** Is the line a look of some kind, or a bare word? */
