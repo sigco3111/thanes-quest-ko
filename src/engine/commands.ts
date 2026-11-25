@@ -503,7 +503,7 @@ function builtin(sim: Sim, verb: string, nouns: string[], afoot: string | null, 
         if (into) {
           const kept = (sim.rs.stored ??= {});
           kept[what.id] = (kept[what.id] ?? 0) + n;
-          sim.say(sim.text('stored', sim.named(what.id, n)).replace('%t', store!.nouns[0]));
+          sim.say(sim.text('stored', sim.named(what.id, n)).replace('%t', koLabel(store!.nouns[0])));
         } else {
           // At the player's side, where it can be seen.
           sim.putDown(what.id, n, p.x + (p.dir === 'left' ? -14 : 14), p.y + 1);

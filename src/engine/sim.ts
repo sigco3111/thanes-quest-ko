@@ -183,7 +183,7 @@ export class Sim {
 
   /** `who` names the speaker, when somebody is speaking. */
   say(text: string, who?: string): void {
-    this.out.push({ t: 'say', text, who });
+    this.out.push({ t: 'say', text: fixJosa(text), who });
   }
   /** News that keeps: told at once in a quiet moment, and otherwise when the fight is over. */
   sayWhenIdle(text: string): void {
@@ -196,7 +196,7 @@ export class Sim {
   notes = 0;
   note(text: string): void {
     this.notes++;
-    this.out.push({ t: 'note', text });
+    this.out.push({ t: 'note', text: fixJosa(text) });
   }
   sound(id: string): void {
     this.out.push({ t: 'sound', id });
