@@ -127,7 +127,7 @@ export const vocab: VocabDef = {
     bones: ['skeleton', 'remains', 'traveller', 'traveler', 'body'],
     ground: ['floor', 'earth'],
     river: ['stream', 'ford', 'bank'],
-    bridge: ['planks', 'handrails'],
+    bridge: ['planks'],
     bell: ['bronze bell', 'dome', 'rim'],
     sign: ['signpost', 'signboard'],
     anvil: ['forge', 'smithy', 'stall'],
@@ -537,6 +537,9 @@ export const koNouns: Record<string, string[]> = {
   light: ['빛', '광휘'],
   ward: ['보호막', '결계'],
 };
+/** English words that appear in the saga's flavor text without being parser nouns: their Korean faces, for `mentioned`. */
+export const mentionedGloss: Record<string, string[]> = { handrails: ['난간'] };
+
 export const koNounLabel: Record<string, string> = {};
 for (const [k, v] of Object.entries(koVerbs)) (vocab.verbs[k] ??= []).push(...v);
 for (const [k, v] of Object.entries(koNouns)) {
