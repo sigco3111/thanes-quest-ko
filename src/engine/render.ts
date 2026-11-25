@@ -248,9 +248,9 @@ export class Renderer {
       }
     drawText(fb, SW, cx + 6, 0, `은화 ${p.gold}닢`, UI.black);
     // Badly hurt, the health bar flashes: it is easy to miss in the middle of a fight.
-    this.bar(206, 'H', p.hp, p.maxHp, p.hp < p.maxHp * 0.3 && !p.dead && (shell.uiTick >> 2) & 1 ? UI.white : UI.health);
-    this.bar(244, 'M', p.mp, p.maxMp, UI.mana);
-    this.bar(282, 'S', p.sp, p.maxSp, UI.stamina);
+    this.bar(206, '체', p.hp, p.maxHp, p.hp < p.maxHp * 0.3 && !p.dead && (shell.uiTick >> 2) & 1 ? UI.white : UI.health);
+    this.bar(244, '마', p.mp, p.maxMp, UI.mana);
+    this.bar(282, '기', p.sp, p.maxSp, UI.stamina);
   }
 
   private box(cols: number, rows: number): { x: number; y: number } {
@@ -394,7 +394,7 @@ export class Renderer {
 
     const o = this.box(36, 16);
     drawText(fb, SW, o.x, o.y, '지금까지의 땅', UI.red);
-    drawText(fb, SW, o.x + 36 * 8 - 8, o.y, 'N', UI.black);
+    drawText(fb, SW, o.x + 36 * 8 - 8, o.y, '북', UI.black);
     const left = o.x + 1;
     const top = o.y + 11;
     const W = COLS * CW;
