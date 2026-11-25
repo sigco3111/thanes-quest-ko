@@ -62,7 +62,7 @@ const sights: SightDef[] = [
         do: [{ set: 'sight.roadstone' }, { run: 'study', arg: 12 }, { say: '새겨진 선에 손바닥을 댄다. 룬이 아니고, 아무것도 가르쳐 주지 않는다. 자신을 따라 가리킬 뿐이다. 남으로, 홀로미어의 연기 쪽, 그리고 북으로, 아무도 가지 않는 쪽.' }],
       },
       { on: ['read menhir', 'pet menhir', 'read inscription'], if: [near('roadstone')], do: [{ say: 'A line, cut deep, pointing south and north. That is all it has to say.' }] },
-      { on: ['read menhir', 'pet menhir', 'read inscription'], do: [{ say: 'You are not close enough.' }] },
+      { on: ['read menhir', 'pet menhir', 'read inscription'], do: [{ say: '충분히 가까이 있지 않다.' }] },
     ],
   },
   {
@@ -353,7 +353,7 @@ const sights: SightDef[] = [
     ],
   },
   {
-    id: 'pedlar', name: "The Pedlar's Cairn", biomes: ['open', 'pines', 'crags'], minDepth: 3,
+    id: 'pedlar', name: '보부상의 돌탑', biomes: ['open', 'pines', 'crags'], minDepth: 3,
     seen: '휜 물푸레나무 지게가 돌탑에 기대어 있다, 누군가 숨 고르려 내려놓은 것처럼.',
     prop: { t: 'cairn', seed: 23 },
     thing: {

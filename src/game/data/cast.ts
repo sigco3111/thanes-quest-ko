@@ -465,7 +465,7 @@ export const chars: Record<string, CharDef> = {
         {
           if: [LIT],
           say: `"이제 곁에 앉을 만한 불이 생기니 사람들이 앉아서 얘기해. 지붕 아래 있는 누구보다 저쪽 땅을 잘 아는 셋이 밖에 있어. 올가미꾼 브레카. 늙은 한 장갑 이바르, 곰들이 시작한 걸 끝내지 않았다면. 그리고 네가 만난 루나." 뿔잔을 채운다. "저쪽 멀리 갈 생각이면, 먼저 셋 중 하나를 찾아."`,
-          do: [{ run: 'mark', arg: 'brekka' }, { run: 'mark', arg: 'ivar' }, { note: 'Two more steadings are marked on your map.' }],
+          do: [{ run: 'mark', arg: 'brekka' }, { run: 'mark', arg: 'ivar' }, { note: '가옥 두 곳이 더 지도에 표시됐다.' }],
         },
         { say: `"저기 고름은 씨앗 곡식을 빼앗겼어. 토케는 물렸고. 마르타는 낼 수 있는 사람을 찾고 계셨지." 처음으로 너를 힐끗 본다. "너를 찾으셨군."` },
       ],
@@ -657,7 +657,7 @@ export const chars: Record<string, CharDef> = {
       {
         if: [{ quest: 'wolves', is: 1 }, { flag: 'wolves.killed', min: 3 }],
         say: `"세 마리. 하나씩 조용해지는 걸 들었어." 활을 풀어 내민다. "약속은 약속이야. 살짝 왼쪽으로 치우쳐. 익숙해질 거야."`,
-        do: [{ quest: 'wolves', stage: 2 }, { give: 'bow' }, { score: 10, id: 'wolves.done' }, { note: 'Tip: EQUIP BOW, then attack to loose an arrow. SWAP changes back.' }],
+        do: [{ quest: 'wolves', stage: 2 }, { give: 'bow' }, { score: 10, id: 'wolves.done' }, { note: '팁: EQUIP BOW로 활을 장비하고 공격하면 화살을 쏜다. SWAP으로 되돌린다.' }],
       },
       { if: [{ quest: 'wolves', is: 1 }], say: `"아직 세 마리 아니야. 소나무 숲 서쪽에 두 마리, 마루 위에 적어도 한 마리. 뒤를 내주지 마."` },
       { if: [THAW, { flag: 'toke.mended' }], say: `"오늘 아침 지빠귀를 들었어. 소나무 숲에서, 이번 달에." 토케가 천천히 고개를 젓는다. "손도 멀쩡해. 그 활을 돌려받을 수도 있겠지." 거의 웃는다. "아니. 가져. 나보다 잘 먹였어."` },
