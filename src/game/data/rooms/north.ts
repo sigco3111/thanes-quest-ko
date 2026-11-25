@@ -171,12 +171,12 @@ export const windend: RoomDef = {
   id: 'windend',
   mark: 'open',
   music: 'barrow',
-  name: 'Where the Wind Stops',
+  name: '바람이 멎는 곳',
   hung: 50,
-  look: 'The wind has stopped. Here and there a flake of snow hangs in the air at the height of your face, fixed, so that you have to go round it. To the north they hang thicker, and thicker, until there is a wall of them. Beyond, at the very edge of seeing, there are towers, and the roofs of a town under the snow, and no smoke over any of it.',
+  look: '바람이 멎었다. 여기저기 눈송이가 네 얼굴 높이 공중에 매달려 있다, 고정되어, 돌아가야 한다. 북쪽으로 갈수록 더 빽빽하고, 더 빽빽해져, 벽이 된다. 너머, 시야의 아주 끝에, 탑들과 눈 밑 마을의 지붕들이 있고, 그 어느 위에도 연기가 없다.',
   lookWhen: [
-    { if: [BROKEN], look: 'Snow is coming down, big and wet and slow, and the wind is blowing it sideways. You walk out of the hanging country into wind. A long way north there are towers, and the roofs of a town, going grey as the snow slides off them.' },
-    { if: [{ flag: 'still.path1' }], look: 'The wind has stopped. Flakes of snow hang in the air, fixed, each where it was. To the north they hang as thick as a wall; and through the wall goes a path as wide as you are, where a word pushed them aside. Beyond, at the very edge of seeing, there are towers, and the roofs of a town.' },
+    { if: [BROKEN], look: '눈이 내린다, 크고 젖고 느리게, 바람이 옆으로 몰고 있다. 매달린 나라에서 걸어 나와 바람 속으로. 멀리 북쪽에 탑들과 마을의 지붕들이 있다, 눈이 미끄러져 내리며 회색이 되어 가는.' },
+    { if: [{ flag: 'still.path1' }], look: '바람이 멎었다. 눈송이들이 공중에 매달려 있다, 고정되어, 각자 있던 자리에. 북쪽으로는 벽처럼 빽빽하다. 그 벽을 뚫고 네 너비의 길이 나 있다, 단어가 밀어낸 자리. 너머, 시야의 아주 끝에, 탑들과 마을의 지붕들이 있다.' },
   ],
   scene: {
     kind: 'outdoor', horizon: 58, walkTop: 86,
@@ -195,34 +195,34 @@ export const windend: RoomDef = {
   zones: [{ id: 'curtain', x0: 0, y0: 86, x1: 320, y1: 100 }],
   things: [
     {
-      id: 'flakes', nouns: ['snow'], x: 160, y: 110, reach: 400, look: 'Each flake hangs where it was when it stopped: not falling, not drifting. You put out a hand, and they do not move aside for it. They are as fixed as nails. To the north they are so thick that there is no going between them.',
+      id: 'flakes', nouns: ['snow'], x: 160, y: 110, reach: 400, look: '송이마다 멎었을 때 있던 자리에 매달려 있다. 내리지도, 흩날리지도. 손을 내밀어도 비켜주지 않는다. 못처럼 박혀 있다. 북쪽으로는 너무 빽빽해서 사이를 지날 수 없다.',
       lookWhen: [
-        { if: [BROKEN], look: 'Snow. It falls, and lands, and lies there, and after a while it melts. You stand and watch it do that for longer than you would admit to.' },
-        { if: [{ flag: 'still.path1' }], look: 'The path your word made stands open through the hanging snow, as wide as you are, its walls as fixed as the rest. It does not close.' },
+        { if: [BROKEN], look: '눈. 내리고, 쌓이고, 그대로 있다가, 얼마 지나 녹는다. 너는 그걸 인정하고 싶은 것보다 오래 서서 본다.' },
+        { if: [{ flag: 'still.path1' }], look: '네 단어가 만든 길이 매달린 눈 사이로 열려 있다, 네 너비만큼, 벽은 나머지처럼 고정되어. 닫히지 않는다.' },
       ],
     },
-    { id: 'town', nouns: ['village', 'tower', 'roof'], x: 160, y: 60, reach: 400, look: 'Towers, and the roofs of a town under the snow, a long way off. No smoke over any of it. The snow above it has been in the middle of falling for a very long time.', lookWhen: [{ if: [BROKEN], look: 'A town, a long way off, with the snow sliding from its roofs for the first time in three hundred winters. Nobody lives there. Somebody may again.' }] },
-    { id: 'tracks', nouns: ['tracks', 'path', 'ground'], x: 160, y: 150, reach: 400, look: 'The footprints go on, north. They are nearer the top of the snow here. Less has fallen on them.', lookWhen: [{ if: [BROKEN], look: 'Wet snow, with your own prints in it and nobody else\'s.' }] },
-    stillSky('White, and still. There is no weather in it at all.', 'Grey, and low, and moving. It is the best sky you have ever seen.'),
+    { id: 'town', nouns: ['village', 'tower', 'roof'], x: 160, y: 60, reach: 400, look: '탑들, 눈 밑 마을의 지붕들, 아주 멀리. 그 어느 위에도 연기가 없다. 그 위의 눈은 아주 오래전부터 내리는 도중이다.', lookWhen: [{ if: [BROKEN], look: '마을, 멀리, 삼백 겨울 만에 처음으로 지붕에서 눈이 미끄러지는. 아무도 살지 않는다. 누군가 다시 살지도.' }] },
+    { id: 'tracks', nouns: ['tracks', 'path', 'ground'], x: 160, y: 150, reach: 400, look: '발자국이 계속된다, 북쪽으로. 여기선 눈 표면에 더 가깝다. 그 위에 내린 눈이 더 적다.', lookWhen: [{ if: [BROKEN], look: '젖은 눈, 네 발자국만 있고 남의 것은 없다.' }] },
+    stillSky('하얗고, 고요하다. 날씨가 전혀 없다.', '회색이고, 낮고, 움직인다. 네가 본 가장 좋은 하늘이다.'),
   ],
   rules: [
     { enter: true, if: [{ not: { flag: 'seen.windend' } }], do: [{ set: 'seen.windend' }, { score: 3, id: 'seen.windend' }] },
     {
       enter: true, if: [HELD, { not: { flag: 'still.told' } }, { flag: 'tower.still' }],
-      do: [{ set: 'still.told' }, { say: 'You know when you have come into it, because the wind stops.\n\nIt does not die down. It stops, the way the snow stopped at the watchtower. A little further on, the snow stops too, and hangs. At first it is only a few flakes here and there, fixed in the air at the height of your face, so that you have to go round them. Between them, a long way ahead, at the very edge of seeing, there are towers, and the roofs of a town under the snow, and no smoke over any of it.' }],
+      do: [{ set: 'still.told' }, { say: '들어왔는지는 바람이 멎어서 안다.\n\n잦아드는 게 아니다. 멎는다, 망루에서 눈이 멎은 것처럼. 조금 더 가면 눈도 멎어, 매달린다. 처음엔 여기저기 몇 송이뿐, 네 얼굴 높이 공중에 고정되어, 돌아가야 한다. 그 사이로, 멀리 앞에, 시야의 아주 끝에, 탑들과 눈 밑 마을의 지붕들이 있고, 그 어느 위에도 연기가 없다.' }],
     },
     {
       enter: true, if: [HELD, { not: { flag: 'still.told' } }],
-      do: [{ set: 'still.told' }, { say: 'You know when you have come into it, because the wind stops.\n\nIt does not die down. It stops. A little further on, the snow stops too, and hangs. At first it is only a few flakes here and there, fixed in the air at the height of your face, so that you have to go round them. Between them, a long way ahead, at the very edge of seeing, there are towers, and the roofs of a town under the snow, and no smoke over any of it.' }],
+      do: [{ set: 'still.told' }, { say: '들어왔는지는 바람이 멎어서 안다.\n\n잦아드는 게 아니다. 멎는다. 조금 더 가면 눈도 멎어, 매달린다. 처음엔 여기저기 몇 송이뿐, 네 얼굴 높이 공중에 고정되어, 돌아가야 한다. 그 사이로, 멀리 앞에, 시야의 아주 끝에, 탑들과 눈 밑 마을의 지붕들이 있고, 그 어느 위에도 연기가 없다.' }],
     },
     {
       enter: true, if: [BROKEN, { not: { flag: 'still.rain' } }],
-      do: [{ set: 'still.rain' }, { say: 'The winter is breaking, and the thaw goes south faster than you can walk. You walk out of the hanging country into wind, and out of wind into a thin, astonishing rain.' }],
+      do: [{ set: 'still.rain' }, { say: '겨울이 꺾이고, 해빙이 네가 걷는 것보다 빨리 남쪽으로 간다. 매달린 나라에서 걸어 나와 바람 속으로, 바람에서 걸어 나와 가늘고 놀라운 비 속으로.' }],
     },
     { zone: 'curtain', if: [HELD, { not: { flag: 'still.path1' } }], do: [{ goto: 'windend', x: 160, y: 112, dir: 'up' }, { say: 'Here the snow hangs as thick as a wall: a whole sky of it, stopped in the middle of falling. You put your shoulder to it. It does not give. Each flake is as fixed as a nail, and will not be gone round, and will not move aside.' }, { note: 'It wants pushing aside by something stronger than a shoulder.' }] },
     {
       on: 'veth', if: [HELD, { not: { flag: 'still.path1' } }],
-      do: [{ set: 'still.path1' }, { sound: 'door' }, { score: 3, id: 'still.path1' }, { say: 'You say VETH, and it pushes a path open through the hanging snow: the flakes go aside like a crowd, and stay where they are pushed. You can walk down it.' }],
+      do: [{ set: 'still.path1' }, { sound: 'door' }, { score: 3, id: 'still.path1' }, { say: 'VETH라고 말하자 매달린 눈 사이로 길이 밀려 열린다. 송이들이 군중처럼 비켜서고, 밀린 자리에 머문다. 그 길을 걸을 수 있다.' }],
     },
     { on: 'veth', if: [HELD], do: [{ say: 'VETH. The path is open already. The word goes down it, and you do not hear it come to anything.' }] },
     { on: 'iska', if: [HELD], do: [{ say: 'ISKA. You say it, and nothing changes; and you understand that this is because it is being said already. Everything here is inside that word. Yours goes into it like a cup of water into a lake. But the warmth goes out of your hands just the same.' }] },
