@@ -262,7 +262,7 @@ const sights: SightDef[] = [
     ],
   },
   {
-    id: 'rota', name: "The Reavers' Rota", biomes: ['camp'], minDepth: 4,
+    id: 'rota', name: '약탈자 근무표', biomes: ['camp'], minDepth: 4,
     seen: '불구덩이 곁에 판자가 기둥에 못 박혀 있고, 누군가 거기 써 왔다.',
     prop: { t: 'signpost' },
     thing: {
