@@ -3289,7 +3289,7 @@ describe('the night the hearth is lit', () => {
     expect(shell.sim.p.inv.bottle).toBe(1);
     // Her word, said back at her, is the only thing she asks anybody not to do.
     shell.sim.p.cd = {};
-    expect(typed(shell, 'iska').join(' ')).toContain('"Don\'t," says Marta.');
+    expect(typed(shell, 'iska').join(' ')).toContain('"하지 마," 마르타가 말한다.');
     // Without the word, or without the bottle, holding out the flint is not yet asking what it asks.
     const unread = ready();
     unread.sim.p.words = [];
