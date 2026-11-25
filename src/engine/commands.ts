@@ -388,7 +388,7 @@ function goOut(sim: Sim): boolean {
 function wayName(sim: Sim, to: string, side: 'n' | 's' | 'e' | 'w'): string {
   const name = roomOf(sim.content, to)?.name ?? to;
   const on = beyond(sim.content, to, side);
-  return on ? `${name}, ${on}으로 가는 길` : name;
+  return on ? `${name}, ${on}(으)로 가는 길` : name;
 }
 
 /** Every way out of the room. */
@@ -396,7 +396,7 @@ function exitsText(sim: Sim): string {
   const room = sim.room;
   const parts = Object.entries(DIRS).flatMap(([name, side]) => {
     const to = room.exits?.[side];
-    return to ? [`${name[0].toUpperCase()}${name.slice(1)}: ${wayName(sim, to, side)}.`] : [];
+    return to ? [`${DIR_KO[name] ?? name}: ${wayName(sim, to, side)}.`] : [];
   });
   const doors = [...new Set((room.doors ?? []).map((d) => roomOf(sim.content, d.to)?.name ?? d.to))];
   if (doors.length) parts.push(`${doors.join(', ')}(으)로 통하는 문.`);
