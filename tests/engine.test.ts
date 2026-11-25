@@ -2996,7 +2996,7 @@ describe('what to do next, as the story goes', () => {
     next('눈 웅덩이에 무릎 꿇고', { 'quest:north': 6 });
     next('홀로미어는 아주 멀리 남쪽이다', { 'quest:north': 7, 'winter.broken': true, 'sol.said': true });
     next('겨울이 깨졌다. 장로에게는 늘 일이 있고', { 'quest:north': 8, 'marta.thaw': true });
-    next('a place for you at the end of the bench nearest the door', { 'home.cup': true });
+    next('문에서 가장 가까운 벤치 끝에 네 자리가 있다', { 'home.cup': true });
     expect(new Set(seen).size).toBe(seen.length);
   });
 
@@ -3294,7 +3294,7 @@ describe('the night the hearth is lit', () => {
     const unread = ready();
     unread.sim.p.words = [];
     typed(unread, 'lay the log on the hearth');
-    expect(typed(unread, 'give the flint to the elder').join(' ')).toContain('if you knew what they were saying');
+    expect(typed(unread, 'give the flint to the elder').join(' ')).toContain('그 입술이 뭐라 하는지 안다면');
     expect(unread.sim.state.flags['marta.stopped']).toBeUndefined();
     const empty = ready();
     empty.sim.lose('bottle');
@@ -3528,7 +3528,7 @@ describe('found by playing on past the cold hearth', () => {
     expect(type(home, 'look at the woman')[0]).toContain('숄을 세 겹');
     const hollow = game('hollow', 160, 140);
     expect(type(hollow, 'look at the woman')[0]).toContain('어깨 위로 서리가 모피처럼 자랐다');
-    expect(type(hollow, 'talk to the woman')[0]).toContain('She does not hear you');
+    expect(type(hollow, 'talk to the woman')[0]).toContain('네 말을 듣지 못한다');
     expect(type(hollow, 'push the woman')).toEqual(['No.']);
     expect(type(hollow, 'look at the ring')[0]).toContain('너는 네 손을 본다');
     // In the square, the smith is still Odd.
@@ -3870,7 +3870,7 @@ describe('things written by hand, out in the generated country', () => {
     cold.state.flags['hearth.lit'] = true;
     expect(type(cold, 'climb the ladder')[0]).toContain('열한 지붕 모두에서');
     cold.state.flags['winter.broken'] = true;
-    expect(type(cold, 'climb the pegs')[0]).toContain('bending now, because there is a wind');
+    expect(type(cold, 'climb the pegs')[0]).toContain('지금 휘고 있다, 바람이 있으니');
     // And the stone on the old road shows the same footprints that lie beyond the gate.
     const road = beside('roadstone').sim;
     expect(type(road, 'orun')[0]).toContain('Here the small ones are still keeping up, and still going straight');
@@ -3916,7 +3916,7 @@ describe('things written by hand, out in the generated country', () => {
     expect((farm.when ?? []).filter((w) => all(sim, w.if)).flatMap((w) => w.props ?? []).filter((p) => p.t === 'sheep').length).toBe(1);
 
     const sled = beside('sledge').sim;
-    expect(type(sled, 'open the sledge')[0]).toContain('a horse the length of your hand');
+    expect(type(sled, 'open the sledge')[0]).toContain('네 손 길이의 말');
     expect(sled.p.inv.toyhorse).toBe(1);
     Object.assign(sled.state.flags, { 'hearth.lit': true, 'winter.broken': true, 'thaw.home': true });
     sled.enterRoom('village', 260, 160);
@@ -3961,7 +3961,7 @@ describe('the hollow', () => {
     expect(type(sim, 'orun')[0]).toContain('삼백 겨울째 절반쯤 나와 있다');
     expect(type(sim, 'look at the boy')[0]).toContain('그의 숨이 있다');
     // The sun's name is thought about before it is said: the first time, the word is not spent, and nothing is ended.
-    expect(type(sim, 'sol')[0]).toContain('You have not said it');
+    expect(type(sim, 'sol')[0]).toContain('너는 아직 말하지 않았다');
     expect(sim.p.cd['word:sol'] ?? 0).toBe(0);
     expect(sim.state.flags['winter.broken']).toBeUndefined();
     expect(sim.rs.actors.map((a) => a.ref)).toEqual(['kneeler']);
@@ -3987,7 +3987,7 @@ describe('the hollow', () => {
     rested(sim);
     expect(type(sim, 'sol')[0]).toContain('말할 사람은 더는 없다');
     expect(sim.state.flags['sol.said']).toBeUndefined();
-    expect(type(sim, 'take the boy')[0]).toContain('He is not yours to carry');
+    expect(type(sim, 'take the boy')[0]).toContain('네가 안아 갈 사람이 아니다');
     // The coal is the Thane's own way home. It takes one, and what one can carry.
     expect(type(sim, 'breathe on the coal')[0]).toContain('It takes one, and what one can carry');
     expect(sim.p.inv.ember).toBe(1);
@@ -4043,7 +4043,7 @@ describe('the hollow', () => {
     const coal = sim.p.inv.ember;
     delete sim.p.inv.ember;
     [sim.p.x, sim.p.y] = [160, 148];
-    expect(type(sim, 'take the boy')[0]).toContain('You would need another way home than walking');
+    expect(type(sim, 'take the boy')[0]).toContain('걷는 것 말고 다른 귀가 방법이 필요하다');
     expect(sim.state.room).toBe('hollow');
     sim.p.inv.ember = coal;
     const home = type(sim, 'take the boy').join(' ');
@@ -4134,6 +4134,6 @@ describe('the hollow', () => {
     sim.enterRoom(wildId(...homes(content).brekka), 160, 140);
     stand(sim, 'brekka', 14);
     sim.state.flags['brekka.met'] = true;
-    expect(type(sim, 'ask brekka about the dead')[0]).toContain('by moonlight');
+    expect(type(sim, 'ask brekka about the dead')[0]).toContain('달빛에');
   });
 });
