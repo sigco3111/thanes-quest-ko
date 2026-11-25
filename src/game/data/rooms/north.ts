@@ -237,12 +237,12 @@ export const hanging: RoomDef = {
   id: 'hanging',
   mark: 'open',
   music: 'barrow',
-  name: 'The Hanging Snow',
+  name: '매달린 눈',
   hung: 420,
-  look: 'It is all of it now: a whole sky of snow that has been in the middle of falling for longer than anyone can remember, so thick that you cannot see your own feet. A raven hangs above you with its wings half open, at the top of a beat it began before anybody\'s grandmother was born. The footprints go on. You are walking in a path as wide as you are, and it ends just ahead.',
+  look: '이제 전부가 그것이다. 아무도 기억하지 못할 만큼 오래 내리는 도중인 하늘 한 면의 눈, 네 발도 보이지 않을 만큼 빽빽한. 까마귀가 네 위에 매달려 있다, 날개를 반쯤 편 채, 누구의 할머니가 태어나기 전에 시작한 날갯짓의 꼭대기에서. 발자국은 계속된다. 너는 네 너비의 길을 걷고 있고, 그것은 바로 앞에서 끝난다.',
   lookWhen: [
-    { if: [BROKEN], look: 'Snow is falling: only falling, and a wind is taking it. Where the raven hung there is nothing but air. The footprints you followed are gone under it; your own are filling as you look.' },
-    { if: [{ flag: 'still.path2' }], look: 'A whole sky of snow hangs round you, stopped, so thick that you cannot see your own feet; and through it, north, goes the path your word made. A raven hangs above you with its wings half open. From up the path comes a small dry sound, over and over, with no space at all between one and the next.' },
+    { if: [BROKEN], look: '눈이 내린다, 그저 내리고, 바람이 몰아간다. 까마귀가 매달렸던 곳엔 공기뿐이다. 네가 따라온 발자국은 그 밑으로 사라졌다. 네 것도 보는 동안 채워지고 있다.' },
+    { if: [{ flag: 'still.path2' }], look: '하늘 한 면의 눈이 네 주위에 매달려 있다, 멎은 채로, 네 발도 보이지 않을 만큼 빽빽하게. 그 사이로, 북쪽으로, 네 단어가 만든 길이 난다. 까마귀가 네 위에 날개를 반쯤 편 채 매달려 있다. 길 위쪽에서 작고 마른 소리가 들려온다, 되풀이되어, 하나와 다음 사이에 틈이 전혀 없이.' },
   ],
   scene: {
     kind: 'outdoor', horizon: 54, walkTop: 86,
@@ -258,30 +258,30 @@ export const hanging: RoomDef = {
   zones: [{ id: 'curtain', x0: 0, y0: 86, x1: 320, y1: 100 }],
   things: [
     {
-      id: 'raven', nouns: ['raven'], x: 160, y: 70, reach: 400, look: 'A raven, hanging in the air above the road with its wings half open, at the top of a beat. One eye is toward you. It has been on its way somewhere for three hundred winters.',
-      lookWhen: [{ if: [BROKEN], look: 'Gone. It dropped out of the air when the snow did, and caught itself, and went off north, complaining.' }],
+      id: 'raven', nouns: ['raven'], x: 160, y: 70, reach: 400, look: '까마귀, 길 위 공중에 날개를 반쯤 편 채 매달려 있다, 날갯짓의 꼭대기에서. 한쪽 눈이 너를 향한다. 삼백 겨울째 어딘가로 가는 중이다.',
+      lookWhen: [{ if: [BROKEN], look: '사라졌다. 눈과 함께 공중에서 떨어졌다가, 몸을 가다듬고, 북쪽으로 날아갔다, 투덜거리며.' }],
     },
     {
       id: 'tracks', nouns: ['tracks', 'path', 'ground'], x: 160, y: 140, reach: 400,
-      look: 'The footprints are on top of the snow now, sharp at the edges, as if they had been made this morning. Here, a long way short of the town, the small ones stop. The large ones go on, deeper, as if she was carrying something.',
-      lookWhen: [{ if: [BROKEN], look: 'Wet snow, falling into wet snow. Nothing is written in it but you.' }],
+      look: '이제 발자국은 눈 위에 있다, 가장자리가 선명하다, 오늘 아침 생긴 것처럼. 여기, 마을에서 한참 못 미쳐, 작은 것들이 멎는다. 큰 것들은 계속된다, 더 깊이, 뭔가를 안고 있는 것처럼.',
+      lookWhen: [{ if: [BROKEN], look: '젖은 눈, 젖은 눈 속으로 내린다. 쓰인 것은 너뿐이다.' }],
     },
     {
-      id: 'flakes', nouns: ['snow'], x: 160, y: 110, reach: 400, look: 'It hangs so thick that the air is more snow than air. None of it is falling. None of it has fallen in three hundred winters.',
-      lookWhen: [{ if: [BROKEN], look: 'Snow. It comes down, and the wind takes it.' }],
+      id: 'flakes', nouns: ['snow'], x: 160, y: 110, reach: 400, look: '공기가 공기보다 눈인 만큼 빽빽하게 매달려 있다. 내리는 것이 없다. 삼백 겨울 동안 내린 것이 없다.',
+      lookWhen: [{ if: [BROKEN], look: '눈. 내리고, 바람이 몰아간다.' }],
     },
-    stillSky('You cannot see it. There is only the snow, hanging, as far up as you can look.', 'There is a sky again. It is grey, and it is moving.'),
+    stillSky('보이지 않는다. 올려다보는 한 오직 눈뿐, 매달린.', '다시 하늘이 있다. 회색이고, 움직인다.'),
   ],
   rules: [
     { enter: true, if: [{ not: { flag: 'seen.hanging' } }], do: [{ set: 'seen.hanging' }, { score: 3, id: 'seen.hanging' }] },
     {
       enter: true, if: [HELD, { not: { flag: 'still.deep' } }],
-      do: [{ set: 'still.deep' }, { say: 'Then it is all of it: a whole sky of snow that has been in the middle of falling for longer than anyone can remember, so thick that you cannot see your own feet. A raven hangs above you with its wings half open, at the top of a beat it began before anybody\'s grandmother was born.\n\nThe footprints go on, nearer the top of the snow now, and then on top of it, sharp at the edges, as if they had been made this morning. After a while, a long way short of the town, the small ones stop, and the large ones go on deeper, as if she was carrying something.' }],
+      do: [{ set: 'still.deep' }, { say: '그러다 전부가 된다. 아무도 기억하지 못할 만큼 오래 내리는 도중인 하늘 한 면의 눈, 네 발도 보이지 않을 만큼 빽빽한. 까마귀가 네 위에 날개를 반쯤 편 채 매달려 있다, 누구의 할머니가 태어나기 전에 시작한 날갯짓의 꼭대기에서.\n\n발자국은 계속된다, 이제 눈 표면에 가깝고, 그러다 그 위에, 가장자리가 선명하다, 오늘 아침 생긴 것처럼. 얼마 후, 마을에서 한참 못 미쳐, 작은 것들이 멎고, 큰 것들은 더 깊이 계속된다, 그녀가 뭔가를 안고 있는 것처럼.' }],
     },
     { zone: 'curtain', if: [HELD, { not: { flag: 'still.path2' } }], do: [{ goto: 'hanging', x: 160, y: 112, dir: 'up' }, { say: 'The path your word made ends here, in a wall of hanging snow. It does not give. When your tongue is ready, you will have to say it again.' }] },
     {
       on: 'veth', if: [HELD, { not: { flag: 'still.path2' } }],
-      do: [{ set: 'still.path2' }, { sound: 'door' }, { score: 3, id: 'still.path2' }, { say: 'VETH. The snow goes aside, and stays aside, and the path runs on north.\n\nThen you hear it, before you see anything: a small dry sound, over and over, like ice settling in a cold night, with no space at all between one and the next.' }],
+      do: [{ set: 'still.path2' }, { sound: 'door' }, { score: 3, id: 'still.path2' }, { say: 'VETH. 눈이 비켜서고, 비켜선 채 머물고, 길이 북쪽으로 이어진다.\n\n그러다 듣는다, 무엇을 보기 전에. 작고 마른 소리, 되풀이되어, 추운 밤 얼음이 가라앉는 소리처럼, 하나와 다음 사이에 틈이 전혀 없이.' }],
     },
     { on: 'veth', if: [HELD], do: [{ say: 'VETH. The path is open. Up it, the small dry sound does not miss a beat.' }] },
     { on: 'iska', if: [HELD], do: [{ say: 'ISKA. Yours goes into the word that is already being said here, and is lost in it. The raven does not so much as settle a feather.' }] },
