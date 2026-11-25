@@ -518,8 +518,8 @@ export class Shell {
     if (calm && this.sim.p.pendingLevels > 0 && !this.modals.some((m) => m.k === 'list')) {
       const pools = ['hp', 'mp', 'sp'] as const;
       this.modals.push({
-        k: 'list', title: `You have grown stronger: level ${this.sim.p.level - this.sim.p.pendingLevels + 1}. What will you raise?`,
-        items: ['Health', 'Mana', 'Stamina'], sel: 0, cancel: false,
+        k: 'list', title: `더 강해졌다: 레벨 ${this.sim.p.level - this.sim.p.pendingLevels + 1}. 무엇을 올리겠는가?`,
+        items: ['체력', '마나', '기력'], sel: 0, cancel: false,
         pick: (i) => this.queue.push({ t: 'level', pool: pools[i] }),
       });
     }
