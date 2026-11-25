@@ -4008,17 +4008,17 @@ describe('the hollow', () => {
     // She is home before the Thane has left the hanging country, and Hollowmere has carried her up to the barrow.
     sim.enterRoom('barrow', 160, 140);
     expect(sim.state.flags['thaw.home']).toBe(true);
-    expect(type(sim, 'look')[0]).toContain('The whole village has been up here');
-    expect(type(sim, 'look at the door')[0]).toContain('the marks of rollers in the slush');
+    expect(type(sim, 'look')[0]).toContain('마을 전체가 여기 올라왔다');
+    expect(type(sim, 'look at the door')[0]).toContain('진창에 굴대 자국이 있다');
     rested(sim);
-    expect(type(sim, 'orun')[0]).toContain('The place that was kept swept is not empty any more');
+    expect(type(sim, 'orun')[0]).toContain('쓸어 둔 자리는 더 이상 비어 있지 않다');
     rested(sim);
-    expect(type(sim, 'orun')[0]).toContain('Somebody has been up since, and swept round them');
+    expect(type(sim, 'orun')[0]).toContain('그 후 누군가 올라와 그들 주변을 쓸었다');
     // The feast is not over until the Thane has sat down at it: Marta tells the rest later.
     sim.state.flags['hall.thaw'] = false;
     sim.enterRoom('hall', 200, 124);
     stand(sim, 'marta', -10);
-    expect(type(sim, 'ask the elder about the barrow')[0]).toContain('She came by the coal, onto my hearthstone, with the boy in her arms');
+    expect(type(sim, 'ask the elder about the barrow')[0]).toContain('숯으로 왔어, 내 화로돌 위로, 아이를 안은 채');
   });
 
   it("can be ended with the sun's name, which she cannot bear, and which leaves the boy with nobody but the Thane", () => {
