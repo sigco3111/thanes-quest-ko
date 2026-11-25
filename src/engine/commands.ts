@@ -388,7 +388,7 @@ function goOut(sim: Sim): boolean {
 function wayName(sim: Sim, to: string, side: 'n' | 's' | 'e' | 'w'): string {
   const name = roomOf(sim.content, to)?.name ?? to;
   const on = beyond(sim.content, to, side);
-  return on ? `${name}, the road to ${on}` : name;
+  return on ? `${name}, ${on}으로 가는 길` : name;
 }
 
 /** Every way out of the room. */

@@ -211,7 +211,7 @@ export const chars: Record<string, CharDef> = {
       {
         if: [{ quest: 'hearth', max: 1 }],
         say: `"오드네 애. 토바. 한겨울에 폐병을 앓았어." 비축 목록을 읽는 듯한 말투다. "옛 망루 너머에 루나라는 약초 여편이 있어. 추위가 사람한테 하는 짓에 쓰는 검은 약을 만들지. 늑대가 딴 데 바쁘면 왕복 이틀이야. 한 병 가져와."\n\n마을 사람은 왜 안 갔냐고 묻는다.\n\n"토케는 활을 못 당겨. 고름은 죽으면 쓸모없어. 이번 겨울에는 아무도 잃지 않을 생각이야." 얼굴에 아무것도 없이 너를 본다. "낼 사람이 없어. 너는 낼 수 있어."\n\n네가 서 있는 동안 그녀의 입술이 한 번 움직인다, 들리는 소리 없이. 회당에 문 열어 둔 것 같은 냉기가 지나가고, 벽의 서리 깃털이 한 올만큼 자란다.`,
-        do: [{ run: 'home', arg: 'runa' }, { run: 'mark', arg: 'runa' }, { quest: 'hearth', stage: 2 }, { score: 5, id: 'hearth.start' }, { note: "Runa's steading is marked on your map." }],
+        do: [{ run: 'home', arg: 'runa' }, { run: 'mark', arg: 'runa' }, { quest: 'hearth', stage: 2 }, { score: 5, id: 'hearth.start' }, { note: "루나의 가옥이 지도에 표시됐다." }],
       },
       { if: [{ quest: 'hearth', is: 2 }], say: `"옛 망루 너머. 검은 약, 병에 든 거." 올려다보지 않는다. "아직도 여기 있군."` },
       { if: [{ flag: 'marta.stopped' }, COLD], brief: true, say: `마르타는 아무 말도 하지 않는다. 네 손의 부싯돌을 보고 있다.` },
@@ -520,12 +520,12 @@ export const chars: Record<string, CharDef> = {
         // The sum. Said on the shore, where he looks at what the ice kept; or indoors, once he has it back.
         if: [{ quest: 'north', is: 1 }, { quest: 'errand', max: 1 }],
         say: `"그래서 네가 테인이군," 그가 느리게, 불평을 잔뜩 곁들여 일어나며 말한다. "홀로미어는 기억하는 이보다 오래 테인 없이 지냈는데, 마침내 하나를 얻고 보니 눈송이보다 연혁이 짧군. 차가운 손 마르타. 그 여자한테 글자를 가르친 게 나야. 산수를 가르쳤어야 했는데."\n\n그가 너를 손가락으로 찌른다.\n\n"아이 하나. 단어 하나. 방 하나. 골짜기의 모든 불이 하룻밤에 꺼졌어. 이제. 내 일생의 겨울은 해마다 전년보다 추웠고, 난 여든 넘게 겪었지. 합을 구해 봐."\n\n계산한다. 그가 지켜본다.\n\n"아이보다 커," 펜이 말한다. "방보다 멀어. 숨을 멈춰야 하는 누가 이어가기엔 너무 길어." 그 말을 놔둔다. "예순 해를 돌 하나를 찾았어, 이 나라에서 사람이 걸을 수 있는 곳은 다 걸으면서. 올라가 보지 않은 길이 하나 있어. 북쪽. 문이 길을 가로막고 있고, 문지기들은 기억하는 이보다 오래 죽어 있는데 아무도 그들에게 말해주지 않았지. 그 너머에는 바람이 멈춰. 내가 어렸을 때는 문에서 일주일 너머에 멈춘다고 했어. 이제는 문 위에 서면 어디까지인지 보인다고 하더군."\n\n다시 얼음을 내다본다.\n\n"망자들이 못 견디는 단어가 있어. 거인의 탁자 아래에 있고, 밤에만 모습을 보이고, 남쪽에 있어서 완전히 반대 방향이야. 이런 것들은 늘 그렇게 배치되어 있지." 잠시 조용하다. "가려고 했었어. 그해 봄에 가려고 했었다고." 너에게 등을 돌린다. "가, 그럼. 내 빛을 가려."`,
-        do: [{ quest: 'north', stage: 2 }, { set: 'fenn.met' }, { set: 'goal.dolmen', to: 'dolmen' }, { score: 3, id: 'north.fenn' }, { run: 'study', arg: 20 }, { note: "The Giant's Table is marked on your map." }],
+        do: [{ quest: 'north', stage: 2 }, { set: 'fenn.met' }, { set: 'goal.dolmen', to: 'dolmen' }, { score: 3, id: 'north.fenn' }, { run: 'study', arg: 20 }, { note: "거인의 탁자가 지도에 표시됐다." }],
       },
       {
         if: [{ quest: 'north', is: 1 }],
         say: `"그래서 네가 테인이군," 그가 일어나지도 않고 말한다. "홀로미어는 기억하는 이보다 오래 테인 없이 지냈는데, 마침내 하나를 얻고 보니 눈송이보다 연혁이 짧군. 차가운 손 마르타. 그 여자한테 글자를 가르친 게 나야. 산수를 가르쳤어야 했는데."\n\n그가 너를 손가락으로 찌른다.\n\n"아이 하나. 단어 하나. 방 하나. 골짜기의 모든 불이 하룻밤에 꺼졌어. 이제. 내 일생의 겨울은 해마다 전년보다 추웠고, 난 여든 넘게 겪었지. 합을 구해 봐."\n\n계산한다. 그가 지켜본다.\n\n"아이보다 커," 펜이 말한다. "방보다 멀어. 숨을 멈춰야 하는 누가 이어가기엔 너무 길어." 그 말을 놔둔다. "예순 해를 돌 하나를 찾았어, 이 나라에서 사람이 걸을 수 있는 곳은 다 걸으면서. 올라가 보지 않은 길이 하나 있어. 북쪽. 문이 길을 가로막고 있고, 문지기들은 기억하는 이보다 오래 죽어 있는데 아무도 그들에게 말해주지 않았지. 그 너머에는 바람이 멈춰. 내가 어렸을 때는 문에서 일주일 너머에 멈춘다고 했어. 이제는 문 위에 서면 어디까지인지 보인다고 하더군."\n\n창가 못에 걸린 부적을 본다.\n\n"망자들이 못 견디는 단어가 있어. 거인의 탁자 아래에 있고, 밤에만 모습을 보이고, 남쪽에 있어서 완전히 반대 방향이야. 이런 것들은 늘 그렇게 배치되어 있지." 잠시 조용하다. "가려고 했었어. 그해 봄에 가려고 했었다고." 책을 집어 든다. "가, 그럼. 내 빛을 가려."`,
-        do: [{ quest: 'north', stage: 2 }, { set: 'fenn.met' }, { set: 'goal.dolmen', to: 'dolmen' }, { score: 3, id: 'north.fenn' }, { run: 'study', arg: 20 }, { note: "The Giant's Table is marked on your map." }],
+        do: [{ quest: 'north', stage: 2 }, { set: 'fenn.met' }, { set: 'goal.dolmen', to: 'dolmen' }, { score: 3, id: 'north.fenn' }, { run: 'study', arg: 20 }, { note: "거인의 탁자가 지도에 표시됐다." }],
       },
       {
         if: [{ flag: 'winter.broken' }, { knows: 'word:orun' }, { not: { flag: 'fenn.told' } }],
